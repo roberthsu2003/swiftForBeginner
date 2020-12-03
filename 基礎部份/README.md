@@ -12,7 +12,6 @@
 - [布林值](#booleans)
 - [Tuples](#tuples)
 - [Optionals](#optionals)
-- [錯誤處理](#error_handling)
 - [Assertions](#assertions)
 
 Swift 是開發 iOS 和 OS X 應用程式的一門新語言。然而，如果你有 C 或者 Objective-C 開發經驗的話，你會發現 Swift 的很多內容都是你熟悉的。
@@ -131,8 +130,7 @@ print(friendlyWelcome)
 // 輸出 "Bonjour!"
 ```
 
-`print(_:separator:terminator:)`是一個用來輸出的全域函式。如果你用 Xcode，`print(_:separator:terminator:)`將會輸出內容到「console」面板上。`seperator`和`terminator`參數有預設值，所以在呼叫時可以忽略不寫，這個函式預設會在行尾換行。如果不想要自動換行，把空字串作為`terminator`傳入，例如print(someValue, terminator: "")。請參考[參數預設值](00_Default_Parameter_Values.html)
-
+`print(_:separator:terminator:)`是一個用來輸出的全域函式。如果你用 Xcode，`print(_:separator:terminator:)`將會輸出內容到「console」面板上。`seperator`和`terminator`參數有預設值，所以在呼叫時可以忽略不寫，這個函式預設會在行尾換行。如果不想要自動換行，把空字串作為`terminator`傳入，例如print(someValue, terminator: "")。
 Swift 用_字串插值（string interpolation）_的方式把常數名或者變數名當做占位符（placeholder）加入到長字串中，Swift 會用目前常數或變數的值替換這些占位符。將常數或變數名放入圓括號中，並在開括號前使用反斜線將其跳脫：
 
 ```swift
@@ -140,8 +138,6 @@ print("The current value of friendlyWelcome is \(friendlyWelcome)")
 // 輸出 "The current value of friendlyWelcome is Bonjour!
 ```
 
-> 注意：
-字串插值所有可用的選項，請參考[字串插值](03_Strings_and_Characters.html#string_interpolation)。
 
 <a name="comments"></a>
 ## 註解
@@ -214,8 +210,7 @@ Swift 也提供了一個特殊的無號型別`UInt`，長度與目前平台的�
 
 > 注意：
 >
-盡量不要使用`UInt`，除非你真的需要儲存一個和目前平台原生字長相同的無號整數。除了這種情況，最好使用`Int`，即使你要儲存的值已知是非負的。統一使用`Int`可以提高程式碼的可複用性，避免不同型別數字之間的轉換，並且匹配數字的型別推斷，請參考[型別安全和型別推斷](#type_safety_and_type_inference)。
-
+盡量不要使用`UInt`，除非你真的需要儲存一個和目前平台原生字長相同的無號整數。除了這種情況，最好使用`Int`，即使你要儲存的值已知是非負的。統一使用`Int`可以提高程式碼的可複用性，避免不同型別數字之間的轉換，並且匹配數字的型別推斷。
 <a name="floating-point_numbers"></a>
 ## 浮點數
 
@@ -411,7 +406,6 @@ if turnipsAreDelicious {
 // 輸出 "Eww, turnips are horrible."
 ```
 
-條件語句，例如`if`，請參考[控制流程](05_Control_Flow.html)。
 
 如果你在需要使用`Bool`型別的地方使用了非布林值，Swift 的型別安全機制會報錯。下面的範例會報告一個編譯時錯誤：
 
@@ -493,25 +487,27 @@ print("The status message is \(http200Status.description)")
 // 輸出 "The status message is OK"
 ```
 
-作為函式回傳值時，tuple 非常有用。一個用來獲取網頁的函式可能會回傳一個`(Int, String)` tuple 來描述是否獲取成功。和只能回傳一個型別的值比較起來，一個包含兩個不同型別的值的 tuple 可以讓函式的回傳訊息更有用。請參考[函式參數與回傳值](06_Functions.html#Function_Parameters_and_Return_Values)。
+作為函式回傳值時，tuple 非常有用。一個用來獲取網頁的函式可能會回傳一個`(Int, String)` tuple 來描述是否獲取成功。和只能回傳一個型別的值比較起來，一個包含兩個不同型別的值的 tuple 可以讓函式的回傳訊息更有用。
 
 > 注意：
-tuple 在臨時組織值的時候很有用，但是並不適合創建複雜的資料結構。如果你的資料結構並不是臨時使用，請使用類別別或者結構而不是 tuple。請參考[類別別和結構](09_Classes_and_Structures.html)。
-
+tuple 在臨時組織值的時候很有用，但是並不適合創建複雜的資料結構。如果你的資料結構並不是臨時使用，請使用類別別或者結構而不是 tuple。
 <a name="optionals"></a>
 ## Optionals
 
-使用_optionals_來處理值可能不存在的情況。optionals 型別表示：
+使用`optionals類型`來處理值可能不存在的情況。optionals 型別表示：
 
-* _有_值，等於 x
+var x:Int?
+
+* x可以有值
 
 或者
 
-* _沒有_值
+* x可以沒有值
 
 > 注意：
 >
-C 和 Objective-C 中並沒有 optionals 型別這個概念。最接近的是 Objective-C 中的一個特性，一個方法要不回傳一個物件，要不回傳`nil`，`nil`表示「缺少一個合法的物件」。然而，這只對物件起作用——對於結構，基本的 C 型別或者列舉型別不起作用。對於這些型別，Objective-C 方法一般會回傳一個特殊值（比如`NSNotFound`）來暗示值不存在。這種方法假設方法的呼叫者知道並記得對特殊值進行判斷。然而，Swift 的 optionals 可以讓你暗示_任意型別_的值不存在，並不需要一個特殊值。
+C 和 Objective-C 中並沒有 optionals 型別這個概念。最接近的是 Objective-C 型別的變數全都可以接受nil.但C的類型,列舉和結構都不接受nil,而是使用`NSNotFound`
+swift的型別，只要是optional的type都可以接受nil
 
 來看一個範例。Swift 的`String`型別有一個叫做`toInt`的方法，作用是將一個`String`值轉換成一個`Int`值。然而，並不是所有的字串都可以轉換成一個整數。字串`"123"`可以被轉換成數字`123`，但是字串`"hello, world"`不行。
 
@@ -548,7 +544,7 @@ var surveyAnswer: String?
 
 > 注意：
 >
-Swift 的`nil`和 Objective-C 中的`nil`並不一樣。在 Objective-C 中，`nil`是一個指向不存在物件的指標。在 Swift 中，`nil`不是指標——它是一個確定的值，用來表示值不存在。_任何_型別的 optional 狀態都可以被設置為`nil`，不只是物件型別。
+Swift 的`nil`和 Objective-C 中的`nil`並不一樣。在 Objective-C 中，`nil`是一個指向不存在物件的指標。在 Swift 中，`nil`不是指標——它是一個確定的值，用來表示值不存在。任何型別的 optional 狀態都可以被設置為`nil`，不只是物件型別。
 
 
 ### if 語句以及強制解析
@@ -559,21 +555,21 @@ Swift 的`nil`和 Objective-C 中的`nil`並不一樣。在 Objective-C 中，`n
 
 ```swift
 if convertedNumber != nil {
-    print("convertedNumber contains some integer value.")
+    print("可以轉換為整數")
 }
-// 輸出 "convertedNumber contains some integer value."
+// 輸出 "可以轉換為整數"
 ```
 
-當你確定 optional _確實_包含值之後，你可以在 optional 的名字後面加一個感嘆號（`!`）來獲取值。這個驚嘆號表示「我知道這個 optional 有值，請使用它。」這被稱為 optional 值的_強制解析（forced unwrapping）_：
+當你確定 optional 確實包含值之後，你可以在 optional 的名字後面加一個感嘆號（`!`）來獲取值。這個驚嘆號表示「我知道這個 optional 有值，請使用它。」這被稱為 optional 值的強制解析（forced unwrapping)：
 
 ```swift
 if convertedNumber != nil {
-    print("convertedNumber has an integer value of \(convertedNumber!).")
+    print("convertedNumber 有一個整數值\(convertedNumber!).")
 }
-// 輸出 "convertedNumber has an integer value of 123"
+// 輸出 "convertedNumber 有一個整數值123"
 ```
 
-更多關於`if`語句的內容，請參考[控制流程](05_Control_Flow.html)。
+
 
 > 注意：
 使用`!`來獲取一個不存在的 optional 值會導致執行時錯誤。使用`!`來強制解析值之前，一定要確定 optional 包含一個非`nil`的值。
@@ -581,7 +577,7 @@ if convertedNumber != nil {
 <a name="optional_binding"></a>
 ### Optional 綁定
 
-使用_optional 綁定（optional binding）_來判斷 optional 是否包含值，如果包含就把值指派給一個臨時常數或者變數。Optional 綁定可以用在`if`和`while`語句中來對 optional 的值進行判斷並把值指派給一個常數或者變數。`if`和`while`語句，請參考[控制流程程](05_Control_Flow.html)。
+使用_optional 綁定（optional binding）_來判斷 optional 是否包含值，如果包含就把值指派給一個臨時常數或者變數。Optional 綁定可以用在`if`和`while`語句中來對 optional 的值進行判斷並把值指派給一個常數或者變數。`if`和`while`語句。
 
 像下面這樣在`if`語句中寫一個 optional 綁定：
 
@@ -595,9 +591,9 @@ if let constantName = someOptional {
 
 ```swift
 if let actualNumber = Int(possibleNumber) {
-    print("\(possibleNumber) has an integer value of \(actualNumber)")
+    print("\(possibleNumber) 有一個整數值\(actualNumber)")
 } else {
-    print("\(possibleNumber) could not be converted to an integer")
+    print("\(possibleNumber) 無法轉換為數值")
 }
 // 輸出 "123 has an integer value of 123"
 ```
@@ -611,33 +607,31 @@ if let actualNumber = Int(possibleNumber) {
 你可以在 optional 綁定中使用常數和變數。如果你想在`if`語句的第一個分支中操作`actualNumber`的值，你可以改成`if var actualNumber`，這樣 optional 包含的值就會被指派給一個變數而不是常數。
 
 
-### 隱式解析 Optionals
+### Implicitly Unwrapped Optionals
 
-如上所述，optionals 暗示了常數或者變數可以「沒有值」。optionals 可以透過`if`語句來判斷是否有值，如果有值的話可以透過 optional 綁定來解析值。
+	String!, Int!, Float!,Double!
+	
+- 這類型儲存的可以是值或是nil
 
-有時候在程式架構中，第一次被指派之後，可以確定一個 optional _總會_有值。在這種情況下，每次都要判斷和解析 optional 值是非常低效的，因為可以確定它總會有值。
+- 這類型的變數,如果要取出值時,會自動fource unwrapping, 不需要手動fource unwrapping. 
 
-這種型別的 optionals 狀態被定義為_隱式解析 optionals（implicitly unwrapped optionals）_。把想要用作 optionals 的型別的後面的問號（`String?`）改成感嘆號（`String!`）來宣告一個隱式解析 optionals。
+- 使用時機是，確認一開始是nil,但是當要使用時一定會有值存在。
 
-當 optionals 被第一次指派之後就可以確定之後一直有值的時候，隱式解析 optionals 非常有用。隱式解析 optionals 主要被用在 Swift 中類別別的初始化中，請參考[類別別實例之間的迴圈強參考](16_Automatic_Reference_Counting.html#strong_reference_cycles_between_class_instances)。
-
-一個隱式解析 optionals 其實就是一個普通的 optionals，但是可以被當做非 optionals 來使用，並不需要每次都使用解析來獲取 optionals 值。下面的範例展示了 optionals `String`和隱式解析 optional `String`之間的區別：
 
 ```swift
 let possibleString: String? = "An optional string."
 let forcedString: String = possibleString! // 需要驚嘆號來獲取值
 
 let assumedString: String! = "An implicitly unwrapped optional string."
-let implicitString: String = assumedString // 不需要感嘆號
+let implicitString: String = assumedString // 不需要驚嘆號
 ```
 
-你可以把隱式解析 optional 當做一個可以自動解析的 optional。你要做的只是宣告的時候把感嘆號放到型別的結尾，而不是每次取值的 optional 名字的結尾。
 
 > 注意：
 >
-如果你在隱式解析 optional 沒有值的時候嘗試取值，會觸發執行時錯誤。和你在沒有值的普通 optional 後面加一個驚嘆號一樣。
+如果你在Implicitly Unwrapped Optionals沒有值的時候嘗試取值，會觸發執行時錯誤。和你在沒有值的普通 optional 後面加一個驚嘆號一樣。
 
-你仍然可以把隱式解析 optional 當做普通 optional 來判斷它是否包含值：
+你仍然可以把Implicitly Unwrapped Optionals當做普通 optional 來判斷它是否包含值：
 
 ```swift
 if assumedString != nil {
@@ -646,7 +640,7 @@ if assumedString != nil {
 // 輸出 "An implicitly unwrapped optional string."
 ```
 
-你也可以在 optional 綁定中使用隱式解析 optional 來檢查並解析它的值：
+你也可以在 optional binding 中使用Implicitly Unwrapped Optionals來檢查並解析它的值：
 
 ```swift
 if let definiteString = assumedString {
@@ -657,58 +651,9 @@ if let definiteString = assumedString {
 
 > 注意：
 >
-如果一個變數之後可能變成`nil`的話請不要使用隱式解析 optionals。如果你需要在變數的生命周期中判斷是否是`nil`的話，請使用普通的 optionals。
+如果一個變數之後可能變成`nil`的話請不要使用implicitly unwrapped optional。如果你需要在變數的生命周期中判斷是否是`nil`的話，請使用普通的 optionals。
 
-<a href="error_handling"></a>
-## 錯誤處理(Error Handling)
 
-使用_錯誤處理(error handling)_來處理你的程式在執行階段可能會遇到的錯誤情況。
-
-相較於用 Optionals 值的有無來表示函式的成功或失敗，錯誤處理讓你可以確定錯誤的根本原因，並且在需要的時候，傳送這個錯誤給程式程的其他部分。
-
-當函式遇到錯誤情況時會_拋出(throws)_一個錯誤(error)，之後函式的呼叫者可以_接住(catch)_這個錯誤並作出相應的處理。
-
-```siwft
-func canThrowAnErrow() throws {
-    // 這個函式有可能拋出錯誤
-}
-```
-一個函式可以透過宣告的時候加上`throws`來表示它可以拋出錯誤訊息。當函式可以拋出錯誤時，你應該在呼叫前放置`try`關鍵字。
-
-```swift
-do {
-    try canThrowAnErrow()
-    // 没有抛出錯誤
-} catch {
-    // 拋出一個錯誤
-}
-```
-
-`do`語法開始一個新的作用域(scope)，讓錯誤能夠被傳到一個或多個`catch`子句。
-
-這裡有一個處理不同錯誤情況的例子：
-
-```swift
-func makeASandwich() throws {
-    // ...
-}
-
-do {
-    try makeASandwich()
-    eatASandwich()
-} catch Error.OutOfCleanDishes {
-    washDishes()
-} catch Error.MissingIngredients(let ingredients) {
-    buyGroceries(ingredients)
-}
-```
-
-在此例中，`makeASandwich()`函式如果没有乾淨的盤子或式有缺原料，會抛出一個錯誤。因為`makeASandwich()`會拋出錯誤，函式呼叫需要使用`try`語句。將函式包在`do`語句中，任何被拋出的錯誤都會被傳送接著的`catch`中。
-
-如果沒有錯誤被拋出，`eatASandwich()`會被呼叫；如果一個匹配`Error.OutOfCleanDishes`
-的錯誤被拋出，`washDishes()`函式會被呼叫；如果一個匹配`Error.MissingIngredients`的錯誤被拋出，`buyGroceries(_:)`函數會被呼叫，並以`catch`所捕捉到的關聯值[String]為參數。
-
-拋出、捕捉以及傳送錯誤會在[錯誤處理](foobar)章節詳細說明。
 
 <a name="assertions"></a>
 ## Assertions
@@ -745,7 +690,8 @@ assert(age >= 0)
 * 需要給函式傳入一個值，但是非法的值可能導致函式不能正常執行。
 * 一個 optional 值現在是`nil`，但是後面的程式碼執行需要一個非`nil`值。
 
-請參考[Subscripts](12_Subscripts.html)和[函式](06_Functions.html)。
 
 > 注意：
+>
+開發階段時使用
 Assertion 可能導致你的應用程式終止執行，所以你應當仔細設計你的程式碼來讓非法條件不會出現。然而，在你的應用程式發佈之前，有時候非法條件可能出現，這時使用 assertion 可以快速發現問題。
