@@ -432,7 +432,7 @@ if i == 1 {
 <a name="tuples"></a>
 ## Tuples
 
-_Tuples_把多個值組合成一個複合值。tuple 內的值可以使任意型別，並不要求是相同型別。
+Tuples`把多個值組合成一個複合值。tuple 內的值可以使任意型別，並不要求是相同型別。
 
 下面這個範例中，`(404, "Not Found")`是一個描述 _HTTP 狀態碼（HTTP status code）_的 tuple。HTTP 狀態碼是當你請求網頁的時候 web 伺服器回傳的一個特殊值。如果你請求的網頁不存在就會回傳一個`404 Not Found`狀態碼。
 
@@ -445,7 +445,7 @@ let http404Error = (404, "Not Found")
 
 你可以把任意順序的型別組合成一個 tuple，這個 tuple 可以包含所有型別。只要你想，你可以創建一個型別為`(Int, Int, Int)`或者`(String, Bool)`或者其他任何你想要的組合的 tuple。
 
-你可以將一個 tuple 的內容_分解（decompose）_成單獨的常數和變數，然後你就可以正常使用它們了：
+你可以將一個 tuple 的內容`分解（decompose`成單獨的常數和變數，然後你就可以正常使用它們了：
 
 ```swift
 let (statusCode, statusMessage) = http404Error
