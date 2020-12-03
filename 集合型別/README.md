@@ -82,7 +82,7 @@ shoppingList.append("Flour")
 除此之外，使用加法賦值運算子（`+=`）也可以直接在陣列後面添加資料項：
 
 ```swift
-shoppingList += "Baking Powder"
+shoppingList += ["Baking Powder"]
 // shoppingList 現在有四項了
 ```
 
