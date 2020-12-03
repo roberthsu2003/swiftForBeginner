@@ -256,7 +256,7 @@ colorNameToUse = userDefinedColorName ?? defaultColorName
 
 Swift 提供了兩個方便表達一個區間的值的運算子。
 
-### 閉區間運算子
+### 全包含運算子
 閉區間運算子（`a...b`）定義一個包含從`a`到`b`(包括`a`和`b`)的所有值的區間。`a`的值必不大於`b`。
 ‌
 閉區間運算子在迭代一個區間的所有值時是非常有用的，如在`for-in`迴圈中：
@@ -274,7 +274,7 @@ for index in 1...5 {
 
 關於`for-in`，請看[控制流程](05_Control_Flow.html)。
 
-### 半閉區間運算子
+### 半包含區間運算子
 
 半閉區間運算子（`a..<b`）定義一個從`a`到`b`但不包括`b`的區間。
 之所以稱為半閉區間，是因為該區間包含第一個值而不包括最後的值。就像閉區間運算子一樣，`a`的值必不大於`b`。如果`a`跟`b`相等，那結果的區間就會是空。
@@ -293,7 +293,29 @@ for i in 0..<count {
 // 第 4 個人叫 Jack
 ```
 
-陣列有 4 個元素，但`0..<count`只數到 3(最後一個元素的索引)，
+陣列有 4 個元素，但`0..<count`只數到 3(最後一個元素的索引)
+
+### 從頭或至尾區間運算子
+
+```swift
+for name in names[2...] {
+    print(name)
+}
+// Brian
+// Jack
+
+for name in names[...2] {
+    print(name)
+}
+// Anna
+// Alex
+// Brian
+
+for name in names[..<2] {
+    print(name)
+}
+
+```
 
 <a name="logical_operators"></a>
 ## 邏輯運算
