@@ -34,4 +34,16 @@ print(shoppingLish)
 shoppingLish.remove(at: 0)
 print(shoppingLish)
 
+for item in shoppingLish{
+    print(item)
+}
+
+for index in 0..<shoppingLish.count{
+    print(shoppingLish[index])
+}
+
+for (index, value) in shoppingLish.enumerated(){
+    print("索引編號是\(index),內容是\(value)")
+}
+
 

@@ -173,7 +173,7 @@ for item in shoppingList {
 如果我們同時需要每個資料項的值和索引值，可以使用全域`enumerate`函式來進行陣列遍歷。`enumerate`回傳一個由每一個資料項索引值和資料值組成的元組。我們可以把這個元組分解成臨時常數或者變數來進行遍歷：
 
 ```swift
-for (index, value) in enumerate(shoppingList) {
+for (index, value) in enumerate.enumerated() {
     println("Item \(index + 1): \(value)")
 }
 // Item 1: Six eggs
