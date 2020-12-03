@@ -27,4 +27,9 @@ if let convertedNumber = Int(possibleNumber){
     print("轉換成整數出問題了")
 }
 
+let possibleString:String? = "An optional string."
+print("possibleString是\(possibleString!)")
+
+let assumeString:String! = "An implicitly unwrapped optional string."
+print("assumeString是\(assumeString)")
 

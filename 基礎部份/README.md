@@ -607,7 +607,7 @@ if let actualNumber = Int(possibleNumber) {
 你可以在 optional 綁定中使用常數和變數。如果你想在`if`語句的第一個分支中操作`actualNumber`的值，你可以改成`if var actualNumber`，這樣 optional 包含的值就會被指派給一個變數而不是常數。
 
 
-### Implicitly Unwrapped Optionals
+### 隱式 Optionals
 
 	String!, Int!, Float!,Double!
 	
@@ -629,9 +629,9 @@ let implicitString: String = assumedString // 不需要驚嘆號
 
 > 注意：
 >
-如果你在Implicitly Unwrapped Optionals沒有值的時候嘗試取值，會觸發執行時錯誤。和你在沒有值的普通 optional 後面加一個驚嘆號一樣。
+如果你在隱式沒有值的時候嘗試取值，會觸發執行時錯誤。和你在沒有值的普通 optional 後面加一個驚嘆號一樣。
 
-你仍然可以把Implicitly Unwrapped Optionals當做普通 optional 來判斷它是否包含值：
+你仍然可以把隱式當做普通 optional 來判斷它是否包含值：
 
 ```swift
 if assumedString != nil {
