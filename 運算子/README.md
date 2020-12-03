@@ -1,6 +1,6 @@
 # 運算子
 ---
-- [術語](#terminology)
+- [專業術語](#terminology)
 - [指派運算子](#assignment_operator)
 - [數值運算子](#arithmetic_operators)
 - [複合指派運算子（Compound Assignment Operators）](#compound_assignment_operators)
@@ -75,7 +75,7 @@ Swift 支援所有數值型別基本的四則運算：
 10.0 / 2.5  // 等於 4.0
 ```
 
-與 C 語言和 Objective-C 不同的是，Swift 預設不允許在數值運算中出現溢位情況。但你可以使用 Swift 的溢位運算子來達到你有目的的溢位（如`a &+ b`）。詳情參見[溢位運算子](23_Advanced_Operators.html#overflow_operators)。
+與 C 語言和 Objective-C 不同的是，Swift 預設不允許在數值運算中出現溢位情況。
 
 加法運算子也用於`String`的拼接：
 
@@ -85,15 +85,6 @@ Swift 支援所有數值型別基本的四則運算：
 
 ### 餘數運算
 
-餘數運算（`a % b`）是計算`b`的多少倍剛剛好可以容入`a`，回傳多出來的那部分（餘數）。
-
->注意：
-餘數運算（`%`）在其他語言也叫取模運算。然而嚴格說來，我們看該運算子對負數的操作結果，"餘數"比"取模"更合適些。
-
-我們來談談取餘數是怎麼回事，計算`9 % 4`，你先計算出`4`的多少倍會剛好可以容入`9`中：
-
-![Art/remainderInteger_2x.png](https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Art/remainderInteger_2x.png "Art/remainderInteger_2x.png")
-
 在 Swift 中這麼來表達：
 
 ```swift
@@ -102,79 +93,9 @@ Swift 支援所有數值型別基本的四則運算：
 
 為了得到`a % b`的結果，`%`計算了以下等式，並輸出`餘數`作為結果：
 
-*a = (b × 倍數) + 餘數*
-
-當`倍數`取最大值的時候，就會剛好可以容入`a`中。
-
-把`9`和`4`代入等式中，我們得`1`：
-
-```swift
-9 = (4 × 2) + 1
-```
-
-同樣的方法，我來們計算 `-9 % 4`：
-
-```swift
--9 % 4   // 等於 -1
-```
-
-把`-9`和`4`代入等式，`-2`是取到的最大整數：
-
-```swift
--9 = (4 × -2) + -1
-```
-
-餘數是`-1`。
-
-在對負數`b`餘數時，`b`的符號會被忽略。這意味著 `a % b` 和 `a % -b`的結果是相同的。
-
-### 浮點數餘數計算
-
-不同於 C 語言和 Objective-C，Swift 是可以對浮點數取餘數的。
-
-```swift
-8 % 2.5 // 等於 0.5
-```
-
-這個範例中，`8`除於`2.5`等於`3`余`0.5`，所以結果是一個`Double`值`0.5`。
-
-![Art/remainderFloat_2x.png](https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Art/remainderFloat_2x.png "Art/remainderFloat_2x.png")
-
-### 累加和累減運算
-
-和 C 語言一樣，Swift 也提供了方便對變數本身加 1 或減 1 的累加（`++`）和累減（`--`）運算子。其操作物件可以是整數和浮點數。
-‌
-```swift
-var i = 0
-++i      // 現在 i = 1
-```
-
-每呼叫一次`++i`，`i`的值就會加 1。實際上，`++i`是`i = i + 1`的簡寫，而`--i`是`i = i - 1`的簡寫。
-
-`++`和`--`既是前綴又是後綴運算子。`++i`，`i++`，`--i`和`i--`都是有效的寫法。
-
-我們需要注意的是這些運算子修改了`i`後有一個回傳值。如果你只想修改`i`的值，那你就可以忽略這個回傳值。但如果你想使用回傳值，你就需要留意前綴和後綴操作的回傳值是不同的。
-
-- 當`++`前綴的時候，先自増再回傳。
-
-- 當`++`後綴的時候，先回傳再累加。
-
-例如：
-
-```swift
-var a = 0
-let b = ++a // a 和 b 現在都是 1
-let c = a++ // a 現在 2, 但 c 是 a 累加前的值 1
-```
-
-上述範例，`let b = ++a`先把`a`加 1 了再回傳`a`的值。所以`a`和`b`都是新值`1`。
-
-而`let c = a++`，是先回傳了`a`的值，然後`a`才加 1。所以`c`得到了`a`的舊值 1，而`a`加 1 後變成 2。
-
-除非你需要使用`i++`的特性，不然推薦你使用`++i`和`--i`，因為先修改後回傳這樣的行為更符合我們的邏輯。
 
 
-### 一元負號
+### 一元運算子(負號)
 
 數值的正負號可以使用前綴`-`（即一元負號）來切換：
 
@@ -184,11 +105,11 @@ let minusThree = -three       // minusThree 等於 -3
 let plusThree = -minusThree   // plusThree 等於 3, 或 "負負3"
 ```
 
-一元負號（`-`）寫在運算元之前，中間沒有空格。
+一元運算子負號（`-`）寫在運算元之前，中間沒有空格。
 
-### 一元正號
+### 一元運算子(正號)
 
-一元正號（`+`）不做任何改變地回傳運算元的值。
+一元運算子正號（`+`）不做任何改變地回傳運算元的值。
 
 ```swift
 let minusSix = -6
@@ -198,7 +119,7 @@ let alsoMinusSix = +minusSix  // alsoMinusSix 等於 -6
 
 
 <a name="compound_assignment_operators"></a>
-## 複合指派（Compound Assignment Operators）
+## 複合指定運算子（Compound Assignment Operators）
 
 如同強大的 C 語言，Swift 也提供把其他運算子和指派運算（`=`）組合起來的複合指派運算子，加賦運算（`+=`）是其中一個範例：
 
@@ -212,8 +133,6 @@ a += 2 // a 現在是 3
 >注意：
 複合指派運算沒有回傳值，`let b = a += 2`這類別程式碼是錯誤。這不同於上面提到的累加和累減運算子。
 
-在[表達式](../chapter3/04_Expressions.html)章節裡有複合運算子的完整列表。
-‌
 <a name="comparison_operators"></a>
 ## 比較運算
 
@@ -227,7 +146,7 @@ a += 2 // a 現在是 3
 - 小於等於（`a <= b`）
 
 > 注意：
-Swift 也提供恆等`===`和不恆等`!==`這兩個比較符來判斷兩個物件是否參考同一個物件實例。更多細節在[類別別與結構](09_Classes_and_Structures.html)。
+Swift 也提供恆等`===`和不恆等`!==`這兩個比較符來判斷兩個物件是否參考同一個物件實例。
 
 每個比較運算都回傳了一個顯示表達式是否成立的布林值：
 
@@ -252,7 +171,6 @@ if name == "world" {
 // 輸出 "hello, world", 因為 `name` 就是等於 "world"
 ```
 
-關於`if`語句，請看[控制流程](05_Control_Flow.html)。
 
 <a name="ternary_conditional_operator"></a>
 ## 三元條件運算(Ternary Conditional Operator)
@@ -297,9 +215,9 @@ if hasHeader {
 三元條件運算提供有效率且便捷的方式來表達二選一的選擇。需要注意的事，過度使用三元條件運算就會由簡潔的程式碼變成難懂的程式碼。我們應避免在一個組合語句使用多個三元條件運算子。
 
 <a name="nil_coalescing_operators"></a>
-## 空值聚合運算子
+## nil運算子
 
-空值聚合（nil coalescing）運算子（`a ?? b`）如果`optional a`有值的話就解析，但若`a`是空值，就回傳預設值`b`。
+nil運算子（`a ?? b`）如果`optional a`有值的話就解析，但若`a`是空值，就回傳預設值`b`。
 這運算元`a`永遠是個optional型別。而運算子`b`必須得式`a`的型別。
 
 空值聚合運算子是以下表達式的簡碼。
@@ -375,7 +293,7 @@ for i in 0..<count {
 // 第 4 個人叫 Jack
 ```
 
-陣列有 4 個元素，但`0..<count`只數到 3(最後一個元素的索引)，因為它是半閉區間。關於陣列，請查閱[陣列](04_Collection_Types.html#arrays)。
+陣列有 4 個元素，但`0..<count`只數到 3(最後一個元素的索引)，
 
 <a name="logical_operators"></a>
 ## 邏輯運算
