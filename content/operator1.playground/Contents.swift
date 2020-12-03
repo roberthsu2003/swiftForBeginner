@@ -49,5 +49,14 @@ var userDefinedColorName:String? = "blue"
 
 print(userDefinedColorName ?? defaultColorName)
 
+print(1...5)
+print(1..<5)
 
+for index in 1...5 {
+    print(index)
+}
+
+for index in 1..<5 {
+    print(index)
+}
 
