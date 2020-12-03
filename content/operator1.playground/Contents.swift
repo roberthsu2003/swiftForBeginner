@@ -20,3 +20,34 @@ a1 += 2
 print(a1)
 
 
+let name = "world1"
+if name == "world" {
+    print("相同")
+}else{
+    print("不相同")
+}
+
+/*
+var contentHeight = 40
+let hasHeader = true
+if hasHeader {
+    contentHeight += 50
+}else{
+    contentHeight += 20
+}
+*/
+
+var contentHeight = 40
+let hasHeader = false
+contentHeight += (hasHeader ? 50 : 20)
+print(contentHeight)
+
+//nil運算子
+//??
+let defaultColorName = "red"
+var userDefinedColorName:String? = "blue"
+
+print(userDefinedColorName ?? defaultColorName)
+
+
+
