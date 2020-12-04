@@ -2,7 +2,7 @@
 ---
 - [陣列（Arrays）](#arrays)
 - [字典（Dictionaries）](#dictionaries)
-- [集合的可變性（Mutability of Collections）](#mutability_of_collections)
+- [集合（Sets）](#Sets)
 
 Swift 語言提供經典的陣列和字典兩種集合型別來儲存集合資料。陣列用來按順序儲存相同型別的資料。字典雖然無序儲存相同型別資料值但是需要由獨有的識別符號參考和尋址（就是鍵值對）。
 
@@ -225,10 +225,26 @@ Swift 的字典使用`Dictionary<KeyType, ValueType>`定義,其中`KeyType`是�
 
 	var countries:Dictionary<String:String>
 	
-簡短表示法'[Key:Value]'
+簡短表示法`[Key:Value]`
 	
 	var countries:[String:String]
-	
+
+<a name="Creating_an_Empty_Dictionary"></a>
+### 空字串的建立
+
+```
+var namesOfIntegers = [Int: String]()
+// namesOfIntegers is an empty [Int: String] dictionary
+```
+
+```
+namesOfIntegers[16] = "sixteen"
+// namesOfIntegers now contains 1 key-value pair
+
+namesOfIntegers = [:]
+// namesOfIntegers is once again an empty dictionary of type [Int: String]
+```
+
 <a name="dictionary_literals"></a>
 ### 字典字面量
 
@@ -243,15 +259,15 @@ Swift 的字典使用`Dictionary<KeyType, ValueType>`定義,其中`KeyType`是�
 下面的範例創建了一個儲存國際機場名稱的字典。在這個字典中鍵是三個字母的國際航空運輸相關程式碼，值是機場名稱：
 
 ```swift
-var airports: Dictionary<String, String> = ["TYO": "Tokyo", "DUB": "Dublin"]
+	var airports: [String, String] = ["YYZ": "Toronto Pearson", "DUB": "Dublin"]
 ```
 
-`airports`字典被定義為一種`Dictionary<String, String>`,它意味著這個字典的鍵和值都是`String`型別。
+`airports`字典被定義為一種`[String, String]`,它意味著這個字典的鍵和值都是`String`型別。
 
 > 注意：  
 > `airports`字典被宣告為變數（用`var`關鍵字）而不是常數（`let`關鍵字）因為後來更多的機場資訊會被添加到這個示例字典中。  
 
-`airports`字典使用字典字面量初始化，包含兩個鍵值對。第一對的鍵是`TYO`，值是`Tokyo`。第二對的鍵是`DUB`，值是`Dublin`。
+`airports`字典使用字典表示法初始化，包含兩個鍵值對。第一對的鍵是`YYZ`，值是`Toronto Pearson`。第二對的鍵是`DUB`，值是`Dublin`。
 
 這個字典語句包含了兩個`String: String`型別的鍵值對。它們對應`airports`變數宣告的型別（一個只有`String`鍵和`String`值的字典）所以這個字典字面量是建構兩個初始資料項的`airport`字典。
 
@@ -261,7 +277,7 @@ var airports: Dictionary<String, String> = ["TYO": "Tokyo", "DUB": "Dublin"]
 var airports = ["TYO": "Tokyo", "DUB": "Dublin"]
 ```
 
-因為這個語句中所有的鍵和值都分別是相同的資料型別，Swift 可以推斷出`Dictionary<String, String>`是`airports`字典的正確型別。
+因為這個語句中所有的鍵和值都分別是相同的資料型別，Swift 可以推斷出`[String:String]`是`airports`字典的正確型別。
 
 <a name="accessing_and_modifying_a_dictionary"></a>
 ### 讀取和修改字典
@@ -273,14 +289,25 @@ println("The dictionary of airports contains \(airports.count) items.")
 // 列印 "The dictionary of airports contains 2 items."（這個字典有兩個資料項）
 ```
 
-我們也可以在字典中使用下標語法來添加新的資料項。可以使用一個合適型別的 key 作為下標索引，並且分配新的合適型別的值：
+使用`isEmpty屬性`檢查內容是否為空的
+
+```swift
+if airports.isEmpty {
+    print("The airports dictionary is empty.")
+} else {
+    print("The airports dictionary is not empty.")
+}
+// Prints "The airports dictionary is not empty.
+```
+
+我們也可以在字典中使用`subscript[]語法`來添加新的資料項。可以使用一個合適型別的 key 作為下標索引，並且分配新的合適型別的值：
 
 ```swift
 airports["LHR"] = "London"
 // airports 字典現在有三個資料項
 ```
 
-我們也可以使用下標語法來改變特定鍵對應的值：
+我們也可以使用`subscript[]語法`來改變特定鍵對應的值：
 
 ```swift
 airports["LHR"] = "London Heathrow"
@@ -298,7 +325,7 @@ if let oldValue = airports.updateValue("Dublin Internation", forKey: "DUB") {
 // 輸出 "The old value for DUB was Dublin."（DUB原值是dublin）
 ```
 
-我們也可以使用下標語法來在字典中檢索特定鍵對應的值。由於使用一個沒有值的鍵這種情況是有可能發生的，可選型別回傳這個鍵存在的相關值，否則就回傳`nil`：
+我們也可以使用`subscript[]語法`來在字典中檢索特定鍵對應的值。由於使用一個沒有值的鍵這種情況是有可能發生的，可選型別回傳這個鍵存在的相關值，否則就回傳`nil`：
 
 ```swift
 if let airportName = airports["DUB"] {
@@ -309,7 +336,7 @@ if let airportName = airports["DUB"] {
 // 列印 "The name of the airport is Dublin Internation."（機場的名字是都柏林國際）
 ```
 
-我們還可以使用下標語法來通過給某個鍵的對應值賦值為`nil`來從字典裡移除一個鍵值對：
+我們還可以使用`subscript[]語法`來通過給某個鍵的對應值賦值為`nil`來從字典裡移除一個鍵值對：
 
 ```swift
 airports["APL"] = "Apple Internation"
@@ -330,7 +357,7 @@ if let removedValue = airports.removeValueForKey("DUB") {
 ```
 
 <a name="iterating_over_a_dictionary"></a>
-### 字典遍歷
+### 全字典遍歷
 
 我們可以使用`for-in`迴圈來遍歷某個字典中的鍵值對。每一個字典中的資料項都由`(key, value)`元組形式回傳，並且我們可以使用臨時常數或者變數來分解這些元組：
 
@@ -338,11 +365,11 @@ if let removedValue = airports.removeValueForKey("DUB") {
 for (airportCode, airportName) in airports {
     println("\(airportCode): \(airportName)")
 }
-// TYO: Tokyo
+
 // LHR: London Heathrow
+// YYZ: Toronto Pearson
 ```
 
-`for-in`迴圈請參見[For 迴圈](05_Control_Flow.html#for_loops)。
 
 我們也可以通過存取它的`keys`或者`values`屬性（都是可遍歷集合）檢索一個字典的鍵或者值：
 
@@ -350,14 +377,14 @@ for (airportCode, airportName) in airports {
 for airportCode in airports.keys {
     println("Airport code: \(airportCode)")
 }
-// Airport code: TYO
 // Airport code: LHR
+// Airport code: YYZ
 
 for airportName in airports.values {
     println("Airport name: \(airportName)")
 }
-// Airport name: Tokyo
 // Airport name: London Heathrow
+// Airport name: Toronto Pearson
 ```
 
 如果我們只是需要使用某個字典的鍵集合或者值集合來作為某個接受`Array`實例 API 的參數，可以直接使用`keys`或者`values`屬性直接建構一個新陣列：
@@ -371,41 +398,18 @@ let airportNames = Array(airports.values)
 ```
 
 > 注意：  
-> Swift 的字典型別是無序集合型別。其中字典鍵，值，鍵值對在遍歷的時候會重新排列，而且其中順序是不固定的。  
+> Swift 的字典型別是無序集合型別。其中字典鍵，值，鍵值對在遍歷的時候會重新排列，而且其中順序是不固定的。
 
-<a name="creating_an_empty_dictionary"></a>
-### 創建一個空字典
-
-我們可以像陣列一樣使用建構語法創建一個空字典：
-
+取出keys或values成為陣列
 ```swift
-var namesOfIntegers = Dictionary<Int, String>()
-// namesOfIntegers 是一個空的 Dictionary<Int, String>
-```
+let airportCodes = [String](airports.keys)
+// airportCodes is ["LHR", "YYZ"]
 
-這個範例創建了一個`Int, String`型別的空字典來儲存英語對整數的命名。它的鍵是`Int`型，值是`String`型。
+let airportNames = [String](airports.values)
+// airportNames is ["London Heathrow", "Toronto Pearson"]
 
-如果上下文已經提供了資訊型別，我們可以使用空字典字面量來創建一個空字典，記作`[:]`（中括號中放一個冒號）：
+```  
 
-```swift
-namesOfIntegers[16] = "sixteen"
-// namesOfIntegers 現在包含一個鍵值對
-namesOfIntegers = [:]
-// namesOfIntegers 又成為了一個 Int, String型別的空字典
-```
+<a name="Sets"></a>
+## 集合
 
-> 注意：  
-> 在後台，Swift 的陣列和字典都是由泛型集合來實作的，想了解更多泛型和集合資訊請參見[泛型](22_Generics.html)。  
-
-<a name="mutability_of_collections"></a>
-## 集合的可變性
-
-陣列和字典都是在單個集合中儲存可變值。如果我們創建一個陣列或者字典並且把它分配成一個變數，這個集合將會是可變的。這意味著我們可以在創建之後添加更多或移除已存在的資料項來改變這個集合的大小。與此相反，如果我們把陣列或字典分配成常數，那麼它就是不可變的，它的大小不能被改變。
-
-對字典來說，不可變性也意味著我們不能替換其中任何現有鍵所對應的值。不可變字典的內容在被首次設定之後不能更改。
-不可變性對陣列來說有一點不同，當然我們不能試著改變任何不可變陣列的大小，但是我們可以重新設定相對現存索引所對應的值。這使得 Swift 陣列在大小被固定的時候依然可以做的很棒。
-
-Swift 陣列的可變性行為同時影響了陣列實例如何被分配和修改，想獲取更多資訊，請參見[集合在賦值和複製中的行為](09_Classes_and_Structures.html#assignment_and_copy_behavior_for_collection_types)。
-
-> 注意：  
-> 在我們不需要改變陣列大小的時候創建不可變陣列是很好的習慣。如此 Swift 編譯器可以優化我們創建的集合。  
