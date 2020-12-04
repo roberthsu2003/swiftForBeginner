@@ -419,7 +419,7 @@ default:
 // 輸出 "(1, 1) is inside the box"
 ```
 
-![image](https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Art/coordinateGraphSimple_2x.png)
+![](images/pic2.png)
 
 在上面的範例中，`switch`語句會判斷某個點是否是原點(0, 0)，是否在紅色的x軸上，是否在黃色y軸上，是否在一個以原點為中心的4x4的矩形裡，或者在這個矩形外面。
 
@@ -446,7 +446,7 @@ case let (x, y):
 // 輸出 "on the x-axis with an x value of 2"
 ```
 
-![image](https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Art/coordinateGraphMedium_2x.png)
+![](images/pic3.png)
 
 在上面的範例中，`switch`語句會判斷某個點是否在紅色的x軸上，是否在黃色y軸上，或者不在坐標軸上。
 
@@ -478,13 +478,29 @@ case let (x, y):
 // 輸出 "(1, -1) is on the line x == -y"
 ```
 
-![image](https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Art/coordinateGraphComplex_2x.png)
+![](images/pic4.png)
 
 在上面的範例中，`switch`語句會判斷某個點是否在綠色的對角線`x == y`上，是否在紫色的對角線`x == -y`上，或者不在對角線上。
 
 這三個 case 都宣告了常數`x`和`y`的占位符，用於臨時獲取元組`yetAnotherPoint`的兩個值。這些常數被用作`where`語句的一部分，從而創建一個動態的過濾器(filter)。當且僅當`where`語句的條件為`true`時，匹配到的 case 分支才會被執行。
 
 就像是值綁定中的範例，由於最後一個 case 分支匹配了余下所有可能的值，`switch`語句就已經完備了，因此不需要再書寫預設分支。
+
+#### 群組Case
+
+```swift
+let someCharacter: Character = "e"
+switch someCharacter {
+case "a", "e", "i", "o", "u":
+    print("\(someCharacter) is a vowel")
+case "b", "c", "d", "f", "g", "h", "j", "k", "l", "m",
+     "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z":
+    print("\(someCharacter) is a consonant")
+default:
+    print("\(someCharacter) is not a vowel or a consonant")
+}
+// Prints "e is a vowel
+```
 
 <a name="control_transfer_statements"></a>
 ## 控制轉移語句（Control Transfer Statements）
@@ -495,16 +511,15 @@ case let (x, y):
 - break
 - fallthrough
 - return
+- throw
 
-我們將會在下面討論`continue`、`break`和`fallthrough`語句。`return`語句將會在[函式](../chapter2/06_Functions.html)章節討論。
+我們將會在下面討論`continue`、`break`和`fallthrough`語句。
 
 <a name="continue"></a>
 ### Continue
 
 `continue`語句告訴一個迴圈立刻停止本次迴圈迭代，重新開始下次迴圈迭代。就好像在說「本次迴圈迭代我已經執行完了」，但是並不會離開整個迴圈。
 
->注意：  
-在一個for條件遞增（`for-condition-increment`）迴圈中，在呼叫`continue`語句後，迭代增量仍然會被計算求值。迴圈繼續像往常一樣工作，僅僅只是迴圈中的執行程式碼會被跳過。
 
 下面的範例把一個小寫字串中的母音字母和空格字元移除，生成了一個含義模糊的短句：
 
@@ -536,6 +551,7 @@ println(puzzleOutput)
 當在一個迴圈中使用`break`時，會立刻中斷該迴圈的執行，然後跳轉到表示迴圈結束的大括號(`}`)後的第一行程式碼。不會再有本次迴圈迭代的程式碼被執行，也不會再有下次的迴圈迭代產生。
 
 <a name="break_in_a_switch_statement"></a>
+
 #### Switch 語句中的 break
 
 當在一個`switch`程式碼區塊中使用`break`時，會立即中斷該`switch`程式碼區塊的執行，並且跳轉到表示`switch`程式碼區塊結束的大括號(`}`)後的第一行程式碼。
@@ -548,7 +564,7 @@ println(puzzleOutput)
 下面的範例通過`switch`來判斷一個`Character`值是否代表下面四種語言之一。為了簡潔，多個值被包含在了同一個分支情況中。
 
 ```swift
-let numberSymbol: Character = "三"  // 簡體中文裡的數字 3
+let numberSymbol: Character = "三"  // 中文裡的數字 3
 var possibleIntegerValue: Int?
 switch numberSymbol {
 case "1", "١", "一", "๑":
@@ -627,7 +643,7 @@ println(description)
 
 遊戲的棋盤和之前一樣：
 
-![image](https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Art/snakesAndLadders_2x.png)
+![image](images/pic5.png)
 
 值`finalSquare`、`board`、`square`和`diceRoll`的初始化也和之前一樣：
 
@@ -646,7 +662,8 @@ var diceRoll = 0
 
 ```swift
 gameLoop: while square != finalSquare {
-    if ++diceRoll == 7 { diceRoll = 1 }
+		diceRoll +=1 
+    if diceRoll == 7 { diceRoll = 1 }
     switch square + diceRoll {
     case finalSquare:
         // 到達最後一個方塊，遊戲結束
@@ -672,4 +689,50 @@ println("Game over!")
 >注意：  
 如果上述的`break`語句沒有使用`gameLoop`標簽，那麼它將會中斷`switch`程式碼區塊而不是`while`迴圈。使用`gameLoop`標簽清晰的表明了`break`想要中斷的是哪個程式碼區塊。
 同時請注意，當呼叫`continue gameLoop`去跳轉到下一次迴圈迭代時，這裡使用`gameLoop`標簽並不是嚴格必須的。因為在這個遊戲中，只有一個迴圈，所以`continue`語句會影響到哪個迴圈是沒有歧義的。然而，`continue`語句使用`gameLoop`標簽也是沒有危害的。這樣做符合標簽的使用規則，同時參照旁邊的`break gameLoop`，能夠使遊戲的邏輯更加清晰和易於理解。
+
+### 提早離開(Early Exit)
+提早離開function
+
+ 語法: 
+  
+	guard ........ else {
+		return;  
+	} 
+	 
+```swift
+func greet(person: [String: String]) {
+	
+	 guard let name = person["name"] else {
+        return
+    }
+
+    print("Hello \(name)!")
+
+    guard let location = person["location"] else {
+        print("I hope the weather is nice near you.")
+        return
+    }
+
+    print("I hope the weather is nice in \(location).")
+}
+
+greet(person: ["name": "John"])
+// Prints "Hello John!"
+// Prints "I hope the weather is nice near you."
+greet(person: ["name": "Jane", "location": "Cupertino"])
+// Prints "Hello Jane!"
+// Prints "I hope the weather is nice in」
+
+```
+
+### 檢查可以使用的版本
+
+```swift
+if #available(iOS 10, macOS 10.12, *) {
+    // Use iOS 10 以上的APIs on iOS, and use macOS 10.12 以上的APIs on macOS
+} else {
+    // Fall back to earlier iOS and macOS APIs
+}
+```
+
 
