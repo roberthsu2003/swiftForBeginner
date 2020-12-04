@@ -214,14 +214,23 @@ for (index, value) in enumerate.enumerated() {
 
 字典是一種儲存多個相同型別的值的容器。每個值（value）都關聯唯一的鍵（key），鍵作為字典中的這個值資料的識別符號。和陣列中的資料項不同，字典中的資料項並沒有具體順序。我們在需要通過識別符號（鍵）存取資料的時候使用字典，這種方法很大程度上和我們在現實世界中使用字典查字義的方法一樣。
 
-Swift 的字典使用時需要具體規定可以儲存鍵和值型別。不同於 Objective-C 的`NSDictionary`和`NSMutableDictionary` 類別可以使用任何型別的物件來作鍵和值並且不提供任何關於這些物件的本質資訊。在 Swift 中，在某個特定字典中可以儲存的鍵和值必須提前定義清楚，方法是通過顯性型別標注或者型別推斷。
 
 Swift 的字典使用`Dictionary<KeyType, ValueType>`定義,其中`KeyType`是字典中鍵的資料型別，`ValueType`是字典中對應於這些鍵所儲存值的資料型別。
 
-`KeyType`的唯一限制就是可雜湊的，這樣可以保證它是獨一無二的，所有的 Swift 基本型別（例如`String`，`Int`， `Double`和`Bool`）都是預設可雜湊的，並且所有這些型別都可以在字典中當做鍵使用。未關聯值的列舉成員（參見[列舉](08_Enumerations.html)）也是預設可雜湊的。
+`KeyType`的唯一限制就是可雜湊的，這樣可以保證它是獨一無二的，所有的 Swift 基本型別（例如`String`，`Int`， `Double`和`Bool`）都是預設可雜湊的，並且所有這些型別都可以在字典中當做鍵使用。
 
+<a name="Dictionary Type Shorthand Syntax"></a>
+### 字典型別完整表示法和簡短表示法
+完整表示法`Dictionary<Key,Value>`
+
+	var countries:Dictionary<String:String>
+	
+簡短表示法'[Key:Value]'
+	
+	var countries:[String:String]
+	
 <a name="dictionary_literals"></a>
-## 字典字面量
+### 字典字面量
 
 我們可以使用字典字面量來建構字典，它們和我們剛才介紹過的陣列字面量擁有相似語法。一個字典字面量是一個定義擁有一個或者多個鍵值對的字典集合的簡單語句。
 
