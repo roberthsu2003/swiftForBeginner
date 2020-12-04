@@ -13,47 +13,74 @@ Swift 的陣列結構在被宣告成常數和變數或者被傳入函式與方�
 <a name="arrays"></a>
 ## 陣列
 
-陣列使用有序列表儲存同一型別的多個值。相同的值可以多次出現在一個陣列的不同位置中。
-
-Swift 陣列特定於它所儲存元素的型別。這與 Objective-C 的 NSArray 和 NSMutableArray 不同，這兩個類別可以儲存任意型別的物件，並且不提供所回傳物件的任何特別資訊。在 Swift 中，資料值在被儲存進入某個陣列之前型別必須明確，方法是通過顯式的型別標注或型別推斷，而且不是必須是`class`型別。例如： 如果我們創建了一個`Int`值型別的陣列，我們不能往其中插入任何不是`Int`型別的資料。 Swift 中的陣列是型別安全的，並且它們中包含的型別必須明確。
+陣列
+- 儲存相同型別的內容
+- 儲存的內容是可以重覆
+- 有順序的索引編號
 
 <a name="array_type_shorthand_syntax"></a>
 ### 陣列的簡單語法
 
-寫 Swift 陣列應該遵循像`Array<SomeType>`這樣的形式，其中`SomeType`是這個陣列中唯一允許存在的資料型別。 我們也可以使用像`SomeType[]`這樣的簡單語法。 儘管兩種形式在功能上是一樣的，但是推薦較短的那種，而且在本文中都會使用這種形式來使用陣列。
+完整型別表示法 `Array<Element> `
+
+	var	scores:Array<Int>
+
+簡單語法 `[Element]`
+ 
+	 var scores:[Int]
+
+<a name="create_an_empty_array"></a>	 
+### 建立空陣列
+```swift
+var someInts = [Int]()
+print("someInts is of type [Int] with \(someInts.count) items.")
+
+// Prints "someInts is of type [Int] with 0 items.」
+```
+
+```
+someInts.append(3)
+// someInts now contains 1 value of type Int
+
+someInts = []
+// someInts is now an empty array, but is still of type [Int]
+```
+
+<a name="Creating_an_Array_with_a_default_Value></a>
+### 建立有預設內容的陣列
+```
+var threeDoubles = Array(repeating: 0.0, count: 3)
+// threeDoubles is of type [Double], and equals [0.0, 0.0, 0.0]
+```
 
 <a name="array_literals"></a>
 ### 陣列建構語法
 
-我們可以使用字面量來進行陣列建構，這是一種用一個或者多個數值建構陣列的簡單方法。字面量是一系列由逗號分割並由方括號包含的數值。
-`[value 1, value 2, value 3]`。
+	[value 1, value 2, value 3]
 
 下面這個範例創建了一個叫做`shoppingList`並且儲存字串的陣列：
 
 ```swift
-var shoppingList: String[] = ["Eggs", "Milk"]
+var shoppingList: [String] = ["Eggs", "Milk"]
 // shoppingList 已經被建構並且擁有兩個初始項。
 ```
-
-`shoppingList`變數被宣告為「字串值型別的陣列「，記作`String[]`。 因為這個陣列被規定只有`String`一種資料結構，所以只有`String`型別可以在其中被存取。 在這裡，`shoppinglist`陣列由兩個`String`值（`"Eggs"` 和`"Milk"`）建構，並且由字面量定義。
 
 > 注意：  
 > `Shoppinglist`陣列被宣告為變數（`var`關鍵字創建）而不是常數（`let`創建）是因為以後可能會有更多的資料項被插入其中。  
 
-在這個範例中，字面量僅僅包含兩個`String`值。匹配了該陣列的變數宣告（只能包含`String`的陣列），所以這個字面量的分配過程就是允許用兩個初始項來建構`shoppinglist`。
 
-由於 Swift 的型別推斷機制，當我們用字面量建構只擁有相同型別值陣列的時候，我們不必把陣列的型別定義清楚。 `shoppinglist`的建構也可以這樣寫：
+由於 Swift 的型別推斷機制，當我們用文字表示法建構只擁有相同型別值陣列的時候，我們不必把陣列的型別定義清楚。 `shoppinglist`的建構也可以這樣寫：
 
 ```swift
 var shoppingList = ["Eggs", "Milk"]
 ```
 
-因為所有字面量中的值都是相同的型別，Swift 可以推斷出`String[]`是`shoppinglist`中變數的正確型別。
+因為所有文字表示法中的值都是相同的型別，Swift 可以推斷出`[String]`是`shoppinglist`中變數的正確型別。
 
 <a name="accessing_and_modifying_an_array"></a>
 ### 存取和修改陣列
 
-我們可以通過陣列的方法和屬性來存取和修改陣列，或者下標語法。
+我們可以通過陣列的方法和屬性來存取和修改陣列，或者使用subscript語法-`陣列變數[]`。
 還可以使用陣列的唯讀屬性`count`來獲取陣列中的資料項數量。
 
 ```swift
@@ -102,22 +129,20 @@ var firstItem = shoppingList[0]
 
 注意第一項在陣列中的索引值是`0`而不是`1`。 Swift 中的陣列索引總是從零開始。
 
-我們也可以用下標來改變某個已有索引值對應的資料值：
+我們也可以用`subscript[]`來改變某個已有索引值對應的資料值：
 
 ```swift
 shoppingList[0] = "Six eggs"
 // 其中的第一項現在是 "Six eggs" 而不是 "Eggs"
 ```
 
-還可以利用下標來一次改變一系列資料值，即使新資料和原有資料的數量是不一樣的。下面的範例把`"Chocolate Spread"`，`"Cheese"`，和`"Butter"`替換為`"Bananas"`和 `"Apples"`：
+還可以利用`subscript[]`來一次改變一系列資料值，即使新資料和原有資料的數量是不一樣的。下面的範例把`"Chocolate Spread"`，`"Cheese"`，和`"Butter"`替換為`"Bananas"`和 `"Apples"`：
 
 ```swift
 shoppingList[4...6] = ["Bananas", "Apples"]
 // shoppingList 現在有六項
 ```
 
-> 注意：  
->我們不能使用下標語法在陣列尾部添加新項。如果我們試著用這種方法對索引越界的資料進行檢索或者設置新值的操作，我們會引發一個執行期錯誤。我們可以使用索引值和陣列的`count`屬性進行比較來在使用某個索引之前先檢驗是否有效。除了當`count`等於 0 時（說明這是個空陣列），最大索引值一直是`count - 1`，因為陣列都是零起索引。  
 
 呼叫陣列的`insert(atIndex:)`方法來在某個具體索引值之前添加資料項：
 
@@ -155,7 +180,7 @@ let apples = shoppingList.removeLast()
 ```
 
 <a name="iterating_over_an_array"></a>
-### 陣列的遍歷
+### 全陣列的遍歷
 
 我們可以使用`for-in`迴圈來遍歷所有陣列中的資料項：
 
@@ -170,7 +195,7 @@ for item in shoppingList {
 // Bananas
 ```
 
-如果我們同時需要每個資料項的值和索引值，可以使用全域`enumerate`函式來進行陣列遍歷。`enumerate`回傳一個由每一個資料項索引值和資料值組成的元組。我們可以把這個元組分解成臨時常數或者變數來進行遍歷：
+如果我們同時需要每個資料項的值和索引值，可以使用`enumerate()`方法來進行全陣列遍歷。`enumerate()`回傳一個由每一個資料項索引值和資料值組成的元組。我們可以把這個元組分解成臨時常數或者變數來進行遍歷：
 
 ```swift
 for (index, value) in enumerate.enumerated() {
@@ -183,50 +208,6 @@ for (index, value) in enumerate.enumerated() {
 // Item 5: Bananas
 ```
 
-更多關於`for-in`迴圈的介紹請參見[for 迴圈](05_Control_Flow.html#for_loops)。
-
-<a name="creating_and_initializing_an_array"></a>
-### 創建並且建構一個陣列
-
-我們可以使用建構語法來創建一個由特定資料型別構成的空陣列：
-
-```swift
-var someInts = Int[]()
-println("someInts is of type Int[] with \(someInts.count) items。")
-// 列印 "someInts is of type Int[] with 0 items。"（someInts是0資料項的Int[]陣列）
-```
-
-注意`someInts`被設置為一個`Int[]`建構函式的輸出所以它的變數型別被定義為`Int[]`。
-
-除此之外，如果程式碼上下文中提供了型別資訊， 例如一個函式參數或者一個已經定義好型別的常數或者變數，我們可以使用空陣列語句創建一個空陣列，它的寫法很簡單：`[]`（一對空方括號）：
-
-```swift
-someInts.append(3)
-// someInts 現在包含一個INT值
-someInts = []
-// someInts 現在是空陣列，但是仍然是Int[]型別的。
-```
-
-Swift 中的`Array`型別還提供一個可以創建特定大小並且所有資料都被預設的建構方法。我們可以把準備加入新陣列的資料項數量（`count`）和適當型別的初始值（`repeatedValue`）傳入陣列建構函式：
-
-```swift
-var threeDoubles = Double[](count: 3, repeatedValue:0.0)
-// threeDoubles 是一種 Double[]陣列, 等於 [0.0, 0.0, 0.0]
-```
-
-因為型別推斷的存在，我們使用這種建構方法的時候不需要特別指定陣列中儲存的資料型別，因為型別可以從預設值推斷出來：
-
-```swift
-var anotherThreeDoubles = Array(count: 3, repeatedValue: 2.5)
-// anotherThreeDoubles is inferred as Double[], and equals [2.5, 2.5, 2.5]
-```
-
-最後，我們可以使用加法運算子（`+`）來組合兩種已存在的相同型別陣列。新陣列的資料型別會被從兩個陣列的資料型別中推斷出來：
-
-```swift
-var sixDoubles = threeDoubles + anotherThreeDoubles
-// sixDoubles 被推斷為 Double[], 等於 [0.0, 0.0, 0.0, 2.5, 2.5, 2.5]
-```
 
 <a name="dictionaries"></a>
 ## 字典
