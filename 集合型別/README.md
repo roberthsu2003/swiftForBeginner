@@ -401,15 +401,127 @@ let airportNames = Array(airports.values)
 > Swift 的字典型別是無序集合型別。其中字典鍵，值，鍵值對在遍歷的時候會重新排列，而且其中順序是不固定的。
 
 取出keys或values成為陣列
+
 ```swift
 let airportCodes = [String](airports.keys)
 // airportCodes is ["LHR", "YYZ"]
 
 let airportNames = [String](airports.values)
 // airportNames is ["London Heathrow", "Toronto Pearson"]
-
 ```  
 
 <a name="Sets"></a>
 ## 集合
+- set內的值必需是Hash Value
 
+```swift
+Hash Value(String, Int, Double, Bool, 列舉)
+可以使用比較運算的就是Hash Value(a==b)
+```
+
+- set內的值不會重覆
+- set 和 set間可以做集合運算
+
+### Set型別語法
+完整語法`Set<Element>`
+
+	var teamNums:Set<Int>
+	
+### 建立空集合
+
+```swift
+var letters = Set<Character>()
+print("letters is of type Set<Character> with \(letters.count) items.")
+// Prints "letters is of type Set<Character> with 0 items.
+```
+
+```swift
+letters.insert("a")
+// letters now contains 1 value of type Character
+letters = []
+// letters is now an empty set, but is still of type Set<Character>
+```
+
+### 使用陣列表示法建立集合
+
+```swift
+var favoriteGenres: Set<String> = ["Rock", "Classical", "Hip hop"]
+// favoriteGenres has been initialized with three initial items
+```
+
+```swift
+var favoriteGenres: Set = ["Rock", "Classical", "Hip hop"]
+```
+
+### 存取和修改集合
+
+```swift
+var favoriteGenres: Set = ["Rock", "Classical", "Hip hop"]
+
+print("I have \(favoriteGenres.count) favorite music genres.")
+
+if favoriteGenres.isEmpty {
+    print("As far as music goes, I'm not picky.")
+} else {
+    print("I have particular music preferences.")
+}
+// Prints "I have particular music preferences.
+
+//新增
+favoriteGenres.insert("Jazz")
+
+//移除
+if let removedGenre = favoriteGenres.remove("Rock") {
+    print("\(removedGenre)? I'm over it.")
+} else {
+    print("I never much cared for that.")
+}
+// Prints "Rock? I'm over it.
+
+//檢查內容
+if favoriteGenres.contains("Funk") {
+    print("I get up on the good foot.")
+} else {
+    print("It's too funky in here.")
+}
+// Prints "It's too funky in here.
+```
+
+### 全集合編歷
+
+```swift
+for genre in favoriteGenres {
+    print("\(genre)")
+}
+// Classical
+// Jazz
+// Hip hop
+```
+
+### 轉換集合成為陣列
+
+```swift
+for genre in favoriteGenres.sorted() {
+    print("\(genre)")
+}
+// Classical
+// Hip hop
+// Jazz」
+```
+
+### 2個集合的運算
+
+```swift
+let oddDigits: Set = [1, 3, 5, 7, 9]
+let evenDigits: Set = [0, 2, 4, 6, 8]
+let singleDigitPrimeNumbers: Set = [2, 3, 5, 7]
+
+oddDigits.union(evenDigits).sorted()
+// [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+oddDigits.intersection(evenDigits).sorted()
+// []
+oddDigits.subtracting(singleDigitPrimeNumbers).sorted()
+// [1, 9]
+oddDigits.symmetricDifference(singleDigitPrimeNumbers).sorted()
+// [1, 2, 9]
+```
