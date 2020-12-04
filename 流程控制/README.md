@@ -11,18 +11,37 @@ Swift提供了類似 C 語言的流程控制結構，包括可以多次執行任
 
 Swift 的`switch`語句比 C 語言中更加強大。在 C 語言中，如果某個 case 不小心漏寫了`break`，這個 case 就會貫穿（fallthrough）至下一個 case，Swift 無需寫`break`，所以不會發生這種貫穿（fallthrough）的情況。case 還可以匹配更多的型別模式，包括區間匹配（range matching），元組（tuple）和特定型別的描述。`switch`的 case 語句中匹配的值可以是由 case 體內部臨時的常數或者變數決定，也可以由`where`分句描述更複雜的匹配條件。
 
-<a name="for_loops"></a>
-## For 迴圈
-
-`for`迴圈用來按照指定的次數多次執行一系列語句。Swift 提供兩種`for`迴圈形式：
-
-* `for-in`用來遍歷一個區間（range），序列（sequence），集合（collection），系列（progression）裡面所有的元素執行一系列語句。
-* for條件遞增（`for-condition-increment`）語句，用來重複執行一系列語句直到達成特定條件達成，一般通過在每次迴圈完成後增加計數器的值來實作。
-
 <a name="for_in"></a>
 ### For-In
 
 你可以使用`for-in`迴圈來遍歷一個集合裡面的所有元素，例如由數字表示的區間、陣列中的元素、字串中的字元。
+
+使用`for-in`遍歷一個陣列所有元素：
+
+```swift
+let names = ["Anna", "Alex", "Brian", "Jack"]
+for name in names {
+    println("Hello, \(name)!")
+}
+// Hello, Anna!
+// Hello, Alex!
+// Hello, Brian!
+// Hello, Jack!
+```
+
+你也可以通過遍歷一個字典來存取它的鍵值對（key-value pairs）。遍歷字典時，字典的每項元素會以`(key, value)`元組的形式回傳，你可以在`for-in`迴圈中使用顯式的常數名稱來解讀`(key, value)`元組。下面的範例中，字典的鍵（key）解讀為常數`animalName`，字典的值會被解讀為常數`legCount`：
+
+```swift
+let numberOfLegs = ["spider": 8, "ant": 6, "cat": 4]
+for (animalName, legCount) in numberOfLegs {
+    println("\(animalName)s have \(legCount) legs")
+}
+// spiders have 8 legs
+// ants have 6 legs
+// cats have 4 legs
+```
+
+字典元素的遍歷順序和插入順序可能不同，字典的內容在內部是無序的，所以遍歷元素時不能保證順序。
 
 下面的範例用來輸出乘 5 乘法表前面一部分內容：
 
@@ -59,98 +78,33 @@ println("\(base) to the power of \(power) is \(answer)")
 
 這個範例計算 base 這個數的 power 次冪（本例中，是`3`的`10`次冪），從`1`（`3`的`0`次冪）開始做`3`的乘法， 進行`10`次，使用`1`到`10`的閉區間迴圈。這個計算並不需要知道每一次迴圈中計數器具體的值，只需要執行了正確的迴圈次數即可。底線符號`_`（替代迴圈中的變數）能夠忽略具體的值，並且不提供迴圈遍歷時對值的存取。
 
-使用`for-in`遍歷一個陣列所有元素：
 
 ```swift
-let names = ["Anna", "Alex", "Brian", "Jack"]
-for name in names {
-    println("Hello, \(name)!")
+let minutes = 60
+for tickMark in 0..<minutes {
+    // render the tick mark each minute (60 times)
 }
-// Hello, Anna!
-// Hello, Alex!
-// Hello, Brian!
-// Hello, Jack!
 ```
 
-你也可以通過遍歷一個字典來存取它的鍵值對（key-value pairs）。遍歷字典時，字典的每項元素會以`(key, value)`元組的形式回傳，你可以在`for-in`迴圈中使用顯式的常數名稱來解讀`(key, value)`元組。下面的範例中，字典的鍵（key）解讀為常數`animalName`，字典的值會被解讀為常數`legCount`：
+全域方法stride(from:to:by:)
+
+```
+let minutes = 60
+let minuteInterval = 5
+for tickMark in stride(from: 0, to: minutes, by: minuteInterval) {
+    // render the tick mark every 5 minutes (0, 5, 10, 15 ... 45, 50, 55)
+}
+```
+
+全域方法stride(from:through:by:)
 
 ```swift
-let numberOfLegs = ["spider": 8, "ant": 6, "cat": 4]
-for (animalName, legCount) in numberOfLegs {
-    println("\(animalName)s have \(legCount) legs")
+let hours = 12
+let hourInterval = 3
+for tickMark in stride(from: 3, through: hours, by: hourInterval) {
+    // render the tick mark every 3 hours (3, 6, 9, 12)
 }
-// spiders have 8 legs
-// ants have 6 legs
-// cats have 4 legs
 ```
-
-字典元素的遍歷順序和插入順序可能不同，字典的內容在內部是無序的，所以遍歷元素時不能保證順序。關於陣列和字典，詳情參見[集合型別](../chapter2/04_Collection_Types.html)。
-
-除了陣列和字典，你也可以使用`for-in`迴圈來遍歷字串中的字元（`Character`）：
-
-```swift
-for character in "Hello" {
-    println(character)
-}
-// H
-// e
-// l
-// l
-// o
-```
-
-<a name="for_condition_increment"></a>
-### For條件遞增（for-condition-increment）
-
-除了`for-in`迴圈，Swift 提供使用條件判斷和遞增方法的標準 C 樣式`for`迴圈:
-
-```swift
-for var index = 0; index < 3; ++index {
-    println("index is \(index)")
-}
-// index is 0
-// index is 1
-// index is 2
-```
-
-下面是一般情況下這種迴圈方式的格式：
-
-> for `initialization`; `condition`; `increment` {  
->     `statements`  
-> }  
-
-和 C 語言中一樣，分號將迴圈的定義分為 3 個部分，不同的是，Swift 不需要使用圓括號將「initialization; condition; increment」包括起來。
-
-這個迴圈執行流程如下：
-
-1. 迴圈首次啟動時，初始化表達式（_initialization expression_）被呼叫一次，用來初始化迴圈所需的所有常數和變數。
-2. 條件表達式（_condition expression_）被呼叫，如果表達式呼叫結果為`false`，迴圈結束，繼續執行`for`迴圈關閉大括號
-（`}`）之後的程式碼。如果表達式呼叫結果為`true`，則會執行大括號內部的程式碼（_statements_）。
-3. 執行所有語句（_statements_）之後，執行遞增表達式（_increment expression_）。通常會增加或減少計數器的值，或者根據語句（_statements_）輸出來修改某一個初始化的變數。當遞增表達式執行完成後，重複執行第 2 步，條件表達式會再次執行。
-
-上述描述和迴圈格式等同於：
-
-> `initialization`  
-> while `condition` {  
->     `statements`  
->     `increment`  
-> }  
-
-在初始化表達式中宣告的常數和變數（比如`var index = 0`）只在`for`迴圈的生命周期裡有效。如果想在迴圈結束後存取`index`的值，你必須要在迴圈生命周期開始前宣告`index`。
-
-```swift
-var index: Int
-for index = 0; index < 3; ++index {
-    println("index is \(index)")
-}
-// index is 0
-// index is 1
-// index is 2
-println("The loop statements were executed \(index) times")
-// 輸出 "The loop statements were executed 3 times
-```
-
-注意`index`在迴圈結束後最終的值是`3`而不是`2`。最後一次呼叫遞增表達式`++index`會將`index`設置為`3`，從而導致`index < 3`條件為`false`，並終止迴圈。
 
 <a name="while_loops"></a>
 ## While 迴圈
@@ -161,7 +115,7 @@ println("The loop statements were executed \(index) times")
 * `do-while`迴圈，每次在迴圈結束時計算條件是否符合。
 
 <a name="while"></a>
-###While
+### While
 
 `while`迴圈從計算單一條件開始。如果條件為`true`，會重複執行一系列語句，直到條件變為`false`。
 
@@ -173,7 +127,7 @@ println("The loop statements were executed \(index) times")
 
 下面的範例來玩一個叫做_蛇和梯子（Snakes and Ladders）_的小遊戲，也叫做_滑道和梯子（Chutes and Ladders）_：
 
-![image](https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Art/snakesAndLadders_2x.png)
+![image](images/pic1.png)
 
 遊戲的規則如下：
 
@@ -186,7 +140,7 @@ println("The loop statements were executed \(index) times")
 
 ```swift
 let finalSquare = 25
-var board = Int[](count: finalSquare + 1, repeatedValue: 0)
+var board = [Int](repeating: 0, count: finalSquare + 1)
 ```
 
 一些方塊被設置成有蛇或者梯子的指定值。梯子底部的方塊是一個正值，使你可以向上移動，蛇頭處的方塊是一個負值，會讓你向下移動：
@@ -228,21 +182,21 @@ println("Game over!")
 
 
 <a name="do_while"></a>
-###Do-While
+### Repeat-While
 
-`while`迴圈的另外一種形式是`do-while`，它和`while`的區別是在判斷迴圈條件之前，先執行一次迴圈的程式碼區塊，然後重複迴圈直到條件為`false`。
+`while`迴圈的另外一種形式是`repeat-while`，它和`while`的區別是在判斷迴圈條件之前，先執行一次迴圈的程式碼區塊，然後重複迴圈直到條件為`false`。
 
 下面是一般情況下 `do-while`迴圈的格式：
 
-> do {  
+> repeat {  
 >     `statements`  
 > } while `condition`  
 
-還是蛇和梯子的遊戲，使用`do-while`迴圈來替代`while`迴圈。`finalSquare`、`board`、`square`和`diceRoll`的值初始化同`while`迴圈一樣：
+還是蛇和梯子的遊戲，使用`repeat-while`迴圈來替代`while`迴圈。`finalSquare`、`board`、`square`和`diceRoll`的值初始化同`while`迴圈一樣：
 
 ``` swift
 let finalSquare = 25
-var board = Int[](count: finalSquare + 1, repeatedValue: 0)
+var board = [Int](repeating: 0, count: finalSquare + 1)
 board[03] = +08; board[06] = +11; board[09] = +09; board[10] = +02
 board[14] = -10; board[19] = -11; board[22] = -02; board[24] = -08
 var square = 0
@@ -271,8 +225,6 @@ println("Game over!")
 
 <a name="conditional_statement"></a>
 ## 條件語句
-
-根據特定的條件執行特定的程式碼通常是十分有用的，例如：當錯誤發生時，你可能想執行額外的程式碼；或者，當輸入的值太大或太小時，向使用者顯示一條訊息等。要實作這些功能，你就需要使用*條件語句*。
 
 Swift 提供兩種型別的條件語句：`if`語句和`switch`語句。通常，當條件較為簡單且可能的情況很少時，使用`if`語句。而`switch`語句更適用於條件較複雜、可能情況較多且需要用到模式匹配（pattern-matching）的情境。
 
@@ -383,14 +335,13 @@ default:
 與 C 語言和 Objective-C 中的`switch`語句不同，在 Swift 中，當匹配的 case 分支中的程式碼執行完畢後，程式會終止`switch`語句，而不會繼續執行下一個 case 分支。這也就是說，不需要在 case 分支中顯式地使用`break`語句。這使得`switch`語句更安全、更易用，也避免了因忘記寫`break`語句而產生的錯誤。
 
 > 注意：  
-你依然可以在 case 分支中的程式碼執行完畢前跳出，詳情請參考[Switch 語句中的 break](#break_in_a_switch_statement)。
-
+你依然可以在 case 分支中的程式碼執行完畢前跳出
 每一個 case 分支都*必須*包含至少一條語句。像下面這樣書寫程式碼是無效的，因為第一個 case 分支是空的：
 
 ```swift
 let anotherCharacter: Character = "a"
 switch anotherCharacter {
-case "a":
+case "a"://錯誤
 case "A":
     println("The letter A")
 default:
@@ -401,16 +352,19 @@ default:
 
 不像 C 語言裡的`switch`語句，在 Swift 中，`switch`語句不會同時匹配`"a"`和`"A"`。相反的，上面的程式碼會引起編譯期錯誤：`case "a": does not contain any executable statements`——這就避免了意外地從一個 case 分支貫穿到另外一個，使得程式碼更安全、也更直觀。
 
-一個 case 也可以包含多個模式，用逗號把它們分開（如果太長了也可以分行寫）：
-
-> switch `some value to consider` {  
-> case `value 1`,  
-> `value 2`:  
->     `statements`  
-> }  
+```swift
+let anotherCharacter: Character = "a"
+switch anotherCharacter {
+case "a", "A":
+    print("The letter A")
+default:
+    print("Not the letter A")
+}
+// Prints "The letter A
+```
 
 > 注意：  
-如果想要貫穿至特定的 case 分支中，請使用`fallthrough`語句，詳情請參考[貫穿（Fallthrough）](#fallthrough)。
+如果想要貫穿至特定的 case 分支中，請使用`fallthrough`語句
 
 <a name="range_matching"></a>
 #### 區間匹配（Range Matching）
