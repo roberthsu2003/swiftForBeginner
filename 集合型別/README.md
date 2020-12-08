@@ -48,8 +48,7 @@ someInts = []
 // someInts is now an empty array, but is still of type [Int]
 ```
 
-<a name="Creating_an_Array_with_a_default_Value></a>  
-
+<a name="Creating_an_Array_with_a_default_Value"></a>  
 ### 建立有預設內容的陣列
 ```
 var threeDoubles = Array(repeating: 0.0, count: 3)
