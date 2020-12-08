@@ -26,3 +26,19 @@ print(namesOfIntegers)
 
 var airports = ["YYZ":"Toronto Peason", "DUB": "Dublin"]
 print(airports)
+
+//新增元素
+airports["LHR"] = "London"
+print(airports)
+
+airports["LHR"] = "London Heathrow"
+print(airports)
+
+//Dictionary有一個屬性,方法
+
+if let oldValue = airports.updateValue("Dublin Airport", forKey: "DUA"){
+    print("已經更新,舊的值是\(oldValue)")
+    print("全新的airports是\(airports)")
+}else{
+    print("沒有這個key")
+}
