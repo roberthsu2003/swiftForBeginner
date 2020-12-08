@@ -46,5 +46,23 @@ while(number != 8){
     print("不是8,是\(number)")
 }
 
+var temperatureInFahrenheit = 40
+
+if temperatureInFahrenheit <= 32{
+    print("非常冷")
+}else{
+    print("沒有非常冷")
+}
+
+temperatureInFahrenheit = 90
+
+if temperatureInFahrenheit <= 32{
+    print("非常冷")
+}else if temperatureInFahrenheit >= 86{
+    print("非常熱")
+}else{
+    print("天氣不錯")
+}
+
 
 
