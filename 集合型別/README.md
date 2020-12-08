@@ -31,7 +31,7 @@ Swift 的陣列結構在被宣告成常數和變數或者被傳入函式與方�
  
 	 var scores:[Int]
 
-<a name="create_an_empty_array"></a>	 
+<a name="create_an_empty_array"></a>	  
 ### 建立空陣列
 ```swift
 var someInts = [Int]()
