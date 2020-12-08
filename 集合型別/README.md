@@ -122,7 +122,7 @@ shoppingList += ["Chocolate Spread", "Cheese", "Butter"]
 // shoppingList 現在有7項了
 ```
 
-可以直接使用下標語法來獲取陣列中的資料項，把我們需要的資料項的索引值放在直接放在陣列名稱的方括號中：
+可以直接使用subscript[]語法來獲取陣列中的資料項，把我們需要的資料項的索引值放在陣列名稱的方括號中：
 
 ```swift
 var firstItem = shoppingList[0]
