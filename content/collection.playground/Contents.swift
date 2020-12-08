@@ -1,4 +1,3 @@
-import UIKit
 
 var someInt = [Int]()
 print(someInt.count)
@@ -53,4 +52,17 @@ if let removedValue = airports.removeValue(forKey: "DUB"){
     print("移除成功\(removedValue)")
 }else{
     print("移除失敗")
+}
+
+
+for (airportCode, airportName) in airports{
+    print("\(airportCode):\(airportName)")
+}
+
+for airportCode in airports.keys{
+    print(airportCode)
+}
+
+for airportCode in airports.values{
+    print(airportCode)
 }
