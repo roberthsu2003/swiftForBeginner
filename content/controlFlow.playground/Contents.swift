@@ -64,5 +64,16 @@ if temperatureInFahrenheit <= 32{
     print("天氣不錯")
 }
 
+let someCharacter:Character = "d"
+switch someCharacter {
+case "a":
+    print("是a")
+case "b","d","e","f":
+    print("是b,d,e,f其中一個")
+
+default:
+    print("是f以後的字元")
+}
+
 
 
