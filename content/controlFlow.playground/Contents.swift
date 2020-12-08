@@ -40,3 +40,11 @@ repeat{
 print("值是多少:\(nums[index-1])跳出迴圈")
 
 
+var number = 0
+while(number != 8){
+    number = Int.random(in: 1...10)
+    print("不是8,是\(number)")
+}
+
+
+
