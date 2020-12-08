@@ -66,3 +66,20 @@ for airportCode in airports.keys{
 for airportCode in airports.values{
     print(airportCode)
 }
+
+//set
+
+var letters = Set<Character>();
+letters.insert("a")
+print(letters)
+letters.insert("a")
+print(letters)
+
+var favoriteGenres:Set = ["Rock", "Classical", "Hip hop"]
+print(favoriteGenres)
+
+let oddDigits:Set = [1, 3, 5, 7, 9]
+let evenDigits:Set = [0, 2, 4 , 6, 8]
+
+oddDigits.union(evenDigits).sorted()
+
