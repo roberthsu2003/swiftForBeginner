@@ -21,3 +21,22 @@ for _ in 1...power{
     answer *= base;
 }
 print(answer)
+
+let minutes = 60
+let minuteInterval = 5
+for tickMark in stride(from: 0, through: minutes, by: minuteInterval){
+    print(tickMark)
+}
+
+let nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+var index = 0
+var total = 0
+while(total <= 51){
+    total += nums[index]
+    index += 1;
+}
+
+print("值是多少:\(nums[index-1])跳出迴圈")
+
+
