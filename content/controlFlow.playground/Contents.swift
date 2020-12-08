@@ -32,10 +32,10 @@ let nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 var index = 0
 var total = 0
-while(total <= 51){
+repeat{
     total += nums[index]
     index += 1;
-}
+}while(total <= 51)
 
 print("值是多少:\(nums[index-1])跳出迴圈")
 
