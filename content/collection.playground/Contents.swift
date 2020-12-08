@@ -42,3 +42,15 @@ if let oldValue = airports.updateValue("Dublin Airport", forKey: "DUA"){
 }else{
     print("沒有這個key")
 }
+
+airports["APL"] = "Apple International"
+print(airports)
+
+airports["APL"] = nil
+print(airports)
+
+if let removedValue = airports.removeValue(forKey: "DUB"){
+    print("移除成功\(removedValue)")
+}else{
+    print("移除失敗")
+}
