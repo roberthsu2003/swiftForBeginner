@@ -12,9 +12,9 @@ Swift 中的閉包與 C 和 Objective-C 中的程式碼區塊（blocks）以及�
 這就是所謂的閉合並包裹著這些常數和變數，俗稱閉包。Swift 會為你管理在捕獲過程中涉及到的所有內存操作。
 
 > 注意：
-> 如果你不熟悉捕獲（capturing）這個概念也不用擔心，你可以在 [值捕獲](#capturing_values) 章節對其進行詳細了解。
+> 如果你不熟悉捕獲（capturing）這個概念也不用擔心，你可以在 值捕獲章節對其進行詳細了解。
 
-在[函式](../chapter2/06_Functions.html) 章節中介紹的全域和嵌套函式實際上也是特殊的閉包，閉包採取如下三種形式之一：
+在函式章節中介紹的全域和嵌套函式實際上也是特殊的閉包，閉包採取如下三種形式之一：
 
 * 全域函式是一個有名字但不會捕獲任何值的閉包
 * 嵌套函式是一個有名字並可以捕獲其封閉函式域內值的閉包
@@ -30,18 +30,18 @@ Swift 的閉包表達式擁有簡潔的風格，並鼓勵在常見場景中進�
 <a name="closure_expressions"></a>
 ## 閉包表達式（Closure Expressions）
 
-[嵌套函式](../chapter2/06_Functions.html#nested_function) 是一個在較複雜函式中方便進行命名和定義自包含程式碼模塊的方式。當然，有時候撰寫小巧的沒有完整定義和命名的類別函式結構也是很有用處的，尤其是在你處理一些函式並需要將另外一些函式作為該函式的參數時。
+嵌套函式是一個在較複雜函式中方便進行命名和定義自包含程式碼模塊的方式。當然，有時候撰寫小巧的沒有完整定義和命名的類別函式結構也是很有用處的，尤其是在你處理一些函式並需要將另外一些函式作為該函式的參數時。
 
 閉包表達式是一種利用簡潔語法構建行內閉包的方式。
 閉包表達式提供了一些語法優化，使得撰寫閉包變得簡單明了。
-下面閉包表達式的範例通過使用幾次迭代展示了`sort(_:)方法定義和語法優化的方式。
+下面閉包表達式的範例通過使用幾次迭代展示了`sort(by:)方法定義和語法優化的方式。
 每一次迭代都用更簡潔的方式描述了相同的功能。
 
 <a name="the_sort_function"></a>
 ### sort 函式（The Sort Function）
 
 Swift 標準函式庫提供了`sort`函式，會根據你提供的基於輸出型別排序的閉包函式將已知型別陣列中的值進行排序。
-一旦排序完成，函式會回傳一個與原陣列大小相同的新陣列，該陣列中包含已經正確排序的同型別元素，原本的陣列不會被`sort(_:)`修改。
+一旦排序完成，函式會回傳一個與原陣列大小相同的新陣列，該陣列中包含已經正確排序的同型別元素，原本的陣列不會被`sort(by:)`修改。
 
 下面的閉包表達式示例使用`sort(_:)`函式對一個`String`型別的陣列進行字母逆序排序，以下是初始陣列值：
 
@@ -49,20 +49,20 @@ Swift 標準函式庫提供了`sort`函式，會根據你提供的基於輸出�
 let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
 ```
 
-`sort(_:)`函式需要傳入兩個參數：
+`sort(by:)`函式需要傳入兩個參數：
 
 * 已知型別的陣列
 * 閉包函式，該閉包函式需要傳入與陣列型別相同的兩個值，並回傳一個布林型別值來告訴`sort`函式當排序結束後傳入的第一個參數排在第二個參數前面還是後面。如果第一個參數值出現在第二個參數值前面，排序閉包函式需要回傳`true`，反之回傳`false`。
 
 該範例對一個`String`型別的陣列進行排序，因此排序閉包函式型別需為`(String, String) -> Bool`。
 
-提供排序閉包函式的一種方式是撰寫一個符合其型別要求的普通函式，並將其作為`sort(_:)`函式的第二個參數傳入：
+提供排序閉包函式的一種方式是撰寫一個符合其型別要求的普通函式，並將其作為`sort(by:)`函式的第二個參數傳入：
 
 ```swift
-func backwards(s1: String, s2: String) -> Bool {
+func backwards(_ s1: String, _ s2: String) -> Bool {
     return s1 > s2
 }
-var reversed = names.sort(backwards)
+var reversed = names.sorted(by:backwards)
 // reversed 為 ["Ewa", "Daniella", "Chris", "Barry", "Alex"]
 ```
 
@@ -92,7 +92,7 @@ tuple 也可以作為參數和回傳值。
 下面的範例展示了之前`backwards`函式對應的閉包表達式版本的程式碼：
 
 ```swift
-reversed = names.sort({ (s1: String, s2: String) -> Bool in
+reversed = names.sorted({ by:(s1: String, s2: String) -> Bool in
     return s1 > s2
 })
 ```
@@ -107,10 +107,10 @@ reversed = names.sort({ (s1: String, s2: String) -> Bool in
 因為這個閉包的函式體部分如此短以至於可以將其改寫成一行程式碼：
 
 ```swift
-reversed = names.sort( { (s1: String, s2: String) -> Bool in return s1 > s2 } )
+reversed = names.sorted( by:{ (s1: String, s2: String) -> Bool in return s1 > s2 } )
 ```
 
-這說明`sort(_:)`函式的整體呼叫保持不變，一對圓括號仍然包裹住了函式中整個參數集合。而其中一個參數現在變成了行內閉包（相比於`backwards`版本的程式碼）。
+這說明`sort(by:)`函式的整體呼叫保持不變，一對圓括號仍然包裹住了函式中整個參數集合。而其中一個參數現在變成了行內閉包（相比於`backwards`版本的程式碼）。
 
 <a name="inferring_type_from_context"></a>
 ### 根據上下文推斷型別（Inferring Type From Context）
@@ -120,7 +120,7 @@ reversed = names.sort( { (s1: String, s2: String) -> Bool in return s1 > s2 } )
 因為所有的型別都可以被正確推斷，回傳箭頭 (`->`) 和圍繞在參數周圍的括號也可以被省略：
 
 ```swift
-reversed = names.sort( { s1, s2 in return s1 > s2 } )
+reversed = names.sorted(by: { s1, s2 in return s1 > s2 } )
 ```
 
 實際上任何情況下，通過行內閉包表達式建構的閉包作為參數傳遞給函式時，都可以推斷出閉包的參數和回傳值型別，這意味著你幾乎不需要利用完整格式建構任何行內閉包。
@@ -133,7 +133,7 @@ reversed = names.sort( { s1, s2 in return s1 > s2 } )
 單行表達式閉包可以通過隱藏`return`關鍵字來隱式回傳單行表達式的結果，如上版本的範例可以改寫為：
 
 ```swift
-reversed = names.sort( { s1, s2 in s1 > s2 } )
+reversed = names.sorted( { s1, s2 in s1 > s2 } )
 ```
 
 在這個範例中，`sort(_:)`函式的第二個參數函式型別明確了閉包必須回傳一個`Bool`型別值。
@@ -154,7 +154,7 @@ reversed = names.sort( { $0 > $1 } )
 在這個範例中，`$0`和`$1`表示閉包中第一個和第二個`String`型別的參數。
 
 <a name="operator_functions"></a>
-### 運算子函式（Operator Functions）
+### 運算子函式（Operator Methods）
 
 實際上還有一種更簡短的方式來撰寫上面範例中的閉包表達式。
 Swift 的`String`型別定義了關於大於號 (`>`) 的字串實作，其作為一個函式接受兩個`String`型別的參數並回傳`Bool`型別的值。
@@ -162,7 +162,7 @@ Swift 的`String`型別定義了關於大於號 (`>`) 的字串實作，其作�
 因此，你可以簡單地傳遞一個大於號，Swift 可以自動推斷出你想使用大於號的字串函式實作：
 
 ```swift
-reversed = names.sort(>)
+reversed = names.sorted(by:>)
 ```
 
 更多關於運算子表達式的內容請查看 [運算子函式](../chapter2/23_Advanced_Operators.html#operator_functions)。
@@ -189,16 +189,16 @@ someFunctionThatTakesAClosure() {
 }
 ```
 
-在上例中作為`sort(_:)`函式參數的字串排序閉包可以改寫為：
+在上例中作為`sorted(by:)`函式參數的字串排序閉包可以改寫為：
 
 ```swift
-reversed = names.sort() { $0 > $1 }
+reversed = names.sorted() { $0 > $1 }
 ```
 
 如果函式只需要閉包表達式一個參數，當你使用尾隨閉包時，你甚至可以把`()`省略掉。
 
 ```swift
-reversed = names.sort { $0 > $1 }
+reversed = names.sorted { $0 > $1 }
 
 ```
 
@@ -225,23 +225,23 @@ let numbers = [16, 58, 510]
 你現在可以通過傳遞一個尾隨閉包給`numbers`的`map(_:)`方法來創建對應的`String`版本陣列：
 
 ```swift
-let strings = numbers.map {
-    (var number) -> String in
+let strings = numbers.map { (number) -> String in
+    var number = number
     var output = ""
-    while number > 0 {
+    repeat {
         output = digitNames[number % 10]! + output
         number /= 10
-    }
+    } while number > 0
     return output
 }
-// strings 常數被推斷為字串型別陣列，即 [String]
-// 其值為 ["OneSix", "FiveEight", "FiveOneZero"]
+// strings is inferred to be of type [String]
+// its value is ["OneSix", "FiveEight", "FiveOneZero"]
 ```
 
 `map(_:)`在陣列中為每一個元素呼叫了閉包表達式。
 你不需要指定閉包的輸入參數`number`的型別，因為可以通過要映射的陣列型別進行推斷。
 
-閉包`number`參數被宣告為一個變數參數（變數的具體描述請參看[常數參數和變數參數](../chapter2/06_Functions.html#constant_and_variable_parameters)），因此可以在閉包函式體內對其進行修改。閉包表達式制定了回傳型別為`String`，以表明儲存映射值的新陣列型別為`String`。
+閉包`number`參數被宣告為一個變數參數（變數的具體描述請參看[常數參數和變數參數]），因此可以在閉包函式體內對其進行修改。閉包表達式制定了回傳型別為`String`，以表明儲存映射值的新陣列型別為`String`。
 
 閉包表達式在每次被呼叫的時候創建了一個字串並回傳。
 其使用取餘運算子 (number % 10) 計算最後一位數字並利用`digitNames`字典獲取所映射的字串。
@@ -291,7 +291,7 @@ func makeIncrementor(forIncrement amount: Int) -> () -> Int {
 `makeIncrementor`回傳型別為`() -> Int`。
 這意味著其回傳的是一個函式，而不是一個簡單型別值。
 該函式在每次呼叫時不接受參數只回傳一個`Int`型別的值。
-關於函式回傳其他函式的內容，請查看[函式型別作為回傳型別](../chapter2/06_Functions.html#function_types_as_return_types)。
+關於函式回傳其他函式的內容，請查看[函式型別作為回傳型別]。
 
 `makeIncrementor(forIncrement:)`函式定義了一個整型變數`runningTotal`(初始為`0`) 用來儲存當前跑步總數。
 該值通過`incrementor`回傳。
@@ -347,7 +347,7 @@ incrementByTen()
 
 > 注意：
 > 如果你將閉包賦值給一個類別實例的屬性，並且該閉包通過指向該實例或其成員來捕獲了該實例，你將創建一個在閉包和實例間的強參考環。
-> Swift 使用捕獲列表來打破這種強參考環。更多資訊，請參考 [閉包引起的迴圈強參考](../chapter2/16_Automatic_Reference_Counting.html#strong_reference_cycles_for_closures)。
+> Swift 使用捕獲列表來打破這種強參考環。更多資訊，請參考 [閉包引起的迴圈強參考]。
 
 <a name="closures_are_reference_types"></a>
 ## 閉包是參考型別（Closures Are Reference Types）
