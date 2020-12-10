@@ -526,19 +526,19 @@ default:
 ```swift
 let puzzleInput = "great minds think alike"
 var puzzleOutput = ""
+let charactersToRemove: [Character] = ["a", "e", "i", "o", "u", " "]
+
 for character in puzzleInput {
-    switch character {
-    case "a", "e", "i", "o", "u", " ":
+   if charactersToRemove.contains(character) {
         continue
-    default:
-        puzzleOutput += character
     }
+    puzzleOutput.append(character)
 }
 println(puzzleOutput)
     // 輸出 "grtmndsthnklk"
 ```
 
-在上面的程式碼中，只要匹配到母音字母或者空格字元，就呼叫`continue`語句，使本次迴圈迭代結束，從新開始下次迴圈迭代。這種行為使`switch`匹配到母音字母和空格字元時不做處理，而不是讓每一個匹配到的字元都被列印。
+在上面的程式碼中，只要匹配到母音字母或者空格字元，就呼叫`continue`語句。
 
 <a name="break"></a>
 ### Break
@@ -649,7 +649,7 @@ println(description)
 
 ```swift
 let finalSquare = 25
-var board = Int[](count: finalSquare + 1, repeatedValue: 0)
+var board = [Int](repeating: 0, count: finalSquare + 1)
 board[03] = +08; board[06] = +11; board[09] = +09; board[10] = +02
 board[14] = -10; board[19] = -11; board[22] = -02; board[24] = -08
 var square = 0
@@ -733,6 +733,17 @@ if #available(iOS 10, macOS 10.12, *) {
 } else {
     // Fall back to earlier iOS and macOS APIs
 }
+```
+
+#### 語法:
+
+```
+if #available(platform name version, ..., *) {
+    statements to execute if the APIs are available
+} else {
+    fallback statements to execute if the APIs are unavailable
+}
+
 ```
 
 
