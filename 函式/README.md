@@ -86,7 +86,7 @@ print(greet(person: "Tim", alreadyGreeted: true))
 
 ```
 
-### 無參函式（Functions Without Parameters）
+### 無參數函式（Functions Without Parameters）
 
 函式可以沒有參數。下面這個函式就是一個無參函式，當被呼叫時，它回傳固定的 `String` 訊息：
 

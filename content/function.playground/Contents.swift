@@ -30,4 +30,10 @@ func greet(person:String, alreadyGreeted:Bool) -> String{
 
 print(greet(person: "Tim", alreadyGreeted: false))
 
+func greet(person1:String){
+    print("greet \(person1)")
+}
+
+greet(person1: "Davie")
+
 
