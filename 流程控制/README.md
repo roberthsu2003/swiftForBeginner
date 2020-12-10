@@ -469,11 +469,11 @@ case 分支的模式可以使用`where`語句來判斷額外的條件。
 let yetAnotherPoint = (1, -1)
 switch yetAnotherPoint {
 case let (x, y) where x == y:
-    println("(\(x), \(y)) is on the line x == y")
+    print("(\(x), \(y)) is on the line x == y")
 case let (x, y) where x == -y:
-    println("(\(x), \(y)) is on the line x == -y")
+    print("(\(x), \(y)) is on the line x == -y")
 case let (x, y):
-    println("(\(x), \(y)) is just some arbitrary point")
+    print("(\(x), \(y)) is just some arbitrary point")
 }
 // 輸出 "(1, -1) is on the line x == -y"
 ```
