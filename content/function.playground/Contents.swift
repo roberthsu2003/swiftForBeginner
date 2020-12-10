@@ -55,3 +55,24 @@ let bounds = minMax(array: [8, -6, 2, 109, 3, 71])
 print("最小值是\(bounds.min),最大值是\(bounds.max)")
 
 
+func someFunction(firstParameterName:Int, secondParameterName:Int){
+    
+}
+
+someFunction(firstParameterName: 2, secondParameterName: 5)
+
+func someFunction(argumentLabel parameterName:Int){
+    
+}
+
+someFunction(argumentLabel: 5)
+
+print("Hello! World")
+
+func someFunction(_ firstParameterName:Int, secondParameterName:Int){
+    
+}
+
+someFunction(3, secondParameterName: 6)
+
+
