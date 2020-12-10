@@ -33,13 +33,13 @@ func greet(person: String) -> String {
 該定義描述了函式做什麼，它期望接收什麼和執行結束時它回傳的結果是什麼。這樣的定義使的函式可以在別的地方以一種清晰的方式被呼叫：
 
 ```swift
-println(greet("Anna"))
+print(greet("Anna"))
 // prints "Hello, Anna!"
-println(greet("Brian"))
+print(greet("Brian"))
 // prints "Hello, Brian!
 ```
 
-呼叫 `greet(person:)` 函式時，在圓括號中傳給它一個 `String` 型別的實參。因為這個函式回傳一個 `String` 型別的值，`greet(person:)` 可以被包含在 `println` 的呼叫中，用來輸出這個函式的回傳值，正如上面所示。
+呼叫 `greet(person:)` 函式時，在圓括號中傳給它一個 `String` 型別的實參。因為這個函式回傳一個 `String` 型別的值，`greet(person:)` 可以被包含在 `print` 的呼叫中，用來輸出這個函式的回傳值，正如上面所示。
 
 在 `greet(person:)` 的函式體中，先定義了一個新的名為 `greeting` 的 `String` 常數，同時賦值了給 `person` 的一個簡單問候訊息。然後用 `return` 關鍵字把這個問候回傳出去。一旦 `return greeting` 被呼叫，該函式結束它的執行並回傳 `greeting` 的當前值。
 
