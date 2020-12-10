@@ -534,7 +534,7 @@ for character in puzzleInput {
     }
     puzzleOutput.append(character)
 }
-println(puzzleOutput)
+print(puzzleOutput)
     // 輸出 "grtmndsthnklk"
 ```
 
