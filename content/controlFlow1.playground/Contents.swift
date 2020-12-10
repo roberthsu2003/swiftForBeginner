@@ -34,6 +34,20 @@ case let(x,y) where x == -y:
     print("x==-y")
 case let(x,y):
     print("x=\(x),y=\(y)")
-
     
 }
+
+let puzzleInput = "great minds think alike"
+var puzzleOutput = ""
+let charactersToRemove: [Character] = ["a", "e", "i", "o", "u", " "]
+
+for character in puzzleInput{
+    if charactersToRemove.contains(character){
+        continue
+    }
+    puzzleOutput.append(character)
+}
+
+print(puzzleOutput)
+
+
