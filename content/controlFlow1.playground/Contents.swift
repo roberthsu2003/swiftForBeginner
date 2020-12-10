@@ -50,4 +50,48 @@ for character in puzzleInput{
 
 print(puzzleOutput)
 
+let numberSymbol: Character = "三"  // 中文裡的數字 3
+var possibleIntegerValue: Int?
+
+switch numberSymbol {
+case "1", "١", "一", "๑":
+    possibleIntegerValue = 1
+case "2", "٢", "二", "๒":
+    possibleIntegerValue = 2
+case "3", "٣", "三", "๓":
+    possibleIntegerValue = 3
+case "4", "٤", "四", "๔":
+    possibleIntegerValue = 4
+default:
+    break
+}
+
+if let integerValue = possibleIntegerValue{
+    print(integerValue)
+}else{
+    print("nil")
+}
+
+func greet(person:[String:String]){
+    guard let name = person["name"] else{
+        print("沒有值")
+        return;
+    }
+    
+    print("Hello! \(name)")
+    
+    guard let location = person["location"] else{
+        print("只有name")
+        return
+    }
+    
+    print("name=\(name),location=\(location)")
+    
+    
+}
+
+greet(person: ["name":"abc","location":"taipei"]);
+
+
+
 

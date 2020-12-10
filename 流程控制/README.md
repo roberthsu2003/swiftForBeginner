@@ -579,9 +579,9 @@ default:
     break
 }
 if let integerValue = possibleIntegerValue {
-    println("The integer value of \(numberSymbol) is \(integerValue).")
+    print("The integer value of \(numberSymbol) is \(integerValue).")
 } else {
-    println("An integer value could not be found for \(numberSymbol).")
+    print("An integer value could not be found for \(numberSymbol).")
 }
 // 輸出 "The integer value of 三 is 3."
 ```
