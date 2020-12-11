@@ -14,7 +14,6 @@
 
 在 Swift 中，列舉型別是第一等型別（first-class）。它們采用了很多傳統上只被類別（class)所支援的特征，例如計算型屬性（computed properties)，用於提供關於列舉當前值的附加資訊， 實例方法（instance methods），用於提供和列舉所代表的值相關聯的功能。列舉也可以定義建構函式（initializers）來提供一個初始成員值；可以在原始的實作基礎上擴展它們的功能；可以遵守協定（protocols）來提供標準的功能。
 
-欲了解更多相關功能，請參見[屬性（Properties）](10_Properties.html)，[方法（Methods）](11_Methods.html)，[建構過程（Initialization）](14_Initialization.html)，[擴展（Extensions）](20_Extensions.html)和[協定（Protocols）](21_Protocols.html)。
 
 <a name="enumeration_syntax"></a>
 ## 列舉語法
@@ -31,14 +30,14 @@ enum SomeEnumeration {
 
 ```swift
 enum CompassPoint {
-  case North
-  case South
-  case East
-  case West
+  case north
+  case south
+  case east
+  case west
 }
 ```
 
-一個列舉中被定義的值（例如 `North`，`South`，`East`和`West`）是列舉的_成員值_（或者_成員_）。`case`關鍵詞表明新的一行成員值將被定義。
+一個列舉中被定義的值（例如 `north`，`south`，`east`和`west`）是列舉的_成員值_（或者_成員_）。`case`關鍵詞表明新的一行成員值將被定義。
 
 > 注意：  
 > 不像 C 和 Objective-C 一樣，Swift 的列舉成員在被創建時不會被賦予一個預設的整數值。在上面的`CompassPoints`範例中，`North`，`South`，`East`和`West`不是隱式的等於`0`，`1`，`2`和`3`。相反的，這些不同的列舉成員在`CompassPoint`的一種顯示定義中擁有各自不同的值。  
@@ -47,20 +46,20 @@ enum CompassPoint {
 
 ```swift
 enum Planet {
-  case Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Nepturn
+  case mercury, venus, earth, mars, jupiter, saturn, uranus, nepturn
 }
 ```
 
 每個列舉定義了一個全新的型別。像 Swift 中其他型別一樣，它們的名字（例如`CompassPoint`和`Planet`）必須以一個大寫字母開頭。給列舉型別起一個單數名字而不是復數名字，以便於讀起來更加容易理解：
 
 ```swift
-var directionToHead = CompassPoint.West
+var directionToHead = CompassPoint.west
 ```
 
 `directionToHead`的型別在它被`CompassPoint`的一個可能值初始化時會被推斷。一旦`directionToHead`被宣告為一個`CompassPoint`，你可以使用更短的點語法將其設置為另一個`CompassPoint`的值：
 
 ```swift
-directionToHead = .East
+directionToHead = .east
 ```
 
 `directionToHead`的型別已知時，當設定它的值時，你可以不再寫型別名。使用顯式型別的列舉值可以讓程式碼具有更好的可讀性。
@@ -73,13 +72,13 @@ directionToHead = .East
 ```swift
 directionToHead = .South
 switch directionToHead {
-case .North:
+case .north:
     print("Lots of planets have a north")
-case .South:
+case .south:
     print("Watch out for penguins")
-case .East:
+case .east:
     print("Where the sun rises")
-case .West:
+case .west:
     print("Where the skies are blue")
 }
 // prints "Watch out for penguins"
@@ -87,18 +86,18 @@ case .West:
 
 你可以如此理解這段程式碼：
 
-「考慮`directionToHead`的值。當它等於`.North`，列印`Lots of planets have a north`。當它等於`.South`，列印`Watch out for penguins`。」
+「考慮`directionToHead`的值。當它等於`.north`，列印`Lots of planets have a north`。當它等於`.south`，列印`Watch out for penguins`。」
 
 ...依次類推。
 
-正如在[控制流程（Control Flow）](05_Control_Flow.html)中介紹，當考慮一個列舉的成員們時，一個`switch`語句必須全面。如果忽略了`.West`這種情況，上面那段程式碼將無法通過編譯，因為它沒有考慮到`CompassPoint`的全部成員。全面性的要求確保了列舉成員不會被意外遺漏。
+正如在[控制流程（Control Flow）]中介紹，當考慮一個列舉的成員們時，一個`switch`語句必須全面。如果忽略了`.west`這種情況，上面那段程式碼將無法通過編譯，因為它沒有考慮到`CompassPoint`的全部成員。全面性的要求確保了列舉成員不會被意外遺漏。
 
 當不需要匹配每個列舉成員的時候，你可以提供一個預設`default`分支來涵蓋所有未明確被提出的任何成員：
 
 ```swift
-let somePlanet = Planet.Earth
+let somePlanet = Planet.earth
 switch somePlanet {
-case .Earth:
+case .earth:
     print("Mostly harmless")
 default:
     print("Not a safe place for humans")
@@ -106,6 +105,24 @@ default:
 // prints "Mostly harmless"
 ```
 
+## 可以被for...in使用的列舉
+```
+enum Beverage: CaseIterable {
+    case coffee, tea, juice
+}
+let numberOfChoices = Beverage.allCases.count
+print("\(numberOfChoices) beverages available")
+// Prints "3 beverages available
+```
+
+```
+for beverage in Beverage.allCases {
+    print(beverage)
+}
+// coffee
+// tea
+// juice
+```
 <a name="associated_values"></a>
 ## 關聯值（Associated Values）
 
@@ -115,11 +132,11 @@ default:
 
 例如，假設一個庫存追蹤系統需要利用兩種不同型別的條形碼來追蹤商品。有些商品上標有 UPC-A 格式的一維條碼，它使用數字 0 到 9。每一個條碼都有一個代表「數字系統」的數字，該數字後接 5 個「製造商識別碼」和 5 個「商品識別碼」的數字。最後一個數字是「檢查碼」，用來驗證程式碼是否被正確掃描：
 
-<img width="252" height="120" alt="" src="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Art/barcode_UPC_2x.png">
+![](images/pic1.png)
 
 其他商品上標有 QR 碼格式的二維碼，它可以使用任何 ISO8859-1 字元，並且可以編碼一個最多擁有 2,953 字元的字串:
 
-<img width="169" height="169" alt="" src="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Art/barcode_QR_2x.png">
+![](images/pic2.png)
 
 對於庫存追蹤系統來說，能夠把 UPC-A 碼作為四個整型值的 tuple，和把 QR 碼作為一個任何長度的字串儲存起來是方便的。
 
@@ -127,8 +144,8 @@ default:
 
 ```swift
 enum Barcode {
-  case UPCA(Int, Int, Int, Int)
-  case QRCode(String)
+  case upc(Int, Int, Int, Int)
+  case qrCode(String)
 }
 ```
 
@@ -141,7 +158,7 @@ enum Barcode {
 然後可以使用任何一種條碼型別創建新的條碼，如：
 
 ```swift
-var productBarcode = Barcode.UPCA(8, 85909, 51226, 3)
+var productBarcode = Barcode.upc(8, 85909, 51226, 3)
 ```
 
 以上範例創建了一個名為`productBarcode`的新變數，並且賦給它一個`Barcode.UPCA`的 tuple `(8, 85909, 51226, 3)`。
@@ -149,7 +166,7 @@ var productBarcode = Barcode.UPCA(8, 85909, 51226, 3)
 同一個商品可以被分配給一個不同型別的條形碼，如：
 
 ```swift
-productBarcode = .QRCode("ABCDEFGHIJKLMNOP")
+productBarcode = .qrCode("ABCDEFGHIJKLMNOP")
 ```
 
 這時，原始的`Barcode.UPCA`和其整數值被新的`Barcode.QRCode`和其字串值所替代。條碼的常數和變數可以儲存一個`.UPCA`或者一個`.QRCode`（連同它的關聯值），但是在任何指定時間只能儲存其中之一。
@@ -158,9 +175,9 @@ productBarcode = .QRCode("ABCDEFGHIJKLMNOP")
 
 ```swift
 switch productBarcode {
-case .UPCA(let numberSystem, let manufacturer, let product, let check):
+case .upc(let numberSystem, let manufacturer, let product, let check):
     print("UPC-A with value of \(numberSystem), \(manufacturer), \(product), \(check).")
-case .QRCode(let productCode):
+case .qrCode(let productCode):
     print("QR code with value of \(productCode).")
 }
 // prints "QR code with value of ABCDEFGHIJKLMNOP."
@@ -210,7 +227,7 @@ enum ASCIIControlCharacter: Character {
 
 ```swift
 enum Planet: Int {
-    case Mercury = 1, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune
+    case mercury = 1, venus, earth, mars, jupiter, saturn, uranus, neptune
 }
 ```
 
@@ -223,7 +240,7 @@ enum Planet: Int {
 
 ```swift
 enum CompassPoint: String {
-	case North, South, East, West
+	case north, south, east, west
 }
 ```
 
@@ -236,7 +253,7 @@ let earthsOrder = Planet.Earth.awValue
 // earthsOrder is 3
 
 let sunsetDirection = CompassPoint.West.rawValue
-// sunsetDirection is "West"
+// sunsetDirection is "west"
 ```
 
 ### 使用原始值初始化 (Initializing from a Raw Value)
@@ -250,7 +267,7 @@ let possiblePlanet = Planet(rawValue: 7)
 // possiblePlanet is of type Planet? and equals Planet.Uranus
 ```
 
-然而，並非所有可能的`Int`值都可以找到一個匹配的行星。正因為如此，建構式回傳的是一個的 _optional_ 的列舉成員。在上面的範例中，`possiblePlanet`是`Planet?`型別。
+然而，並非所有可能的`Int`值都可以找到一個匹配的行星。正因為如此，建構式回傳的是一個的 **optional**的列舉成員。在上面的範例中，`possiblePlanet`是`Planet?`型別。
 
 > 注意
 > 初始值建構式是一個可失敗的建構式(failable initializer)，因為並不是每個原始值都可以對應到一個列舉成員。更多資訊請參考[可失敗建構式](../chapter03/05_Declarations.md)

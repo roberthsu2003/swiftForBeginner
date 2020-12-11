@@ -366,10 +366,75 @@ alsoIncrementByTen()
 // 回傳的值為50
 ```
 
+## 可逃脫的閉包 (Escaping Closure)
+可逃脫的閉包是代表自已定義一個function,而這function需要一個closure當作參數,我們可以要求這個closure可以被儲存在function以外的變數
+
+```swift
+var completionHandlers = [() -> Void]()
+func someFunctionWithEscapingClosure(completionHandler: @escaping () -> Void) {
+    completionHandlers.append(completionHandler)
+}
+
+```
+
+```swift
+func someFunctionWithNonescapingClosure(closure: () -> Void) {
+    closure()
+}
+
+class SomeClass {
+    var x = 10
+    func doSomething() {
+        someFunctionWithEscapingClosure { 
+        //escaping closure, 必需使用self
+	        self.x = 100 
+        }
+        someFunctionWithNonescapingClosure {
+        //noescaping closure 
+	        x = 200 
+        }
+    }
+}
+
+let instance = SomeClass()
+instance.doSomething()
+print(instance.x)
+// Prints "200"
+
+completionHandlers.first?()
+print(instance.x)
+// Prints "100
+```
+
+```swift
+class SomeOtherClass {
+    var x = 10
+    func doSomething() {
+        someFunctionWithEscapingClosure { 
+        //escaping closure, 必需使用self的另一種寫法
+        [self] in x = 100 
+        }
+        someFunctionWithNonescapingClosure { 
+        x = 200 
+        }
+    }
+}
+```
+
+```
+struct SomeStruct {
+    var x = 10
+    mutating func doSomething() {
+        someFunctionWithNonescapingClosure { x = 200 }  // Ok
+        someFunctionWithEscapingClosure { x = 100 }     // Error
+    }
+}
+```
 <a name="autoclosures"></a>
+
 ## 自動閉包 (Autoclosures)
 
-_自動閉包(autoclosure)_是一種會自動將傳入函式作為的參數的表達式包起來作為閉包體的閉包，它不接受任何參數，而且在它被呼叫時會回傳它所包含的表達式的值。自動閉包讓你可以延遲執行程式碼，因為閉包內的程式直到閉包被呼叫前都不會被執行。這在程式碼有副作用(side effects)或是計算很困難的時候很有用，因為它讓你可以控制何時執行這些程式。下面展示了閉包如何延遲執行程式碼：
+自動閉包(autoclosure)_是一種會自動將傳入函式作為的參數的表達式包起來作為閉包體的閉包，它不接受任何參數，而且在它被呼叫時會回傳它所包含的表達式的值。自動閉包讓你可以延遲執行程式碼，因為閉包內的程式直到閉包被呼叫前都不會被執行。這在程式碼有副作用(side effects)或是計算很困難的時候很有用，因為它讓你可以控制何時執行這些程式。下面展示了閉包如何延遲執行程式碼：
 
 ```swift
 var customersInLine = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
@@ -430,4 +495,3 @@ for customerClosure in customerClosures {
 
 上面這段程式碼中，`collectCustomerClosures(_:)`不是直接呼叫被當作`customer`傳入的閉包，而是將這個閉包附加在`customerClosures`陣列。這個陣列是在函式外宣告的，這意味著這些陣列中的閉包可以在函式回傳後被執行，所以`customer`必須允許跳脫函式的作用域。
 
-`@autoclosure`和`@noescape`的詳細資訊請看[屬性](../chapter3/06_Attributes.md)
