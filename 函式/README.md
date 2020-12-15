@@ -253,7 +253,7 @@ someFunction(parameterWithoutDefault: 3, parameterWithDefault: 6) // parameterWi
 someFunction(parameterWithoutDefault: 4) // parameterWithDefault is 12
 ```
 
-### 沒有確定數量的引數(variadic Parameters)
+### 沒有確定數量的參數(variadic Parameters)
 
 ```swift
 func arithmeticMean(_ numbers: Double...) -> Double {

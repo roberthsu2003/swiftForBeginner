@@ -17,3 +17,24 @@ func greet(_ person:String,_ hometown:String) -> String{
 }
 
 greet("Bill", "Cupertino")
+
+//有預設值的參數
+func someFunction(parameterWithoutDefault:Int = 3, parameterWithDefault:Int = 12){
+    
+}
+
+someFunction(parameterWithoutDefault: 4)
+someFunction(parameterWithoutDefault: 4, parameterWithDefault: 2)
+someFunction()
+
+//沒有確定數量的引數
+func arithmeticMean(_ numbers:Double...) -> Double{
+    var total:Double = 0;
+    for number in numbers{
+        total += number;
+    }
+    return total / Double(numbers.count)
+}
+
+print(arithmeticMean(1,2,3,4,5,6))
+print(arithmeticMean(2,5,6,9,10))
