@@ -92,7 +92,7 @@ tuple 也可以作為參數和回傳值。
 下面的範例展示了之前`backwards`函式對應的閉包表達式版本的程式碼：
 
 ```swift
-reversed = names.sorted({ by:(s1: String, s2: String) -> Bool in
+var reversed = names.sorted({ by:(s1: String, s2: String) -> Bool in
     return s1 > s2
 })
 ```
@@ -107,7 +107,7 @@ reversed = names.sorted({ by:(s1: String, s2: String) -> Bool in
 因為這個閉包的函式體部分如此短以至於可以將其改寫成一行程式碼：
 
 ```swift
-reversed = names.sorted( by:{ (s1: String, s2: String) -> Bool in return s1 > s2 } )
+var reversed = names.sorted( by:{ (s1: String, s2: String) -> Bool in return s1 > s2 } )
 ```
 
 這說明`sort(by:)`函式的整體呼叫保持不變，一對圓括號仍然包裹住了函式中整個參數集合。而其中一個參數現在變成了行內閉包（相比於`backwards`版本的程式碼）。
