@@ -64,6 +64,6 @@ func swapTwoInts(_ a: inout Int, _ b:inout Int){
 
 var someInt = 3
 var anotherInt = 107
-swap(&someInt, &anotherInt)
+swapTwoInts(&someInt, &anotherInt)
 print("someInt=\(someInt),anotherInt=\(anotherInt)")
 
