@@ -31,3 +31,23 @@ var reversed3 = names.sorted(by:{$0 < $1})
 //
 var reversed4 = names.sorted(by:<)
 
+var reversed5 = names.sorted(by:
+    {(s1:String,s2:String) -> Bool in
+        return s1 < s2}
+)
+
+//將closure寫在最尾部
+
+var reversed6 = names.sorted(){
+    (s1:String,s2:String) -> Bool in
+        return s1 < s2
+    
+}
+
+var reversed7 = names.sorted{
+    (s1:String,s2:String) -> Bool in
+        return s1 < s2
+}
+
+
+
