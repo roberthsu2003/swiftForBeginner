@@ -38,3 +38,32 @@ func arithmeticMean(_ numbers:Double...) -> Double{
 
 print(arithmeticMean(1,2,3,4,5,6))
 print(arithmeticMean(2,5,6,9,10))
+
+/*
+func swapTwoInts(_ a:Int,_ b:Int){
+    var a1 = a
+    var b1 = b
+    let temporary = a1
+    a1 = b1
+    b1 = temporary
+}
+
+var n1 = 666
+var n2 = 888
+
+swapTwoInts(n1, n2)
+*/
+
+//in-out 參數
+
+func swapTwoInts(_ a: inout Int, _ b:inout Int){
+    let temporary = a
+    a = b
+    b = temporary
+}
+
+var someInt = 3
+var anotherInt = 107
+swap(&someInt, &anotherInt)
+print("someInt=\(someInt),anotherInt=\(anotherInt)")
+
