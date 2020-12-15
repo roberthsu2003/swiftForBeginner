@@ -49,5 +49,26 @@ var reversed7 = names.sorted{
         return s1 < s2
 }
 
+let digitNames = [
+    0: "Zero", 1: "One", 2: "Two",   3: "Three", 4: "Four",
+    5: "Five", 6: "Six", 7: "Seven", 8: "Eight", 9: "Nine"
+]
+
+let numbers1 = [16, 58, 510]
+
+let strings = numbers1.map{ (number:Int) -> String in
+    if number == 16 {
+        return "61"
+    }else if number == 58 {
+        return "85"
+    }else if number == 510{
+        return "015"
+    }else{
+        return ""
+    }
+}
+print(strings)
+
+
 
 
