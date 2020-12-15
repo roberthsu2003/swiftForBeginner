@@ -32,3 +32,14 @@ case .earth:
 default:
     print("非人類住的地方")
 }
+
+
+enum Beverage:CaseIterable{
+    case coffe, tea, juice
+}
+
+for item in Beverage.allCases{
+    print(item)
+}
+
+
