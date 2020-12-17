@@ -31,3 +31,18 @@ manager.data.append("some data")
 manager.data.append("some more data")
 print(manager.importer)
 
+
+//computed property
+
+struct Point{
+    var x=0.0, y = 0.0
+}
+
+struct Size{
+    var width = 0.0, height = 0.0
+}
+
+struct Rect{
+    var origin = Point()
+    var size = Size()
+}
