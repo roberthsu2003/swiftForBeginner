@@ -14,18 +14,17 @@
 通常一個`類別`的實例被稱為`物件`。然而在 Swift 中，類別和結構的關係要比在其他語言中更加的密切，本章中所討論的大部分功能都可以用在類別和結構上。因此，我們會主要使用`實例`而不是`物件`。
 
 <a name="comparing_classes_and_structures"></a>
-###類別和結構的比較
+### 類別和結構的比較
 
 Swift 中類別和結構有很多共同點。共同處在於：
 
 * 定義屬性用於儲存值
 * 定義方法用於提供功能
-* 定義下標腳本用於存取值
+* 定義subscript[]用於存取值
 * 定義建構式用於生成初始值
 * 透過擴展以增加預設實作的功能
 * 符合協定以對某類別提供標準功能
 
-更多資訊請參見 [屬性](10_Properties.html)，[方法](11_Methods.html)，[下標腳本](12_Subscripts.html)，[初始過程](14_Initialization.html)，[擴展](20_Extensions.html)，和[協定](21_Protocols.html)。
 
 與結構相比，類別還有如下的附加功能：
 
@@ -34,10 +33,10 @@ Swift 中類別和結構有很多共同點。共同處在於：
 * 解構式允許一個類別實例釋放任何其被分配的資源
 * 參考計數允許對一個類別的多次參考
 
-更多資訊請參見[繼承](http://)，[型別轉換](http://)，[初始化](http://)，和[自動引用計數](http://)。
 
-> 注意：  
-結構在程式碼中傳遞時總是被複製過去，且不使用參考計數。
+> 注意： 
+>  
+結構是`Value Type`在程式碼中傳遞時總是被複製過去，且不使用參考計數。
 
 ### 定義方式
 
@@ -52,7 +51,8 @@ struct SomeStructure {
 }
 ```
 
->  注意：  
+>  注意： 
+>   
 在你每次定義一個新類別或者結構的時候，實際上你是有效地定義了一個新的 Swift 型別。因此請使用 `UpperCamelCase` 這種方式來命名（如 `SomeClass` 和`SomeStructure`等），以便符合標準Swift 型別的大寫命名風格（如`String`，`Int`和`Bool`）。相反的，請使用`lowerCamelCase`這種方式為屬性和方法命名（如`framerate`和`incrementCount`），以便和類別區分。
 
 以下是定義結構和定義類別的示例：
@@ -85,7 +85,7 @@ let someResolution = Resolution()
 let someVideoMode = VideoMode()
 ```
 
-結構和類別都使用建構式語法來生成新的實例。建構式語法的最簡單形式是在結構或者類別的型別名稱後跟隨一個空括弧，如`Resolution()`或`VideoMode()`。這種方式所創建的類別或者結構實例，其屬性會被初始化為預設值。[建構過程](14_Initialization.html)章節會對類別和結構的初始化進行更詳細的討論。
+結構和類別都使用建構式語法來生成新的實例。建構式語法的最簡單形式是在結構或者類別的型別名稱後跟隨一個空括弧，如`Resolution()`或`VideoMode()`。這種方式所創建的類別或者結構實例，其屬性會被初始化為預設值。
 
 ### 屬性存取
 
@@ -112,9 +112,6 @@ someVideoMode.resolution.width = 1280
 print("The width of someVideoMode is now \(someVideoMode.resolution.width)")
 // 輸出 "The width of someVideoMode is now 1280"
 ```
-
-> 注意：  
-> 與 Objective-C 語言不同的是，Swift 允許直接設置結構屬性的子屬性。上面的最後一個範例，就是直接設置了`someVideoMode`中`resolution`屬性的`width`這個子屬性，以上操作並不需要從新設置`resolution`屬性。
 
 ### 結構型別的成員建構式(Memberwise Initializers for structure Types)
 
