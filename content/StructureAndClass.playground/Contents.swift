@@ -52,3 +52,5 @@ tenEighty.frameRate = 25.0
 let alsoTenEighty = tenEighty
 alsoTenEighty.frameRate = 30.0
 print("tenEighty的frameRate是:\(tenEighty.frameRate)")
+
+print(tenEighty === alsoTenEighty)
