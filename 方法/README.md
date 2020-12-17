@@ -21,7 +21,7 @@
 class Counter {
   var count = 0
   func increment() {
-    count++
+    count += 1
   }
   func incrementBy(amount: Int) {
     count += amount
@@ -52,52 +52,6 @@ class Counter {
  // 計數值現在是0
 ```
 
-<a name="local_and_external_parameter"></a>
-### 方法的局部參數名稱和外部參數名稱(Local and External Parameter Names for Methods)
-
-函式參數可以同時有一個局部名稱（在函式體內部使用）和一個外部名稱（在呼叫函式時使用），詳情參見[函式的外部參數名](06_Functions.html)。方法參數也一樣（因為方法就是函式，只是這個函式與某個型別相關聯了）。但是，方法和函式的局部名稱和外部名稱的預設行為是不一樣的。
-
-Swift 中的方法和 Objective-C 中的方法極其相似。像在 Objective-C 中一樣，Swift 中方法的名稱通常用一個介詞指向方法的第一個參數，比如：`with`，`for`，`by`等等。前面的`Counter`類別的範例中`incrementBy`方法就是這樣的。介詞的使用讓方法在被呼叫時能像一個句子一樣被解讀。和函式參數不同，對於方法的參數，Swift 使用不同的預設處理方式，這可以讓方法命名規範更容易寫。
-
-具體來說，Swift  預設僅給方法的第一個參數名稱一個局部參數名稱;預設同時給第二個和後續的參數名稱局部參數名稱和外部參數名稱。這個約定與典型的命名和呼叫約定相適應，與你在寫 Objective-C 的方法時很相似。這個約定還讓表達式方法在呼叫時不需要再限定參數名稱。
-
-看看下面這個`Counter`的另一個版本（它定義了一個更複雜的`incrementBy`方法）：
-
-```swift
-class Counter {
-  var count: Int = 0
-  func incrementBy(amount: Int, numberOfTimes: Int) {
-    count += amount * numberOfTimes
-  }
-}
-```
-
-`incrementBy`方法有兩個參數： `amount`和`numberOfTimes`。預設情況下，Swift 只把`amount`當作一個局部名稱，但是把`numberOfTimes`即看作局部名稱又看作外部名稱。下面呼叫這個方法：
-
-```swift
-let counter = Counter()
-counter.incrementBy(5, numberOfTimes: 3)
-// counter value is now 15
-```
-
-你不必為第一個參數值再定義一個外部變數名：因為從函式名`incrementBy`已經能很清楚地看出它的作用。但是第二個參數，就要被一個外部參數名稱所限定，以便在方法被呼叫時明確它的作用。
-
-這種預設的行為能夠有效的處理方法（method）,類似於在參數`numberOfTimes`前寫一個井字號（`#`）：
-
-```swift
-func incrementBy(amount: Int, #numberOfTimes: Int) {
-  count += amount * numberOfTimes
-}
-```
-
-這種預設行為使上面程式碼意味著：在 Swift 中定義方法使用了與 Objective-C 同樣的語法風格，並且方法將以自然表達式的方式被呼叫。
-
-<a name="modifying_external_parameter"></a>
-### 修改方法的外部參數名稱(Modifying External Parameter Name Behavior for Methods)
-
-有時為方法的第一個參數提供一個外部參數名稱是非常有用的，儘管這不是預設的行為。你可以自己添加一個顯式的外部名稱或者用一個井字號（`#`）作為第一個參數的前綴來把這個局部名稱當作外部名稱使用。
-
-相反，如果你不想為方法的第二個及後續的參數提供一個外部名稱，可以通過使用底線（`_`）作為該參數的顯式外部名稱，這樣做將覆蓋預設行為。
 
 <a name="self_property"></a>
 ## `self`屬性(The self Property)
@@ -108,7 +62,7 @@ func incrementBy(amount: Int, #numberOfTimes: Int) {
 
 ```swift
 func increment() {
-  self.count++
+  self.count += 1
 }
 ```
 
@@ -159,7 +113,7 @@ println("The point is now at (\(somePoint.x), \(somePoint.y))")
 
 上面的`Point`結構定義了一個變異方法（mutating method）`moveByX`，`moveByX`用來移動點。`moveByX`方法在被呼叫時修改了這個點，而不是回傳一個新的點。方法定義時加上`mutating`關鍵字,這才讓方法可以修改值型別的屬性。
 
-注意：不能在結構型別常數上呼叫變異方法，因為常數的屬性不能被改變，即使想改變的是常數的變數屬性也不行，詳情參見[儲存屬性和實例變數]("10_Properties.html")
+注意：不能在結構型別常數上呼叫變異方法，因為常數的屬性不能被改變，即使想改變的是常數的變數屬性也不行
 
 ```swift
 let fixedPoint = Point(x: 3.0, y: 3.0)
@@ -187,26 +141,26 @@ struct Point {
 
 ```swift
 enum TriStateSwitch {
-  case Off, Low, High
+  case off, low, high
   mutating func next() {
     switch self {
-    case Off:
-      self = Low
-    case Low:
-      self = High
-    case High:
-      self = Off
+    case .off:
+      self = .low
+    case .low:
+      self = .high
+    case .high:
+      self = .off
     }
   }
 }
 var ovenLight = TriStateSwitch.Low
 ovenLight.next()
-// ovenLight 現在等於 .High
+// ovenLight 現在等於 .high
 ovenLight.next()
-// ovenLight 現在等於 .Off
+// ovenLight 現在等於 .off
 ```
 
-上面的範例中定義了一個三態開關的列舉。每次呼叫`next`方法時，開關在不同的電源狀態（`Off`，`Low`，`High`）之前迴圈切換。
+上面的範例中定義了一個三態開關的列舉。每次呼叫`next`方法時，開關在不同的電源狀態（`off`，`low`，`high`）之前迴圈切換。
 
 <a name="type_methods"></a>
 ## 型別方法(Type Methods)
@@ -237,22 +191,26 @@ SomeClass.someTypeMethod()
 
 ```swift
 struct LevelTracker {
-  static var highestUnlockedLevel = 1
-  static func unlockLevel(level: Int) {
-    if level > highestUnlockedLevel { highestUnlockedLevel = level }
-  }
-  static func levelIsUnlocked(level: Int) -> Bool {
-    return level <= highestUnlockedLevel
-  }
-  var currentLevel = 1
-  mutating func advanceToLevel(level: Int) -> Bool {
-    if LevelTracker.levelIsUnlocked(level) {
-      currentLevel = level
-      return true
-    } else {
-      return false
+    static var highestUnlockedLevel = 1
+    var currentLevel = 1
+
+    static func unlock(_ level: Int) {
+        if level > highestUnlockedLevel { highestUnlockedLevel = level }
     }
-  }
+
+    static func isUnlocked(_ level: Int) -> Bool {
+        return level <= highestUnlockedLevel
+    }
+
+    @discardableResult
+    mutating func advance(to level: Int) -> Bool {
+        if LevelTracker.isUnlocked(level) {
+            currentLevel = level
+            return true
+        } else {
+            return false
+        }
+    }
 }
 ```
 
