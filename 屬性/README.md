@@ -527,11 +527,11 @@ struct SizedRectangle {
 另外，在全域或局部範圍都可以定義計算型變數和為儲存型變數定義監視器，計算型變數跟計算屬性一樣，回傳一個計算的值而不是儲存值，宣告格式也完全一樣。
 
 > 注意：  
-> 全域的常數或變數都是延遲計算的，跟[延遲儲存屬性](#lazy_stored_properties)相似，不同的地方在於，全域的常數或變數不需要標記`lazy`特性。  
+> 全域的常數或變數都是延遲計算的，跟[延遲儲存屬性]相似，不同的地方在於，全域的常數或變數不需要標記`lazy`特性。  
 > 局部範圍的常數或變數不會延遲計算。  
 
 <a name="type_properties"></a>
-##型別屬性
+## 型別屬性
 
 實例的屬性屬於一個特定型別實例，每次型別實例化後都擁有自己的一套屬性值，實例之間的屬性相互獨立。
 
@@ -547,7 +547,7 @@ struct SizedRectangle {
 > 跟實例的儲存屬性不同，必須給儲存型型別屬性指定預設值，因為型別本身無法在初始化過程中使用建構器給型別屬性賦值。  
 
 <a name="type_property_syntax"></a>
-###型別屬性語法
+### 型別屬性語法
 
 在 C 或 Objective-C 中，靜態常數和靜態變數的定義是通過特定型別加上`global`關鍵字。在 Swift 程式語言中，型別屬性是作為型別定義的一部分寫在型別最外層的花括號內，因此它的作用範圍也就在型別支援的範圍內。
 
@@ -557,18 +557,22 @@ struct SizedRectangle {
 struct SomeStructure {
     static var storedTypeProperty = "Some value."
     static var computedTypeProperty: Int {
-    // 這裡回傳一個 Int 值
+	    return 1
     }
 }
 enum SomeEnumeration {
     static var storedTypeProperty = "Some value."
     static var computedTypeProperty: Int {
-    // 這裡回傳一個 Int 值
-    }
+		  return 6  
+	  }
 }
 class SomeClass {
-    class var computedTypeProperty: Int {
-    // 這裡回傳一個 Int 值
+	 static var storedTypeProperty = "Some value."
+	 static var computedTypeProperty:Int{
+		 return 27
+	 }
+   class var computedTypeProperty: Int {
+	    return 107
     }
 }
 ```
@@ -577,26 +581,27 @@ class SomeClass {
 > 範例中的計算型型別屬性是唯讀的，但也可以定義可讀可寫的計算型型別屬性，跟實例計算屬性的語法類似。  
 
 <a name="querying_and_setting_type_properties"></a>
-###獲取和設置型別屬性的值
+### 獲取和設置型別屬性的值
 
 跟實例的屬性一樣，型別屬性的存取也是通過點運算子來進行，但是，型別屬性是通過型別本身來獲取和設置，而不是通過實例。比如：
 
 ```swift
-println(SomeClass.computedTypeProperty)
-// 輸出 "42"
-
-println(SomeStructure.storedTypeProperty)
-// 輸出 "Some value."
+print(SomeStructure.storedTypeProperty)
+// Prints "Some value."
 SomeStructure.storedTypeProperty = "Another value."
-println(SomeStructure.storedTypeProperty)
-// 輸出 "Another value.」
+print(SomeStructure.storedTypeProperty)
+// Prints "Another value."
+print(SomeEnumeration.computedTypeProperty)
+// Prints "6"
+print(SomeClass.computedTypeProperty)
+// Prints "27
 ```
 
 下面的範例定義了一個結構，使用兩個儲存型型別屬性來表示多個聲道的聲音電平值，每個聲道有一個 0 到 10 之間的整數表示聲音電平值。
 
 後面的圖表展示了如何聯合使用兩個聲道來表示一個立體聲的聲音電平值。當聲道的電平值是 0，沒有一個燈會亮；當聲道的電平值是 10，所有燈點亮。本圖中，左聲道的電平是 9，右聲道的電平是 7。
 
-<img src="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Art/staticPropertiesVUMeter_2x.png" alt="Static Properties VUMeter" width="243" height="357" />
+![](images/pic2.png)
 
 上面所描述的聲道模型使用`AudioChannel`結構來表示：
 
