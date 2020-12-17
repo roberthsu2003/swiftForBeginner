@@ -19,9 +19,9 @@
 
 簡單來說，一個儲存屬性就是儲存在特定類別或結構的實例裡的一個常數或變數，儲存屬性可以是*變數儲存屬性*（用關鍵字`var`定義），也可以是*常數儲存屬性*（用關鍵字`let`定義）。
 
-可以在定義儲存屬性的時候指定預設值，請參考[建構過程](../chapter2/14_Initialization.html)一章的[預設屬性值](../chapter2/14_Initialization.html#default_property_values)一節。也可以在建構過程中設置或修改儲存屬性的值，甚至修改常數儲存屬性的值，請參考[建構過程](../chapter2/14_Initialization.html)一章的[在初始化階段修改常數儲存屬性](../chapter2/14_Initialization.html#modifying_constant_properties_during_initialization)一節。
+可以在定義儲存屬性的時候指定預設值。也可以在建構過程中設置或修改儲存屬性的值，甚至修改常數儲存屬性的值。
 
-下面的範例定義了一個名為`FixedLengthRange`的結構，它描述了一個在創建後無法修改值域寬度的區間：
+下面的範例定義了一個名為`FixedLengthRange`的結構，它描述了一個在建立後無法修改值域寬度的區間：
 
 ```swift
 struct FixedLengthRange {
@@ -34,7 +34,7 @@ rangeOfThreeItems.firstValue = 6
 // 該區間現在表示整數6，7，8
 ```
 
-`FixedLengthRange`的實例包含一個名為`firstValue`的變數儲存屬性和一個名為`length`的常數儲存屬性。在上面的範例中，`length`在創建實例的時候被賦值，因為它是一個常數儲存屬性，所以之後無法修改它的值。
+`FixedLengthRange`的實例包含一個名為`firstValue`的變數儲存屬性和一個名為`length`的常數儲存屬性。在上面的範例中，`length`在建立實例的時候被賦值，因為它是一個常數儲存屬性，所以之後無法修改它的值。
 
 <a name="stored_properties_of_constant_structure_instances"></a>
 ### 常數和儲存屬性
@@ -44,8 +44,8 @@ rangeOfThreeItems.firstValue = 6
 ```swift
 let rangeOfFourItems = FixedLengthRange(firstValue: 0, length: 4)
 // 該區間表示整數0，1，2，3
-rangeOfFourItems.firstValue = 6
-// 儘管 firstValue 是個變數屬性，這裡還是會報錯
+rangeOfFourItems.firstValue = 6 //error
+// 儘管 firstValue 是個變數屬性，這裡還是會出錯
 ```
 
 因為`rangeOfFourItems`宣告成了常數（用`let`關鍵字），即使`firstValue`是一個變數屬性，也無法再修改它了。
@@ -57,7 +57,7 @@ rangeOfFourItems.firstValue = 6
 <a name="lazy_stored_properties"></a>
 ### 延遲儲存屬性
 
-延遲儲存屬性是指當第一次被呼叫的時候才會計算其初始值的屬性。在屬性宣告前使用`@lazy`來標示一個延遲儲存屬性。
+延遲儲存屬性是指當第一次被呼叫的時候才會計算其初始值的屬性。在屬性宣告前使用`lazy`來標示一個延遲儲存屬性。
 
 > 注意：  
 > 必須將延遲儲存屬性宣告成變數（使用`var`關鍵字），因為屬性的值在實例建構完成之前可能無法得到。而常數屬性在建構過程完成之前必須要有初始值，因此無法宣告成延遲屬性。  
@@ -77,7 +77,7 @@ class DataImporter {
 }
 
 class DataManager {
-    @lazy var importer = DataImporter()
+    lazy var importer = DataImporter()
     var data = String[]()
     // 這是提供資料管理功能
 }
@@ -94,7 +94,7 @@ manager.data += "Some more data"
 
 `DataManager`也可能不從文件中導入資料。所以當`DataManager`的實例被創建時，沒必要創建一個`DataImporter`的實例，更明智的是當用到`DataImporter`的時候才去創建它。
 
-由於使用了`@lazy`，`importer`屬性只有在第一次被存取的時候才被創建。比如存取它的屬性`fileName`時：
+由於使用了`lazy`，`importer`屬性只有在第一次被存取的時候才被創建。比如存取它的屬性`fileName`時：
 
 ```swift
 println(manager.importer.fileName)
@@ -134,7 +134,7 @@ struct Rect {
     set(newCenter) {
         origin.x = newCenter.x - (size.width / 2)
         origin.y = newCenter.y - (size.height / 2)
-    }
+	    }
     }
 }
 var square = Rect(origin: Point(x: 0.0, y: 0.0),
@@ -159,10 +159,10 @@ println("square.origin is now at (\(square.origin.x), \(square.origin.y))")
 
 `center`屬性之後被設置了一個新的值`(15, 15)`，表示向右上方移動正方形到如圖所示橙色正方形的位置。設置屬性`center`的值會呼叫 setter 來修改屬性`origin`的`x`和`y`的值，從而實作移動正方形到新的位置。
 
-<img src="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Art/computedProperties_2x.png" alt="Computed Properties sample" width="388" height="387" />
+![](images/pic1.png)
 
 <a name="shorthand_setter_declaration"></a>
-### 便捷 setter 宣告
+### 簡化 setter 宣告
 
 如果計算屬性的 setter 沒有定義表示新值的參數名，則可以使用預設名稱`newValue`。下面是使用了便捷 setter 宣告的`Rect`結構程式碼：
 
@@ -214,7 +214,7 @@ println("the volume of fourByFiveByTwo is \(fourByFiveByTwo.volume)")
 
 *屬性監視器*監控和響應屬性值的變化，每次屬性被設置值的時候都會呼叫屬性監視器，甚至新的值和現在的值相同的時候也不例外。
 
-可以為除了延遲儲存屬性之外的其他儲存屬性添加屬性監視器，也可以通過重載屬性的方式為繼承的屬性（包括儲存屬性和計算屬性）添加屬性監視器。屬性重載請參考[繼承](chapter/13_Inheritance.html)一章的[重載](chapter/13_Inheritance.html#overriding)。
+可以為除了延遲儲存屬性之外的其他儲存屬性添加屬性監視器，也可以通過重載屬性的方式為繼承的屬性（包括儲存屬性和計算屬性）添加屬性監視器。
 
 > 注意：  
 > 不需要為無法重載的計算屬性添加屬性監視器，因為可以通過 setter 直接監控和響應值的變化。  
@@ -270,8 +270,255 @@ stepCounter.totalSteps = 896
 > 注意：  
 > 如果在`didSet`監視器裡為屬性賦值，這個值會替換監視器之前設置的值。  
 
+## 屬性包裝器(Property Wrapper)
+
+屬性包裝器（Property wrapper）在管理屬性存儲方式的程式碼與定義屬性的程式碼之間添加了一層區隔。例如，如果你具有提供線程安全檢查或將其底層數據存儲在資料庫中的屬性，則你必須為每個屬性編寫該程式碼。當使用屬性包裝器時，在定義包裝器時，你只需編寫一次管理程式碼，然後透過將其應用於多個屬性來覆用該管理程式碼。
+
+要定義屬性包裝器，你需要創建一 struct、enum 或 class 來定義 `wrapperValue` 屬性，在下列程式碼中，TwelveOrLess struct 確保包裝的值總是包含小於或等於 12 的數字。你果你要求存儲更大的數字，則存儲 12 作為代替。
+
+```swift
+@propertyWrapper
+struct TwelveOrLess {
+    private var number: Int
+    init() { self.number = 0 }
+    var wrappedValue: Int {
+        get { return number }
+        set { number = min(newValue, 12) }
+    }
+}
+```
+
+該 setter 確保新值小於 12，並且 getter 返回存儲的值。
+
+>
+>上面範例中的 number 宣告將變數標記為 private，期確保 number 僅被用於 TwelveOrLess 的實現中。編寫在任何地方的程式碼都使用 wrappedValue 的 getter 與 setter 來訪問值，並且不能直接使用數字。
+
+透過在屬性之前編寫包裝器的名稱作為特性（Attribute），將包裝器應用於該屬性。這是一個存儲一個小矩形的 struct ，使用與 TwelveOrLess 屬性包裝器實現相同的 “小” 的定義（比較隨意，只是單純是不會大於 12 的矩形）：
+
+```swift
+struct SmallRectangle {
+    @TwelveOrLess var height: Int
+    @TwelveOrLess var width: Int
+}
+
+var rectangle = SmallRectangle()
+print(rectangle.height)
+// Prints "0"
+
+rectangle.height = 10
+print(rectangle.height)
+// Prints "10"
+
+rectangle.height = 24
+print(rectangle.height)
+// Prints "12
+
+```
+
+height 與 width 屬性從 TwelveOrLess 的定中獲取期初始值，該定義將 Twelve.number 設置為 0。存儲數字 10 到 rectangle.height 是成功的，由於它為小的數字。嘗試去儲存 24 實際上存儲是 12 的值，由於 24 對於該屬性 setter 的規則來說太大了。
+當你將包裝器應用於屬性時，則編譯器會合成為包裝器提供存儲的程式碼與提供通過包裝器訪問屬性的程式碼。（屬性包裝器是負責存儲包撞後的值，因此沒有被合成的程式碼）
+你可以編寫使用屬性包裝器行為的程式碼，而不需要採用特殊特性語法的優勢。例如，這是上一個程式碼中的 SmallRectangle 版本，該版本將其屬性明確的包裝在 TwelveOrLess struct 中，而不是將 @TwelveOrLess 編寫為特性：
+
+```swift
+struct SmallRectangle {
+    private var _height = TwelveOrLess()
+    private var _width = TwelveOrLess()
+    var height: Int {
+        get { return _height.wrappedValue }
+        set { _height.wrappedValue = newValue }
+    }
+    var width: Int {
+        get { return _width.wrappedValue }
+        set { _width.wrappedValue = newValue }
+    }
+}
+
+```
+
+_height 和 _width 屬性存儲屬性包裝器 TwelveOrLess 的實例。height 和 width 的 getter 和 setter 包裝了對 wrappedValue 的訪問
+
+```
+@propertyWrapper
+struct SmallNumber {
+    private var maximum: Int
+    private var number: Int
+
+    var wrappedValue: Int {
+        get { return number }
+        set { number = min(newValue, maximum) }
+    }
+
+    init() {
+        maximum = 12
+        number = 0
+    }
+    init(wrappedValue: Int) {
+        maximum = 12
+        number = min(wrappedValue, maximum)
+    }
+    init(wrappedValue: Int, maximum: Int) {
+        self.maximum = maximum
+        number = min(wrappedValue, maximum)
+    }
+}
+```
+
+SmallNumber 的定義包含三個初始化器，init()，init(wrappedValue:), 和 init(wrappedValue:maximum:)，下面的範例用於設置包裝值以及最大值。
+
+當你應用包裝器於屬性時，並且你沒有指定初始值，則 Swift 會使用 init() 初始化器來設置包裝器。例如：
+
+
+
+### 設置包裝屬性初始值
+上面範例中的程式碼透過在 TwelveOrLess 的定義中給數字一個初始值來設置包裝屬性的初始值。使用此屬性包裝器無法為 TwelveOrLess 所包裝的屬性指定其他初始值，例如，SmallRectangle 的定義無法提供 height 或 width 的初始值。為了支持設置初始值或其他自定義，屬性包裝器還需要添加一個初始化器。這是 TwelveOrLess 的擴展版本，稱為 SmallNumber，它定義了設置包裝值得最大值的初始化器。
+
+```
+struct ZeroRectangle {
+    @SmallNumber var height: Int
+    @SmallNumber var width: Int
+}
+
+var zeroRectangle = ZeroRectangle()
+print(zeroRectangle.height, zeroRectangle.width)
+// Prints "0 0"
+
+```
+
+包裝 height 和 width 的 SmallNumber 實例是透過調用 SmallNumber() 創建的。初始化器中的程式碼使用默認值 0 和 12 設置初始包裝值的初始最大值。屬性包裝器仍然提供所有初始值，就像之前在 SmallRectangle 中使用 TwelveOrLess 的範例一樣。但與該範例不同的是 SmallNumber 還支援邊些這些初始值作為宣告的一部分。
+
+當你為屬性指定初始值時，Swift 使用 init(wrapperdValue:) 初始化器來設置包裝器。例如：
+
+```swift
+struct UnitRectangle {
+    @SmallNumber var height: Int = 1
+    @SmallNumber var width: Int = 1
+}
+
+var unitRectangle = UnitRectangle()
+print(unitRectangle.height, unitRectangle.width)
+// Prints "1 1"
+```
+
+當你在帶有包裝器的屬性編寫 =1 時，它將值轉換為對 init(wrappedValue:) 初始化器的調用。包裝 height 和 width 的 SmallNumber 實例是透過調用 SmallNumber(wrappedValue: 1) 所創建的。初始化器使用此處指定的包裝值，並使用默認的最大值 12。
+
+當你在自定義特性後的括號中編寫參數值，Swift 將使用接受這些參數的初始化器來設置包裝器。例如，你想提供一個初始值和一個最大值，Swift 使用 init(wrappedValue: maximum:) 初始化器：
+
+```swift
+struct NarrowRectangle {
+    @SmallNumber(wrappedValue: 2, maximum: 5) var height: Int
+    @SmallNumber(wrappedValue: 3, maximum: 4) var width: Int
+}
+
+var narrowRectangle = NarrowRectangle()
+print(narrowRectangle.height, narrowRectangle.width)
+// Prints "2 3"
+
+narrowRectangle.height = 100
+narrowRectangle.width = 100
+print(narrowRectangle.height, narrowRectangle.width)
+// Prints "5 4"
+```
+
+包裝 height 的 SmallNumber 實例是透過 SmallNumber(wrappedValue: 2, maximum: 5) 創建的，而包裝 width 的實例是透過 SmallNumber(wrappedValue: 3, maximum: 4) 創建的。
+
+透過包含屬性包裝器的參數，你可以在包裝器中設置初始狀態或者在創建包裝器時將其他選項傳遞給包裝器。此語法是使用使用包裝器的最普遍的方式。你可以為特性提供所需的任何參數，然後將它們傳遞給初始戶洽。
+
+當包含屬性包裝器的參數時，你還可以使用賦值指定初始值。Swift 將賦值視為包裝值參數，並使用接受你包含的參數的初始化器。例如
+
+```swift
+truct MixedRectangle {
+    @SmallNumber var height: Int = 1
+    @SmallNumber(maximum: 9) var width: Int = 2
+}
+
+var mixedRectangle = MixedRectangle()
+print(mixedRectangle.height)
+// Prints "1"
+
+mixedRectangle.height = 20
+print(mixedRectangle.height)
+// Prints "12"
+
+```
+
+包裝 height 的 SmallNumber 實例是透過調用 SmallNumber(wrappedValue: 1) 創建的，該實例使用默認的最大值 12。
+
+包裝 width 的實例是透過呼叫 SmallNumber(wrappedValue: 2, maximum: 9) 創建的。
+
+### 從屬性包裝器投射值
+除了包裝值之外，屬性包裝器還可以透過定義投射值（projected value）來暴露其他功能。投射值的名稱與包裝值相同，只是它以 $ 符號作為開頭。因為你的程式碼無法定義以 $ 開頭的屬性，因此投射值永遠不會干擾你定義的屬性。
+
+在上面的 SmallNumber 範例中，如果你嘗試將屬性設置為太大的數字，則屬性包裝器會在存儲該數字之前對它進行調整。下面的程式碼將一個 projectedValue 屬性添加到 SmallNumber 結構中來持續追蹤屬性包裝器在存儲新值之前是否調整了該屬性的新值。
+
+```swift
+@propertyWrapper
+struct SmallNumber {
+    private var number: Int
+    var projectedValue: Bool
+    init() {
+        self.number = 0
+        self.projectedValue = false
+    }
+    var wrappedValue: Int {
+		    get { return number }
+        set {
+            if newValue > 12 {
+                number = 12
+                projectedValue = true
+            } else {
+                number = newValue
+                projectedValue = false
+            }
+        }
+    }
+}
+struct SomeStructure {
+    @SmallNumber var someNumber: Int
+}
+var someStructure = SomeStructure()
+
+someStructure.someNumber = 4
+print(someStructure.$someNumber)
+// Prints "false"
+
+someStructure.someNumber = 55
+print(someStructure.$someNumber)
+// Prints "true
+```
+
+編寫 someStructure.$someNumber 訪問包裝器的投射值。在存儲一個小數字（4 ）之後，someStructure.$someNumber 的值為 false。但是，在嘗試存儲太大的數字（55）後，投射值為 true。
+
+屬性包裝器可以返回任何類型的值作為其投射值。在此範例中，屬性包裝器僅暴露一條訊息（無論數字是否已調整），因此它暴露該 Boolean 值作為其投射值。需要暴露更多訊息的包裝器可以返回某個其他數據類型的實例，也可以返回自身來將包裝器的實例作為起投射值暴露。
+
+當從屬於類型一部分的程式碼（例如屬性 getter 或實例方法）中訪問投射值，可以省略 self. 在屬性名稱之前，就像訪問其他屬性一樣。以下程式碼中的程式碼將包裝器在 height 和 width 周圍的投射值稱為 $height 和 $width：
+
+```
+enum Size {
+    case small, large
+}
+
+struct SizedRectangle {
+    @SmallNumber var height: Int
+    @SmallNumber var width: Int
+
+    mutating func resize(to size: Size) -> Bool {
+        switch size {
+        case .small:
+            height = 10
+            width = 20
+        case .large:
+            height = 100
+            width = 100
+        }
+        return $height || $width
+    }
+}
+```
+
+因為屬性包裝器語法只是具有 getter 和 setter 的語法糖，所以訪問 height 和 width 的行為與訪問任何其他屬性行為相同。例如，resize(to:) 中的程式碼使用其屬性包裝器訪問 height 和 width。如果你調用 resize(to: .large)，則 .large 的 switch case 會將矩形的 height 和 width 設置為 100。包裝器可以防止這些屬性的值大於 12，並將其投射值設置為 true，來記錄它已經被調整的事實。在 resize(to:) 的結尾，return 語句檢查 $height 和 $width 來確定包裝器是否調整了 height 或 width。
+
 <a name="global_and_local_variables"></a>
-##全域變數和局部變數
+## 全域變數和局部變數
 
 計算屬性和屬性監視器所描述的模式也可以用於*全域變數*和*局部變數*，全域變數是在函式、方法、閉包或任何型別之外定義的變數，局部變數是在函式、方法或閉包內部定義的變數。
 
@@ -280,7 +527,7 @@ stepCounter.totalSteps = 896
 另外，在全域或局部範圍都可以定義計算型變數和為儲存型變數定義監視器，計算型變數跟計算屬性一樣，回傳一個計算的值而不是儲存值，宣告格式也完全一樣。
 
 > 注意：  
-> 全域的常數或變數都是延遲計算的，跟[延遲儲存屬性](#lazy_stored_properties)相似，不同的地方在於，全域的常數或變數不需要標記`@lazy`特性。  
+> 全域的常數或變數都是延遲計算的，跟[延遲儲存屬性](#lazy_stored_properties)相似，不同的地方在於，全域的常數或變數不需要標記`lazy`特性。  
 > 局部範圍的常數或變數不會延遲計算。  
 
 <a name="type_properties"></a>
