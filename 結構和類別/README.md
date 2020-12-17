@@ -113,7 +113,7 @@ print("The width of someVideoMode is now \(someVideoMode.resolution.width)")
 // 輸出 "The width of someVideoMode is now 1280"
 ```
 
-### 結構型別的成員建構式(Memberwise Initializers for structure Types)
+### 結構型別的智慧型成員建構式(Memberwise Initializers for structure Types)
 
 所有結構都有一個自動生成的成員建構式，用於初始化新結構實例中成員的屬性。新實例中各個屬性的初始值可以通過屬性的名稱傳遞到成員建構式之中：
 
@@ -121,7 +121,7 @@ print("The width of someVideoMode is now \(someVideoMode.resolution.width)")
 let vga = resolution(width:640, heigth: 480)
 ```
 
-與結構不同，類別實例沒有預設的成員建構式。[建構過程](14_Initialization.html)章節會對建構式進行更詳細的討論。
+與結構不同，類別實例沒有預設的成員建構式。
 
 <a name="structures_and_enumerations_are_value_types"></a>
 ## 結構和列舉是值型別
@@ -165,19 +165,26 @@ print("hd is still \(hd.width	) pixels wide")
 
 在將`hd`賦予給`cinema`的時候，實際上是複製`hd`中所儲存的*值*（*values*），並儲存到新的`cinema`實例中。結果就是兩個完全獨立的實例碰巧包含有相同的數值。由於兩者相互獨立，因此將`cinema`的`width`修改為`2048`並不會影響`hd`中的寬（width）。
 
+![](images/pic1.png)
+
 列舉也遵循相同的行為準則：
 
 ```swift
 enum CompassPoint {
 	case North, South, East, West
+	mutating func turnNorth() {
+        self = .north
+    }
 }
 var currentDirection = CompassPoint.West
 let rememberedDirection = currentDirection
-currentDirection = .East
-if rememberDirection == .West {
-	print("The remembered direction is still .West")
-}
-// 輸出 "The remembered direction is still .West"
+currentDirection.turnNorth()
+
+print("The current direction is \(currentDirection)")
+print("The remembered direction is \(rememberedDirection)")
+// Prints "The current direction is north"
+// Prints "The remembered direction is west
+
 ```
 
 上例中`rememberedDirection`被賦予了`currentDirection`的值（value），實際上它被賦予的是值（value）的一個拷貝。賦值過程結束後再修改`currentDirection`的值並不影響`rememberedDirection`所儲存的原始值（value）的拷貝。
@@ -208,6 +215,8 @@ alsoTenEighty.frameRate = 30.0
 
 因為類別是參考型別，所以`tenEight`和`alsoTenEight`實際上參考的是相同的`VideoMode`實例。換句話說，它們只是同一個實例的兩種叫法。
 
+![](images/pic2.png)
+
 下面，透過`tenEighty`的`frameRate`屬性，我們會發現它正確的顯示了基本`VideoMode`實例新的畫面更新路，其值為`30.0`：
 
 ```swift
@@ -215,9 +224,9 @@ print("The frameRate property of tenEighty is now \(tenEighty.frameRate)")
 // 輸出 "The frameRate property of theEighty is now 30.0"
 ```
 
-需要注意的是`tenEighty`和`alsoTenEighty`被宣告為*常數（（constants）*而不是變數。然而你依然可以改變`tenEighty.frameRate`和`alsoTenEighty.frameRate`,因為這兩個常數本身不會改變。它們並不`儲存`這個`VideoMode`實例，僅僅是對`VideoMode`實例的參考。所以，改變的是被參考的基礎`VideoMode`的`frameRate`參數，而不改變常數的值。
+需要注意的是`tenEighty`和`alsoTenEighty`被宣告為*常數（constants）*而不是變數。然而你依然可以改變`tenEighty.frameRate`和`alsoTenEighty.frameRate`,因為這兩個常數本身不會改變。它們並不`儲存`這個`VideoMode`實例，僅僅是對`VideoMode`實例的參考。所以，改變的是被參考的基礎`VideoMode`的`frameRate`參數，而不改變常數的值。
 
-### 恆等運算子
+### 識別運算子
 
 因為類別是參考型別，有可能有多個常數和變數在後台同時參考某一個類別實例。（對於結構和列舉來說，這並不成立。因為它們作值型別，在被賦予到常數，變數或者傳遞到函式時，總是會被拷貝。）
 
@@ -240,40 +249,10 @@ if tenEighty === alsoTenTighty {
 * 「等價於」表示兩個類型別（class type）的常數或者變數參考同一個類別實例。
 * 「等於」表示兩個實例的值「相等」或「相同」，判定時要遵照類別設計者定義定義的評判標準，因此相比於「相等」，這是一種更加合適的叫法。
 
-當你在定義你的自定義類別和結構的時候，你有義務來決定判定兩個實例「相等」的標準。在章節[運算子函式(Operator Functions)](23_Advanced_Operators.html#operator_functions)中將會詳細介紹實作自定義「等於」和「不等於」運算子的流程。
+當你在定義你的自定義類別和結構的時候，你有義務來決定判定兩個實例「相等」的標準。
 
 ### 指標
 
 如果你有 C，C++ 或者 Objective-C 語言的經驗，那麼你也許會知道這些語言使用指標來參考記憶體地址。一個 Swift 常數或者變數參考一個參考型別的實例與 C 語言中的指標類似，不同的是並不直接指向記憶體中的某個地址，而且也不要求你使用星號（`*`）來表明你在創建一個參考。Swift 中這些參考與其它的常數或變數的定義方式相同。
 
 <a name="choosing_between_classes_and_structures"></a>
-## 類別和結構的選擇
-
-在你的程式碼中，你可以使用類別和結構來定義你的自定義資料型別。
-
-然而，結構實例總是傳遞值，類別實例總是傳遞參考。這意味兩者適用不同的任務。當你的在考慮一個工程專案的資料建構和功能的時候，你需要決定每個資料建構是定義成類別還是結構。
-
-按照一般的準則，當符合一條或多條以下條件時，請考慮使用結構：
-
-* 結構的主要目的是用來封裝少量相關簡單資料值。
-* 有理由預計一個結構實例在賦值或傳遞時，封裝的資料將會被複製而不是被參考。
-* 任何在結構中儲存的值型別屬性，也將會被複製，而不是被參考。
-* 結構不需要去繼承另一個已存在型別的屬性或者行為。
-
-合適的結構候選者包括：
-
-* 幾何形狀的大小，封裝一個`width`屬性和`height`屬性，兩者均為`Double`型別。
-* 一定範圍內的路徑，封裝一個`start`屬性和`length`屬性，兩者均為`Int`型別。
-* 三維坐標系內一點，封裝`x`，`y`和`z`屬性，三者均為`Double`型別。
-
-在所有其它案例中，定義一個類別，生成一個它的實例，並通過參考來管理和傳遞。實際中，這意味著絕大部分的自定義資料建構都應該是類別，而非結構。
-
-<a name="assignment_and_copy_behavior_for_collection_types"></a>
-## 字串、陣列和字典的賦值和賦值行為
-
-Swift 中的`字串（String）`、`陣列（Array）`和`字典（Dictionary）`型別均以結構的形式實作。這意味著這三種型別被指派給常數或變數，或者被傳入函式或方法的時候，他們值是被複製的。
-
-Objective-C 中的`字串（NSString）`、`陣列（NSArray）`和`字典（NSDictionary）`型別均以類別的形式實作，這點與 Swift 不同。`NSString`、`NSArray`和`NSDictionary`在被指派或者傳入函數或方法時不會被複製，而是傳遞以存在實例的參考。
-
-> 注意：
-> 以上是對字串、陣列、字典和其他值的`複製`的描述。在程式碼中，「複製」好像的確有發生過，然而 Swift 實際上只有在真正有必要時才會「複製」。Swift 自動管理所有的複製行為來最佳化效能，所以你不需要避免指派賦值來最佳化效能。
