@@ -45,4 +45,18 @@ struct Size{
 struct Rect{
     var origin = Point()
     var size = Size()
+    var center:Point{
+        get{
+            let centerX = origin.x + (size.width / 2)
+            let centerY = origin.y + (size.height / 2)
+            return Point(x: centerX, y: centerY)
+        }
+    }
 }
+
+var square = Rect(origin: Point(x: 0.0, y: 0.0), size: Size(width: 10.0, height: 10.0))
+
+let initialSquareCenter = square.center
+
+print("矩形的中心x=\(initialSquareCenter.x),中心y=\(initialSquareCenter.y)")
+
