@@ -1,31 +1,26 @@
-> 翻譯：[siemenliu](https://github.com/siemenliu)
-> 校對：[zq54zquan](https://github.com/zq54zquan)
-
-
-# 下標腳本（Subscripts）
+# Subscripts
 -----------------
 
 本頁包含內容：
 
-- [下標腳本語法](#subscript_syntax)
-- [下標腳本用法](#subscript_usage)
-- [下標腳本選項](#subscript_options)
+- [Subscripts語法](#subscript_syntax)
+- [Subscripts用法](#subscript_usage)
+- [Subscripts選項](#subscript_options)
 
-*下標腳本* 可以定義在類別（Class）、結構（structure）和列舉（enumeration）這些目標中，可以認為是存取物件、集合或序列的快捷方式，不需要再呼叫實例的特定的賦值和存取方法。舉例來說，用下標腳本存取一個陣列(Array)實例中的元素可以這樣寫 `someArray[index]` ，存取字典(Dictionary)實例中的元素可以這樣寫 `someDictionary[key]`。
+*‌Subscripts* 可以定義在類別（Class）、結構（structure）和列舉（enumeration）這些目標中，可以認為是存取物件、集合或序列的快捷方式，不需要再呼叫實例的特定的賦值和存取方法。舉例來說，用Subscripts存取一個陣列(Array)實例中的元素可以這樣寫 `someArray[index]` ，存取字典(Dictionary)實例中的元素可以這樣寫 `someDictionary[key]`。
 
-對於同一個目標可以定義多個下標腳本，通過索引值型別的不同來進行重載，而且索引值的個數可以是多個。
+對於同一個目標可以定義多個Subscripts，通過索引值型別的不同來進行重載，而且索引值的個數可以是多個。
 
-> 譯者：這裡附屬腳本重載在本小節中原文並沒有任何演示  
 
 <a name="subscript_syntax"></a>
-## 下標腳本語法
+## Subscripts語法
 
 下標腳本允許你通過在實例後面的方括號中傳入一個或者多個的索引值來對實例進行存取和賦值。語法類似於實例方法和計算型屬性的混合。與定義實例方法類似，定義下標腳本使用`subscript`關鍵字，顯式宣告入參（一個或多個）和回傳型別。與實例方法不同的是下標腳本可以設定為讀寫或唯讀。這種方式又有點像計算型屬性的getter和setter：
 
 ```swift
 subscript(index: Int) -> Int {
     get {
-      // 回傳與入參匹配的Int型別的值
+      // 回傳Int型別的值
     }
 
     set(newValue) {
@@ -40,7 +35,7 @@ subscript(index: Int) -> Int {
 
 ```swift
 subscript(index: Int) -> Int {
-    // 回傳與入參匹配的Int型別的值
+    // 回傳Int型別的值
 }
 ```
 
@@ -66,7 +61,7 @@ println("3的6倍是\(threeTimesTable[6])")
 > `TimesTable`範例是基於一個固定的數學公式。它並不適合開放寫權限來對`threeTimesTable[someIndex]`進行賦值操作，這也是為什麼附屬腳本只定義為唯讀的原因。  
 
 <a name="subscript_usage"></a>
-## 下標腳本用法
+## Subscript用法
 
 根據使用場景不同下標腳本也具有不同的含義。通常下標腳本是用來存取集合（collection），列表（list）或序列（sequence）中元素的快捷方式。你可以在你自己特定的類別或結構中自由的實作下標腳本來提供合適的功能。
 
@@ -79,17 +74,17 @@ numberOfLegs["bird"] = 2
 
 上例定義一個名為`numberOfLegs`的變數並用一個字典字面量初始化出了包含三對鍵值的字典實例。`numberOfLegs`的字典存放值型別推斷為`Dictionary<String, Int>`。字典實例創建完成之後通過下標腳本的方式將整型值`2`賦值到字典實例的索引為`bird`的位置中。
 
-更多關於字典（Dictionary）下標腳本的資訊請參考[讀取和修改字典](../chapter2/04_Collection_Types.html)
+
 
 > 注意：  
 > Swift 中字典的附屬腳本實作中，在`get`部分回傳值是`Int?`，上例中的`numberOfLegs`字典通過附屬腳本回傳的是一個`Int?`或者說「可選的int」，不是每個字典的索引都能得到一個整型值，對於沒有設過值的索引的存取回傳的結果就是`nil`；同樣想要從字典實例中刪除某個索引下的值也只需要給這個索引賦值為`nil`即可。  
 
 <a name="subscript_options"></a>
-## 下標腳本選項
+## Subscript選項
 
-下標腳本允許任意數量的入參索引，並且每個入參型別也沒有限制。下標腳本的回傳值也可以是任何型別。下標腳本可以使用變數參數和可變參數，但使用寫入讀出（in-out）參數或給參數設置預設值都是不允許的。
+Subscript允許任意數量的入參索引，並且每個入參型別也沒有限制。下標腳本的回傳值也可以是任何型別。下標腳本可以使用變數參數和可變參數，但使用寫入讀出（in-out）參數或給參數設置預設值都是不允許的。
 
-一個類別或結構可以根據自身需要提供多個下標腳本實作，在定義下標腳本時通過入參個型別進行區分，使用下標腳本時會自動匹配合適的下標腳本實作執行，這就是*下標腳本的重載*。
+一個類別或結構可以根據自身需要提供多個下標腳本實作，在定義下標腳本時通過入參個型別進行區分，使用下標腳本時會自動匹配合適的下標腳本實作執行，這就是*sbscript的重載*。
 
 一個下標腳本入參是最常見的情況，但只要有合適的場景也可以定義多個下標腳本入參。如下例定義了一個`Matrix`結構，將呈現一個`Double`型別的二維矩陣。`Matrix`結構的下標腳本需要兩個整型參數：
 
@@ -154,9 +149,10 @@ matrix[1, 0] = 3.2
 `Matrix`下標腳本的`getter`和`setter`中同時呼叫了下標腳本入參的`row`和`column`是否有效的判斷。為了方便進行斷言，`Matrix`包含了一個名為`indexIsValid`的成員方法，用來確認入參的`row`或`column`值是否會造成陣列越界：
 
 ```swift
-func indexIsValidForRow(row: Int, column: Int) -> Bool {
+func indexIsValid(row: Int, column: Int) -> Bool {
     return row >= 0 && row < rows && column >= 0 && column < columns
 }
+
 ```
 
 斷言在下標腳本越界時觸發：
@@ -164,4 +160,17 @@ func indexIsValidForRow(row: Int, column: Int) -> Bool {
 ```swift
 let someValue = matrix[2, 2]
 // 斷言將會觸發，因為 [2, 2] 已經超過了matrix的最大長度
+```
+
+## Type Subscript
+
+```swift
+enum Planet: Int {
+    case mercury = 1, venus, earth, mars, jupiter, saturn, uranus, neptune
+    static subscript(n: Int) -> Planet {
+        return Planet(rawValue: n)!
+    }
+}
+let mars = Planet[4]
+print(mars)
 ```
