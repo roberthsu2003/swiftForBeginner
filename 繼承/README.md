@@ -1,7 +1,3 @@
-> 1.0 翻譯：[Hawstein](https://github.com/Hawstein) 校對：[menlongsheng](https://github.com/menlongsheng)
-
-> 2.0 翻譯：[shanksyang](https://github.com/shanksyang) 校對：[shanksyang](https://github.com/shanksyang), [youweit](https://github.com/youweit)
-
 # 繼承（Inheritance）
 -------------------
 
@@ -185,8 +181,7 @@ print("Car: \(car.description)")
 ```
 ####覆寫屬性觀察器（Property Observer）
 
-你可以在屬性覆寫中為一個繼承來的屬性添加屬性觀察器。這樣一來，當繼承來的屬性值發生改變時，你就會被通知到，無論那個屬性原本是如何實現的。關於屬性觀察器的更多內容，請看[屬性觀察器]()。
-
+你可以在屬性覆寫中為一個繼承來的屬性添加屬性觀察器。這樣一來，當繼承來的屬性值發生改變時，你就會被通知到，無論那個屬性原本是如何實現的。
 > 注意：    
 你不可以為繼承來的常量存儲型屬性或繼承來的只讀計算型屬性添加屬性觀察器。
 這些屬性的值是不可以被設置的，所以，為它們提供`willSet`或`didSet`實現是不恰當。此外還要注意，你不可以同時提供覆寫的 setter 和覆寫的屬性觀察器。如果你想觀察屬性值的變化，並且你已經為那個屬性提供了定制的 setter，那麼你在 setter 中就可以觀察到任何值變化了。
@@ -214,9 +209,9 @@ print("AutomaticCar: \(automatic.description)")
 <a name="preventing_overrides"></a>
 ## 防止覆寫
 
-你可以通過把方法，屬性或下標腳本標記為*`final`*來防止它們被覆寫，只需要在宣告關鍵字前加上`@final`特性即可。（例如：`@final var`, `@final func`, `@final class func`, 以及 `@final subscript`）
+你可以通過把方法，屬性或下標腳本標記為*`final`*來防止它們被覆寫，只需要在宣告關鍵字前加上`@final`特性即可。（例如：`final var`, `final func`, `final class func`, 以及 `final subscript`）
 
 如果你覆寫了`final`方法，屬性或下標腳本，在編譯時會報錯。在擴展中，你添加到類別裡的方法，屬性或下標腳本也可以在擴展的定義裡標記為 final。
 
-你可以通過在關鍵字`class`前添加`@final`特性（`@final class`）來將整個類別標記為 final 的，這樣的類別是不可被繼承的，否則會報編譯錯誤。
+你可以通過在關鍵字`class`前添加`@final`特性（`final class`）來將整個類別標記為 final 的，這樣的類別是不可被繼承的，否則會報編譯錯誤。
 
