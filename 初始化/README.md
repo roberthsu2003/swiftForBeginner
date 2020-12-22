@@ -1,25 +1,22 @@
-> 翻譯：[lifedim](https://github.com/lifedim)
-> 校對：[lifedim](https://github.com/lifedim)
-
-# 建構過程（Initialization）
+# 初始化（Initialization）
 
 -----------------
 
 本頁包含內容：
 
 - [儲存型屬性的初始賦值](#setting_initial_values_for_stored_properties)
-- [定制化建構過程](#customizing_initialization)
-- [預設建構器](#default_initializers)
-- [值型別的建構器代理](#initializer_delegation_for_value_types)
-- [類別的繼承和建構過程](#class_inheritance_and_initialization)
-- [通過閉包和函式來設置屬性的預設值](#setting_a_default_property_value_with_a_closure_or_function)
+- [自訂初始化過程](#customizing_initialization)
+- [預設初始器](#default_initializers)
+- [值value type的初始器分派](#initializer_delegation_for_value_types)
+- [類別的繼承和初始化過程](#class_inheritance_and_initialization)
+- [透過closure和函式來設置屬性的預設值](#setting_a_default_property_value_with_a_closure_or_function)
 
 
 建構過程是為了使用某個類別、結構或列舉型別的實例而進行的準備過程。這個過程包含了為實例中的每個屬性設置初始值和為其執行必要的準備和初始化任務。
 
 建構過程是通過定義建構器（`Initializers`）來實作的，這些建構器可以看做是用來創建特定型別實例的特殊方法。與 Objective-C 中的建構器不同，Swift 的建構器無需回傳值，它們的主要任務是保證新實例在第一次使用前完成正確的初始化。
 
-類別實例也可以通過定義析構器（`deinitializer`）在類別實例釋放之前執行特定的清除工作。想了解更多關於析構器的內容，請參考[析構過程](../chapter2/15_Deinitialization.html)。
+類別實例也可以通過定義析構器（`deinitializer`）在類別實例釋放之前執行特定的清除工作。
 
 <a name="setting_initial_values_for_stored_properties"></a>
 ## 儲存型屬性的初始賦值
@@ -31,7 +28,7 @@
 >注意：  
 當你為儲存型屬性設置預設值或者在建構器中為其賦值時，它們的值是被直接設置的，不會觸發任何屬性觀測器（`property observers`）。
 
-### 建構器
+### 初始器
 
 建構器在創建某特定型別的新實例時呼叫。它的最簡形式類似於一個不帶任何參數的實例方法，以關鍵字`init`命名。
 
@@ -52,11 +49,11 @@ println("The default temperature is \(f.temperature)° Fahrenheit")
 // 輸出 "The default temperature is 32.0° Fahrenheit」
 ```
 
-這個結構定義了一個不帶參數的建構器`init`，並在裡面將儲存型屬性`temperature`的值初始化為`32.0`（華攝氏度下水的冰點）。
+這個結構定義了一個不帶參數的初始器`init`，並在裡面將儲存型屬性`temperature`的值初始化為`32.0`（華攝氏度下水的冰點）。
 
 ### 預設屬性值
 
-如前所述，你可以在建構器中為儲存型屬性設置初始值；同樣，你也可以在屬性宣告時為其設置預設值。
+如前所述，你可以在初始器中為儲存型屬性設置初始值；同樣，你也可以在屬性宣告時為其設置預設值。
 
 >注意：  
 如果一個屬性總是使用同一個初始值，可以為其設置一個預設值。無論定義預設值還是在建構器中賦值，最終它們實作的效果是一樣的，只不過預設值跟屬性建構過程結合的更緊密。使用預設值能讓你的建構器更簡潔、更清晰，且能通過預設值自動推導出屬性的型別；同時，它也能讓你充分利用預設建構器、建構器繼承（後續章節將講到）等特性。
@@ -70,11 +67,11 @@ struct Fahrenheit {
 ```
 
 <a name="customizing_initialization"></a>
-## 定制化建構過程
+## 自訂初始化過程
 
 你可以通過輸入參數和可選屬性型別來定制建構過程，也可以在建構過程中修改常數屬性。這些都將在後面章節中提到。
 
-### 建構參數
+### 初始參數
 
 你可以在定義建構器時提供建構參數，為其提供定制化建構所需值的型別和名字。建構器參數的功能和語法跟函式和方法參數相同。
 
@@ -101,7 +98,7 @@ let freezingPointOfWater = Celsius(fromKelvin: 273.15)
 
 第一個建構器擁有一個建構參數，其外部名字為`fromFahrenheit`，內部名字為`fahrenheit`；第二個建構器也擁有一個建構參數，其外部名字為`fromKelvin`，內部名字為`kelvin`。這兩個建構器都將唯一的參數值轉換成攝氏溫度值，並保存在屬性`temperatureInCelsius`中。
 
-### 內部和外部參數名
+### 參數名稱和引數名稱
 
 跟函式和方法參數相同，建構參數也存在一個在建構器內部使用的參數名字和一個在呼叫建構器時使用的外部參數名字。
 
@@ -138,7 +135,26 @@ let veryGreen = Color(0.0, 1.0, 0.0)
 // 報編譯時錯誤，需要外部名稱
 ```
 
-### 可選屬性型別
+### 沒有引數名稱的初始器
+
+```swift
+struct Celsius {
+    var temperatureInCelsius: Double
+    init(fromFahrenheit fahrenheit: Double) {
+        temperatureInCelsius = (fahrenheit - 32.0) / 1.8
+    }
+    init(fromKelvin kelvin: Double) {
+        temperatureInCelsius = kelvin - 273.15
+    }
+    init(_ celsius: Double) {
+        temperatureInCelsius = celsius
+    }
+}
+let bodyTemperature = Celsius(37.0)
+// bodyTemperature.temperatureInCelsius is 37.0
+```
+
+### optioanl屬性型別
 
 如果你定制的型別包含一個邏輯上允許取值為空的儲存型屬性--不管是因為它無法在初始化時賦值，還是因為它可以在之後某個時間點可以賦值為空--你都需要將它定義為可選型別`optional type`。可選型別的屬性將自動初始化為空`nil`，表示這個屬性是故意在初始化時設置為空的。
 
@@ -163,7 +179,7 @@ cheeseQuestion.response = "Yes, I do like cheese.
 
 調查問題在問題提出之後，我們才能得到回答。所以我們將屬性回答`response`宣告為`String?`型別，或者說是可選字串型別`optional String`。當`SurveyQuestion`實例化時，它將自動賦值為空`nil`，表明暫時還不存在此字串。
 
-### 建構過程中常數屬性的修改
+### 初始過程中指定常數屬性的值
 
 只要在建構過程結束前常數的值能確定，你可以在建構過程中的任意時間點修改常數屬性的值。
 
@@ -190,9 +206,9 @@ beetsQuestion.response = "I also like beets. (But not with cheese.)
 ```
 
 <a name="default_initializers"></a>
-## 預設建構器
+## 預設初始器
 
-Swift 將為所有屬性已提供預設值的且自身沒有定義任何建構器的結構或基類別，提供一個預設的建構器。這個預設建構器將簡單的創建一個所有屬性值都設置為預設值的實例。
+Swift 將為所有屬性已提供預設值的且自身沒有定義任何建構器的結構或基類別，提供一個預設的初始器。這個預設建構器將簡單的創建一個所有屬性值都設置為預設值的實例。
 
 下面範例中創建了一個類別`ShoppingListItem`，它封裝了購物清單中的某一項的屬性：名字（`name`）、數量（`quantity`）和購買狀態 `purchase state`。
 
@@ -205,9 +221,9 @@ class ShoppingListItem {
 var item = ShoppingListItem()
 ```
 
-由於`ShoppingListItem`類別中的所有屬性都有預設值，且它是沒有父類別的基類別，它將自動獲得一個可以為所有屬性設置預設值的預設建構器（儘管程式碼中沒有顯式為`name`屬性設置預設值，但由於`name`是可選字串型別，它將預設設置為`nil`）。上面範例中使用預設建構器創造了一個`ShoppingListItem`類別的實例（使用`ShoppingListItem()`形式的建構器語法），並將其賦值給變數`item`。
+由於`ShoppingListItem`類別中的所有屬性都有預設值，且它是沒有父類別的基類別，它將自動獲得一個可以為所有屬性設置預設值的預設建構器（儘管程式碼中沒有顯式為`name`屬性設置預設值，但由於`name`是可選字串型別，它將預設設置為`nil`）。上面範例中使用預設初始器創造了一個`ShoppingListItem`類別的實例（使用`ShoppingListItem()`形式的建構器語法），並將其賦值給變數`item`。
 
-### 結構的逐一成員建構器
+### 結構的智慧型初始器
 
 除上面提到的預設建構器，如果結構對所有儲存型屬性提供了預設值且自身沒有提供定制的建構器，它們能自動獲得一個逐一成員建構器。
 
@@ -225,18 +241,17 @@ let twoByTwo = Size(width: 2.0, height: 2.0)
 ```
 
 <a name="initializer_delegation_for_value_types"></a>
-## 值型別的建構器代理
+## value type的初始器分派
 
-建構器可以通過呼叫其它建構器來完成實例的部分建構過程。這一過程稱為建構器代理，它能減少多個建構器間的程式碼重複。
+初始器可以通過呼叫其它初始器來完成實例的部分建構過程。這一過程稱為初始器分派，它能減少多個初始器間的程式碼重複。
 
-建構器代理的實作規則和形式在值型別和類型別中有所不同。值型別（結構和列舉型別）不支援繼承，所以建構器代理的過程相對簡單，因為它們只能代理任務給本身提供的其它建構器。類別則不同，它可以繼承自其它類別（請參考[繼承](../chapter2/13_Inheritance.html)），這意味著類別有責任保證其所有繼承的儲存型屬性在建構時也能正確的初始化。這些責任將在後續章節[類別的繼承和建構過程](#class_inheritance_and_initialization)中介紹。
-
+初始器代理的實作規則和形式在值型別和類型別中有所不同。值型別（結構和列舉型別）不支援繼承，所以初始器代理的過程相對簡單，因為它們只能代理任務給本身提供的其它建構器。類別則不同，它可以繼承自其它類別，這意味著類別有責任保證其所有繼承的儲存型屬性在建構時也能正確的初始化。
 對於值型別，你可以使用`self.init`在自定義的建構器中參考其它的屬於相同值型別的建構器。並且你只能在建構器內部呼叫`self.init`。
 
 注意，如果你為某個值型別定義了一個定制的建構器，你將無法存取到預設建構器（如果是結構，則無法存取逐一物件建構器）。這個限制可以防止你在為值型別定義了一個更複雜的，完成了重要準備建構器之後，別人還是錯誤的使用了那個自動生成的建構器。
 
 >注意：  
-假如你想通過預設建構器、逐一物件建構器以及你自己定制的建構器為值型別創建實例，我們建議你將自己定制的建構器寫到擴展（`extension`）中，而不是跟值型別定義混在一起。想查看更多內容，請查看[擴展](../chapter2/20_Extensions.html)章節。
+假如你想通過預設建構器、逐一物件建構器以及你自己定制的建構器為值型別創建實例，我們建議你將自己定制的建構器寫到擴展（`extension`）中，而不是跟值型別定義混在一起。
 
 下面範例將定義一個結構`Rect`，用來展現幾何矩形。這個範例需要兩個輔助的結構`Size`和`Point`，它們各自為其所有的屬性提供了初始值`0.0`。
 
@@ -249,7 +264,7 @@ struct Point {
 }
 ```
 
-你可以通過以下三種方式為`Rect`創建實例--使用預設的0值來初始化`origin`和`size`屬性；使用特定的`origin`和`size`實例來初始化；使用特定的`center`和`size`來初始化。在下面`Rect`結構定義中，我們為著三種方式提供了三個自定義的建構器：
+你可以通過以下三種方式為`Rect`創建實例--使用預設的0值來初始化`origin`和`size`屬性；使用特定的`origin`和`size`實例來初始化；使用特定的`center`和`size`來初始化。在下面`Rect`結構定義中，我們為著三種方式提供了三個自定義的初始器：
 
 ```swift
 struct Rect {
@@ -275,7 +290,7 @@ let basicRect = Rect()
 // basicRect 的原點是 (0.0, 0.0)，尺寸是 (0.0, 0.0)
 ```
 
-第二個`Rect`建構器`init(origin:size:)`，在功能上跟結構在沒有自定義建構器時獲得的逐一成員建構器是一樣的。這個建構器只是簡單的將`origin`和`size`的參數值賦給對應的儲存型屬性：
+第二個`Rect`初始器`init(origin:size:)`，在功能上跟結構在沒有自定義初始器時獲得的逐一成員初始器是一樣的。這個初始器只是簡單的將`origin`和`size`的參數值賦給對應的儲存型屬性：
 
 ```swift
 let originRect = Rect(origin: Point(x: 2.0, y: 2.0),
@@ -283,7 +298,7 @@ let originRect = Rect(origin: Point(x: 2.0, y: 2.0),
 // originRect 的原點是 (2.0, 2.0)，尺寸是 (5.0, 5.0)
 ```
 
-第三個`Rect`建構器`init(center:size:)`稍微複雜一點。它先通過`center`和`size`的值計算出`origin`的坐標。然後再呼叫（或代理給）`init(origin:size:)`建構器來將新的`origin`和`size`值賦值到對應的屬性中：
+第三個`Rect`初始器`init(center:size:)`稍微複雜一點。它先通過`center`和`size`的值計算出`origin`的坐標。然後再呼叫（或代理給）`init(origin:size:)`初始器來將新的`origin`和`size`值賦值到對應的屬性中：
 
 let centerRect = Rect(center: Point(x: 4.0, y: 4.0),
 ```swift
@@ -291,50 +306,68 @@ size: Size(width: 3.0, height: 3.0))
 ```
 // centerRect 的原點是 (2.5, 2.5)，尺寸是 (3.0, 3.0)
 
-建構器`init(center:size:)`可以自己將`origin`和`size`的新值賦值到對應的屬性中。然而盡量利用現有的建構器和它所提供的功能來實作`init(center:size:)`的功能，是更方便、更清晰和更直觀的方法。
+初始器`init(center:size:)`可以自己將`origin`和`size`的新值賦值到對應的屬性中。然而盡量利用現有的初始器和它所提供的功能來實作`init(center:size:)`的功能，是更方便、更清晰和更直觀的方法。
 
 >注意：  
-如果你想用另外一種不需要自己定義`init()`和`init(origin:size:)`的方式來實作這個範例，請參考[擴展](../chapter2/20_Extensions.html)。
+如果你想用另外一種不需要自己定義`init()`和`init(origin:size:)`的方式來實作這個範例，請參考[擴展]。
 
 <a name="class_inheritance_and_initialization"></a>
-## 類別的繼承和建構過程
+## 類別的繼承和初始過程
 
-類別裡面的所有儲存型屬性--包括所有繼承自父類別的屬性--都必須在建構過程中設置初始值。
+類別裡面的所有儲存型屬性--包括所有繼承自父類別的屬性--都必須在初始過程中設置初始值。
 
-Swift 提供了兩種型別的類別建構器來確保所有類別實例中儲存型屬性都能獲得初始值，它們分別是指定建構器和便利建構器。
+Swift 提供了兩種型別的類別初始器來確保所有類別實例中儲存型屬性都能獲得初始值，它們分別是指定建構器和便利建構器。
 
-### 指定建構器和便利建構器
+### Designated初始器和Convenience初始器
 
-指定建構器是類別中最主要的建構器。一個指定建構器將初始化類別中提供的所有屬性，並根據父類別鏈往上呼叫父類別的建構器來實作父類別的初始化。
+指定建構器是類別中最主要的建構器。一個Designated初始器將初始化類別中提供的所有屬性，並根據父類別鏈往上呼叫父類別的建構器來實作父類別的初始化。
 
-每一個類別都必須擁有至少一個指定建構器。在某些情況下，許多類別通過繼承了父類別中的指定建構器而滿足了這個條件。具體內容請參考後續章節[自動建構器的繼承](#automatic_initializer_inheritance)。
+每一個類別都必須擁有至少一個指定建構器。在某些情況下，許多類別通過繼承了父類別中的指定建構器而滿足了這個條件。
 
-便利建構器是類別中比較次要的、輔助型的建構器。你可以定義便利建構器來呼叫同一個類別中的指定建構器，並為其參數提供預設值。你也可以定義便利建構器來創建一個特殊用途或特定輸入的實例。
+Convenience初始器是類別中比較次要的、輔助型的建構器。你可以定義Convenience初始器來呼叫同一個類別中的指定建構器，並為其參數提供預設值。你也可以定義Convenience初始器來創建一個特殊用途或特定輸入的實例。
 
-你應當只在必要的時候為類別提供便利建構器，比方說某種情況下通過使用便利建構器來快捷呼叫某個指定建構器，能夠節省更多開發時間並讓類別的建構過程更清、晰明。
+你應當只在必要的時候為類別提供便利建構器，比方說某種情況下通過使用Convenience初始器來快捷呼叫某個Designated初始器，能夠節省更多開發時間並讓類別的建構過程更清、晰明。
 
+### 初始器語法
+
+Designated初始器語法
+
+```swift
+init(parameters) {
+    statements
+}
+```
+
+Convenience初始器
+
+```swift
+convenience init(parameters) {
+    statements
+}
+
+```
 <a name="initialization_chain"></a>
-### 建構器鏈
+### 初始器工作分派
 
-為了簡化指定建構器和便利建構器之間的呼叫關系，Swift 采用以下三條規則來限制建構器之間的代理呼叫：
+為了簡化指定建構器和便利建構器之間的呼叫關系，Swift 采用以下三條規則來限制建構器之間的分派呼叫：
 
 #### 規則 1
-指定建構器必須呼叫其直接父類別的的指定建構器。
+Designate初始器必須呼叫其直接父類別的的Designate初始器。
 
 #### 規則 2
-便利建構器必須呼叫同一類別中定義的其它建構器。
+Convenience初始器必須呼叫同一類別中定義的其它初始器。
 
 #### 規則 3
-便利建構器必須最終以呼叫一個指定建構器結束。
+Convenience初始器必須最終以呼叫一個Designate建構器結束。
 
 一個更方便記憶的方法是：
 
-- 指定建構器必須總是向上代理
-- 便利建構器必須總是橫向代理
+- Designate初始器必須總是向上分派
+- Convenience初始器必須總是橫向分派
 
 這些規則可以通過下面圖例來說明：
 
-![建構器代理圖](https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/Art/initializerDelegation01_2x.png)
+![初始分派圖](images/pic1.png)
 
 如圖所示，父類別中包含一個指定建構器和兩個便利建構器。其中一個便利建構器呼叫了另外一個便利建構器，而後者又呼叫了唯一的指定建構器。這滿足了上面提到的規則2和3。這個父類別沒有自己的父類別，所以規則1沒有用到。
 
@@ -348,7 +381,7 @@ Swift 提供了兩種型別的類別建構器來確保所有類別實例中儲�
 ![複雜建構器代理圖](https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/Art/initializerDelegation02_2x.png)
 
 <a name="two_phase_initialization"></a>
-### 兩段式建構過程
+### 兩段式初始過程
 
 Swift 中類別的建構過程包含兩個階段。第一個階段，每個儲存型屬性通過引入它們的類別的建構器來設置初始值。當每一個儲存型屬性值被確定後，第二階段開始，它給每個類別一次機會在新實例準備使用之前進一步定制它們的儲存型屬性。
 
@@ -395,7 +428,7 @@ Swift 編譯器將執行 4 種有效的安全檢查，以確保兩段式建構�
 
 下圖展示了在假定的子類別和父類別之間建構的階段1：
 ·
-![建構過程階段1](https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/Art/twoPhaseInitialization01_2x.png)
+![建構過程階段1](images/pic2.png)
 
 在這個範例中，建構過程從對子類別中一個便利建構器的呼叫開始。這個便利建構器此時沒法修改任何屬性，它把建構任務代理給同一類別中的指定建構器。
 
@@ -407,7 +440,7 @@ Swift 編譯器將執行 4 種有效的安全檢查，以確保兩段式建構�
 
 以下展示了相同建構過程的階段2：
 
-![構建過程階段2](https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/Art/twoPhaseInitialization02_2x.png)
+![構建過程階段2](images/pic3.png)
 
 父類別中的指定建構器現在有機會進一步來定制實例（儘管它沒有這種必要）。
 
@@ -424,10 +457,54 @@ Swift 編譯器將執行 4 種有效的安全檢查，以確保兩段式建構�
 
 如果你重載的建構器是一個指定建構器，你可以在子類別裡重載它的實作，並在自定義版本的建構器中呼叫父類別版本的建構器。
 
-如果你重載的建構器是一個便利建構器，你的重載過程必須通過呼叫同一類別中提供的其它指定建構器來實作。這一規則的詳細內容請參考[建構器鏈](#initialization_chain)。
+如果你重載的建構器是一個便利建構器，你的重載過程必須通過呼叫同一類別中提供的其它指定建構器來實作。
 
 >注意：  
 與方法、屬性和下標不同，在重載建構器時你沒有必要使用關鍵字`override`。
+
+```swift
+class Vehicle {
+    var numberOfWheels = 0
+    var description: String {
+        return "\(numberOfWheels) wheel(s)"
+    }
+}
+
+let vehicle = Vehicle()
+print("Vehicle: \(vehicle.description)")
+// Vehicle: 0 wheel(s)
+
+
+class Bicycle: Vehicle {
+    override init() {
+        super.init()
+        numberOfWheels = 2
+    }
+}
+
+let bicycle = Bicycle()
+print("Bicycle: \(bicycle.description)")
+// Bicycle: 2 wheel(s)
+
+```
+
+```swift
+class Hoverboard: Vehicle {
+    var color: String
+    init(color: String) {
+        self.color = color
+        // super.init() implicitly called here
+    }
+    override var description: String {
+        return "\(super.description) in a beautiful \(color)"
+    }
+}
+
+let hoverboard = Hoverboard(color: "silver")
+print("Hoverboard: \(hoverboard.description)")
+// Hoverboard: 0 wheel(s) in a beautiful silver
+
+```
 
 <a name="automatic_initializer_inheritance"></a>
 ### 自動建構器的繼承
