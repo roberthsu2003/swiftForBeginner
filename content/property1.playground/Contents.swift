@@ -33,10 +33,7 @@ class StepCounter{
 }
 
 let stepCounter = StepCounter(); //base Class 會有default initializer
-stepCounter.totalSteps = 200;
-stepCounter.totalSteps = 100;
-stepCounter.totalSteps = 300;
-stepCounter.totalSteps = 800;
+stepCounter.totalSteps = 200
 
 class Scores{
     var chinese:Int = 0{
