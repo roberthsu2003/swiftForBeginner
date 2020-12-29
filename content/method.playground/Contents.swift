@@ -35,3 +35,13 @@ if somePoint.isToTheRightOf(x: 1.0){
     print("這個參數x小於實體屬性x")
 }
 
+//如果是結構或列舉,method()會改變實體內的實體屬性，method必需要用 mutating
+
+struct Point1{
+    var x=0.0, y = 0.0
+    mutating func moveBy(x deltaX:Double, y deltaY:Double){
+        x += deltaX
+        y += deltaY
+    }
+}
+
