@@ -38,10 +38,35 @@ if somePoint.isToTheRightOf(x: 1.0){
 //如果是結構或列舉,method()會改變實體內的實體屬性，method必需要用 mutating
 
 struct Point1{
-    var x=0.0, y = 0.0
+    var x = 0.0, y = 0.0
     mutating func moveBy(x deltaX:Double, y deltaY:Double){
         x += deltaX
         y += deltaY
     }
+}
+
+struct LevelTracker{
+    static var highestUnlockedLevel = 1
+    var currentLevel = 1
+    
+    static func unlock(_ level:Int){
+        if level > highestUnlockedLevel{
+            highestUnlockedLevel = level
+        }
+    }
+    
+    static func isUnlocked(_ level: Int) -> Bool {
+        //只能存取type屬性
+            return level <= highestUnlockedLevel
+   }
+    
+    mutating func advance(to level: Int) -> Bool {
+            if LevelTracker.isUnlocked(level) {
+                currentLevel = level
+                return true
+            } else {
+                return false
+            }
+        }
 }
 
