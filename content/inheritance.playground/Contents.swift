@@ -67,3 +67,6 @@ class AutomaticCar:Car{
 let automatic = AutomaticCar()
 automatic.currentSpeed = 35.0
 print("AutomaticCar:\(automatic.description)")
+
+//final class 禁止繼承
+//final var, fianl func, final class func, final subscript 禁止override
