@@ -15,7 +15,7 @@
 <a name="subscript_syntax"></a>
 ## Subscripts語法
 
-下標腳本允許你通過在實例後面的方括號中傳入一個或者多個的索引值來對實例進行存取和賦值。語法類似於實例方法和計算型屬性的混合。與定義實例方法類似，定義下標腳本使用`subscript`關鍵字，顯式宣告入參（一個或多個）和回傳型別。與實例方法不同的是下標腳本可以設定為讀寫或唯讀。這種方式又有點像計算型屬性的getter和setter：
+subscript允許你通過在實例後面的方括號中傳入一個或者多個的索引值來對實例進行存取和賦值。語法類似於實例方法和計算型屬性的混合。與定義實例方法類似，定義下標腳本使用`subscript`關鍵字，顯式宣告入參（一個或多個）和回傳型別。與實例方法不同的是下標腳本可以設定為讀寫或唯讀。這種方式又有點像計算型屬性的getter和setter：
 
 ```swift
 subscript(index: Int) -> Int {
@@ -55,7 +55,7 @@ println("3的6倍是\(threeTimesTable[6])")
 
 在上例中，通過`TimesTable`結構創建了一個用來表示索引值三倍的實例。數值`3`作為結構`建構函式`入參初始化實例成員`multiplier`。
 
-你可以通過下標腳本來得到結果，比如`threeTimesTable[6]`。這條語句存取了`threeTimesTable`的第六個元素，回傳`6`的`3`倍即`18`。
+你可以通過subscript來得到結果，比如`threeTimesTable[6]`。這條語句存取了`threeTimesTable`的第六個元素，回傳`6`的`3`倍即`18`。
 
 >注意：  
 > `TimesTable`範例是基於一個固定的數學公式。它並不適合開放寫權限來對`threeTimesTable[someIndex]`進行賦值操作，這也是為什麼附屬腳本只定義為唯讀的原因。  
