@@ -42,7 +42,7 @@ var c2 = Celsius(27)
 print(c2.temperatureInCelsius)
 
 class SurveyQuestion{
-    var text:String
+    let text:String
     //optional type default value is nil
     var response:String?
     init(text:String){
@@ -56,6 +56,23 @@ class SurveyQuestion{
 
 let cheeseQuestion = SurveyQuestion(text: "Do you like cheese?")
 cheeseQuestion.ask();
+
+//class 有default initialization
+class ShoppingListItem{
+    var name:String?
+    var quantity = 1
+    var purchased = false
+}
+
+var item = ShoppingListItem()
+
+//結構有default initialization
+//結構有memberwise initialization
+struct Size{
+    var width = 0.0, height = 0.0
+}
+
+let twoByTwo = Size(width: 2.0, height: 2.0)
 
 
 
