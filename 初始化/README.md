@@ -1,5 +1,4 @@
 # 初始化（Initialization）
-
 -----------------
 
 本頁包含內容：
@@ -19,7 +18,7 @@
 類別實例也可以通過定義析構器（`deinitializer`）在類別實例釋放之前執行特定的清除工作。
 
 <a name="setting_initial_values_for_stored_properties"></a>
-## 儲存型屬性的初始賦值
+## store property 設定初始值
 
 類別和結構在實例創建時，必須為所有儲存型屬性設置合適的初始值。儲存型屬性的值不能處於一個未知的狀態。
 
