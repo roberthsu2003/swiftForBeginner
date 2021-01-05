@@ -18,6 +18,22 @@ struct Fahrenheit1{
 var f1 = Fahrenheit1()
 print(f1.temperature)
 
+struct Celsius{
+    var temperatureInCelsius:Double
+    init(fromFahrenheit fahrenheit:Double){
+        temperatureInCelsius = (fahrenheit - 32.0) / 1.8
+    }
+    
+    init(fromKelvin kelvin:Double){
+        temperatureInCelsius = kelvin - 273.15
+    }
+}
+
+var c = Celsius(fromFahrenheit: 60)
+print(c.temperatureInCelsius)
+var c1 = Celsius(fromKelvin: 300)
+print(c1.temperatureInCelsius)
+
 
 
 
