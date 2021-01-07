@@ -58,8 +58,7 @@ class RecipeIngredient:Food{
     override convenience init(name:String){
         self.init(name:name, quantity: 1)
     }
-    
-    
+        
 }
 
 
