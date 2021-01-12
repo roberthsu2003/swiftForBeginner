@@ -1,5 +1,3 @@
-> 翻譯：[geek5nan](https://github.com/geek5nan)
-> 校對：[dabing1022](https://github.com/dabing1022)
 
 # 協定
 -----------------
@@ -154,7 +152,7 @@ println("And another one: \(generator.random())")
 ```
 
 <a name="mutating_method_requirements"></a>
-## 突變方法要求
+## 可變方法要求
 
 能在`方法`或`函式`內部改變實例型別的方法稱為`突變方法`。在`值型別(Value Type)`(*譯者注：特指結構和列舉*)中的的`函式`前綴加上`mutating`關鍵字來表示該函式允許改變該實例和其屬性的型別。 這一變換過程在[實例方法(Instance Methods)](11_Methods.html#instance_methods)章節中有詳細描述。
 
@@ -192,6 +190,41 @@ lightSwitch.toggle()
 //lightSwitch 現在的值為 .On
 ```
 
+## 初始化需求
+
+```swift
+protocol SomeProtocol{
+	init(someParameter:Int)
+} 
+```
+
+```swift
+class SomeClass:SomeProtocol{
+	required init(someParameter:Int){
+		// initializer implementation goes here
+	}
+}	
+```
+
+```swift
+protocol SomeProtocol {
+    init()
+}
+
+class SomeSuperClass {
+    init() {
+        // initializer implementation goes here
+    }
+}
+
+class SomeSubClass: SomeSuperClass, SomeProtocol {
+    // "required" from SomeProtocol conformance; "override" from SomeSuperClass
+    required override init() {
+        // initializer implementation goes here
+    }
+}
+
+```
 <a name="protocols_as_types"></a>
 ## 協定型別
 
@@ -260,10 +293,10 @@ protocol DiceGame {
 	func play()
 }
 
-protocol DiceGameDelegate {
-	func gameDidStart(game: DiceGame)
-	func game(game: DiceGame, didStartNewTurnWithDiceRoll diceRoll:Int)
-	func gameDidEnd(game: DiceGame)
+protocol DiceGameDelegate:AnyObject {
+	func gameDidStart(_ game: DiceGame)
+	func game(_ game: DiceGame, didStartNewTurnWithDiceRoll diceRoll:Int)
+	func gameDidEnd(_ game: DiceGame)
 }
 ```
 
@@ -282,7 +315,7 @@ class SnakesAndLadders: DiceGame {
 		board[03] = +08; board[06] = +11; borad[09] = +09; board[10] = +02
 		borad[14] = -10; board[19] = -11; borad[22] = -02; board[24] = -08
 	}
- 	var delegate: DiceGameDelegate?
+ 	weak var delegate: DiceGameDelegate?
  	func play() {
  		square = 0
  		delegate?.gameDidStart(self)
@@ -318,18 +351,18 @@ class SnakesAndLadders: DiceGame {
 ```swift
 class DiceGameTracker: DiceGameDelegate {
     var numberOfTurns = 0
-    func gameDidStart(game: DiceGame) {
+    func gameDidStart(_ game: DiceGame) {
         numberOfTurns = 0
         if game is SnakesAndLadders {
             println("Started a new game of Snakes and Ladders")
         }
         println("The game is using a \(game.dice.sides)-sided dice")
     }
-    func game(game: DiceGame, didStartNewTurnWithDiceRoll diceRoll: Int) {
+    func game(_ game: DiceGame, didStartNewTurnWithDiceRoll diceRoll: Int) {
         ++numberOfTurns
         println("Rolled a \(diceRoll)")
     }
-    func gameDidEnd(game: DiceGame) {
+    func gameDidEnd(_ game: DiceGame) {
         println("The game lasted for \(numberOfTurns) turns")
     }
 }
@@ -367,7 +400,7 @@ game.play()
 
 ```swift
 protocol TextRepresentable {
-	func asText() -> String
+	var textualDescription: String { get }
 }
 ```
 
@@ -375,9 +408,9 @@ protocol TextRepresentable {
 
 ```swift
 extension Dice: TextRepresentable {
-	cun asText() -> String {
-		return "A \(sides)-sided dice"
-	}
+	var textualDescription: String {
+        return "A \(sides)-sided dice"
+    }
 }
 ```
 
@@ -385,21 +418,35 @@ extension Dice: TextRepresentable {
 
 ```swift
 let d12 = Dice(sides: 12,generator: LinearCongruentialGenerator())
-println(d12.asText())
+println(d12.textualDescription)
 // 輸出 "A 12-sided dice"
 ```
 
 `SnakesAndLadders`類別也可以通過`擴展`的方式來遵循協定：
 
 ```swift
-extension SnakeAndLadders: TextRepresentable {
-	func asText() -> String {
-		return "A game of Snakes and Ladders with \(finalSquare) squares"
-	}
+extension SnakesAndLadders: TextRepresentable {
+    var textualDescription: String {
+        return "A game of Snakes and Ladders with \(finalSquare) squares"
+    }
 }
-println(game.asText())
-// 輸出 "A game of Snakes and Ladders with 25 squares"
+print(game.textualDescription)
+// Prints "A game of Snakes and Ladders with 25 squares
+
 ```
+
+```swift
+extension Array: TextRepresentable where Element: TextRepresentable {
+    var textualDescription: String {
+        let itemsAsText = self.map { $0.textualDescription }
+        return "[" + itemsAsText.joined(separator: ", ") + "]"
+    }
+}
+let myDice = [d6, d12]
+print(myDice.textualDescription)
+// Prints "[A 6-sided dice, A 12-sided dice]
+```
+
 
 <a name="declaring_protocol_adoption_with_an_extension"></a>
 ## 通過擴展補充協定宣告

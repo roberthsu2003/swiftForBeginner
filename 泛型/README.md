@@ -1,6 +1,3 @@
-> 翻譯：[takalard](https://github.com/takalard)
-> 校對：[lifedim](https://github.com/lifedim)
-
 # 泛型
 
 ------
@@ -26,10 +23,10 @@
 這裡是一個標準的，非泛型函式`swapTwoInts`,用來交換兩個Int值：
 
 ```swift
-func swapTwoInts(inout a: Int, inout b: Int)
-  let temporaryA = a
-  a = b
-  b = temporaryA
+func swapTwoInts(_ a: inout Int, _ b: inout Int) {
+    let temporaryA = a
+    a = b
+    b = temporaryA
 }
 ```
 
@@ -49,13 +46,13 @@ println("someInt is now \(someInt), and anotherInt is now \(anotherInt)")
 `swapTwoInts`函式是非常有用的，但是它只能交換`Int`值，如果你想要交換兩個`String`或者`Double`，就不得不寫更多的函式，如 `swapTwoStrings`和`swapTwoDoublesfunctions `，如同如下所示：
 
 ```swift
-func swapTwoStrings(inout a: String, inout b: String) {
+func swapTwoStrings(_ a: inout String, _ b: inout String) {
     let temporaryA = a
     a = b
     b = temporaryA
 }
 
-func swapTwoDoubles(inout a: Double, inout b: Double) {
+func swapTwoDoubles(_ a: inout Double, _ b: inout Double) {
     let temporaryA = a
     a = b
     b = temporaryA
@@ -75,18 +72,19 @@ func swapTwoDoubles(inout a: Double, inout b: Double) {
 `泛型函式`可以工作於任何型別，這裡是一個上面`swapTwoInts`函式的泛型版本，用於交換兩個值：
 
 ```swift
-func swapTwoValues<T>(inout a: T, inout b: T) {
+func swapTwoValues<T>(_ a: inout T, _ b: inout T) {
     let temporaryA = a
     a = b
     b = temporaryA
 }
+
 ```
 
 `swapTwoValues`函式主體和`swapTwoInts`函式是一樣的，它只在第一行稍微有那麼一點點不同於`swapTwoInts`，如下所示：
 
 ```swift
-func swapTwoInts(inout a: Int, inout b: Int)
-func swapTwoValues<T>(inout a: T, inout b: T)
+func swapTwoInts(_ a: inout Int, _ b: inout Int)
+func swapTwoValues<T>(_ a: inout T, _ b: inout T)
 ```
 
 
@@ -148,7 +146,7 @@ swapTwoValues(&someString, &anotherString)
 
 下圖展示了一個棧的壓棧(push)/出棧(pop)的行為：
 
-![此處輸入圖片的描述][2]
+![](./images/pic1.png)
 
 1. 現在有三個值在棧中；
 2. 第四個值「pushed」到棧的頂部；
@@ -160,7 +158,7 @@ swapTwoValues(&someString, &anotherString)
 
 ```swift
 struct IntStack {
-    var items = Int[]()
+    var items = [Int]()
     mutating func push(item: Int) {
         items.append(item)
     }
@@ -178,19 +176,19 @@ struct IntStack {
 
 
 ```swift
-struct Stack<T> {
-    var items = T[]()
-    mutating func push(item: T) {
+struct Stack<Element> {
+    var items = [Element]()
+    mutating func push(_ item: Element) {
         items.append(item)
     }
-    mutating func pop() -> T {
+    mutating func pop() -> Element {
         return items.removeLast()
     }
 }
 ```
 
 
-注意到`Stack`的泛型版本基本上和非泛型版本相同，但是泛型版本的占位型別參數為T代替了實際`Int`型別。這種型別參數包含在一對角括號裡（`<T>`），緊隨在結構名字後面。
+注意到`Stack`的泛型版本基本上和非泛型版本相同，但是泛型版本的占位型別參數為T代替了實際`Int`型別。這種型別參數包含在一對角括號裡（`<Element>`），緊隨在結構名字後面。
 
 `T`定義了一個名為「某種型別T」的節點提供給後來用。這種將來型別可以在結構的定義裡任何地方表示為「T」。在這種情況下，`T`在如下三個地方被用作節點：
 
@@ -211,7 +209,7 @@ stackOfStrings.push("cuatro")
 
 下圖將展示`stackOfStrings`如何`push`這四個值進棧的過程：
 
-![此處輸入圖片的描述][3]
+![](./images/pic2.png)
 
 從棧中`pop`並移除值"cuatro"：
 
@@ -221,12 +219,12 @@ let fromTheTop = stackOfStrings.pop()
 ```
 
 下圖展示了如何從棧中pop一個值的過程：
-![此處輸入圖片的描述][4]
+![](./images/pic3.png)
 
 由於`Stack`是泛型型別，所以在 Swift 中其可以用來創建任何有效型別的棧，這種方式如同`Array`和`Dictionary`。
 
 <a name="type_constraints"></a>
-##型別約束
+## 型別約束
 
 `swapTwoValues`函式和`Stack`型別可以作用於任何型別，不過，有的時候對使用在泛型函式和泛型型別上的型別強制約束為某種特定型別是非常有用的。型別約束指定了一個必須繼承自指定類別的型別參數，或者遵循一個特定的協定或協定構成。
 
@@ -253,8 +251,8 @@ func someFunction<T: SomeClass, U: SomeProtocol>(someT: T, someU: U) {
 這裡有個名為`findStringIndex`的非泛型函式，該函式功能是去查找包含一給定`String`值的陣列。若查找到匹配的字串，`findStringIndex`函式回傳該字串在陣列中的索引值（`Int`），反之則回傳`nil`：
 
 ```swift
-func findStringIndex(array: String[], valueToFind: String) -> Int? {
-    for (index, value) in enumerate(array) {
+func findIndex(ofString valueToFind: String, in array: [String]) -> Int? {
+    for (index, value) in array.enumerated() {
         if value == valueToFind {
             return index
         }
@@ -268,10 +266,10 @@ func findStringIndex(array: String[], valueToFind: String) -> Int? {
 
 ```swift
 let strings = ["cat", "dog", "llama", "parakeet", "terrapin"]
-if let foundIndex = findStringIndex(strings, "llama") {
-    println("The index of llama is \(foundIndex)")
+if let foundIndex = findIndex(ofString: "llama", in: strings) {
+    print("The index of llama is \(foundIndex)")
 }
-// 輸出 "The index of llama is 2"
+// Prints "The index of llama is 2
 ```
 
 如果只是針對字串而言查找在陣列中的某個值的索引，用處不是很大，不過，你可以寫出相同功能的泛型函式`findIndex`，用某個型別`T`值替換掉提到的字串。
@@ -279,8 +277,8 @@ if let foundIndex = findStringIndex(strings, "llama") {
 這裡展示如何寫一個你或許期望的`findStringIndex`的泛型版本`findIndex`。請注意這個函式仍然回傳`Int`，是不是有點迷惑呢，而不是泛型型別?那是因為函式回傳的是一個可選的索引數，而不是從陣列中得到的一個可選值。需要提醒的是，這個函式不會編譯，原因在範例後面會說明：
 
 ```swift
-func findIndex<T>(array: T[], valueToFind: T) -> Int? {
-    for (index, value) in enumerate(array) {
+func findIndex<T>(of valueToFind: T, in array:[T]) -> Int? {
+    for (index, value) in array.enumerated() {
         if value == valueToFind {
             return index
         }
@@ -296,8 +294,8 @@ func findIndex<T>(array: T[], valueToFind: T) -> Int? {
 任何`Equatable`型別都可以安全的使用在`findIndex`函式中，因為其保證支援等式操作。為了說明這個事實，當你定義一個函式時，你可以寫一個`Equatable`型別約束作為型別參數定義的一部分：
 
 ```swift
-func findIndex<T: Equatable>(array: T[], valueToFind: T) -> Int? {
-    for (index, value) in enumerate(array) {
+func findIndex<T: Equatable>(of valueToFind: T, in array:[T]) -> Int? {
+    for (index, value) in array.enumerated() {
         if value == valueToFind {
             return index
         }
@@ -312,14 +310,14 @@ func findIndex<T: Equatable>(array: T[], valueToFind: T) -> Int? {
 `findIndex`函式現在則可以成功的編譯過，並且作用於任何遵循`Equatable`的型別，如`Double`或`String`:
 
 ```swift
-let doubleIndex = findIndex([3.14159, 0.1, 0.25], 9.3)
-// doubleIndex is an optional Int with no value, because 9.3 is not in the array
-let stringIndex = findIndex(["Mike", "Malcolm", "Andrea"], "Andrea")
+let doubleIndex = findIndex(of: 9.3, in: [3.14159, 0.1, 0.25])
+// doubleIndex is an optional Int with no value, because 9.3 isn't in the array
+let stringIndex = findIndex(of: "Andrea", in: ["Mike", "Malcolm", "Andrea"])
 // stringIndex is an optional Int containing a value of 2
 ```
 
 <a name="associated_types"></a>
-##關聯型別
+## 關聯型別
 
 當定義一個協定時，有的時候宣告一個或多個關聯型別作為協定定義的一部分是非常有用的。一個關聯型別給定作用於協定部分的型別一個節點名（或*別名*）。作用於關聯型別上實際型別是不需要指定的，直到該協定接受。關聯型別被指定為`typealias`關鍵字。
 
@@ -329,10 +327,10 @@ let stringIndex = findIndex(["Mike", "Malcolm", "Andrea"], "Andrea")
 
 ```swift
 protocol Container {
-    typealias ItemType
-    mutating func append(item: ItemType)
+    associatedtype Item
+    mutating func append(_ item: Item)
     var count: Int { get }
-    subscript(i: Int) -> ItemType { get }
+    subscript(i: Int) -> Item { get }
 }
 ```
 
@@ -355,20 +353,20 @@ protocol Container {
 ```swift
 struct IntStack: Container {
     // original IntStack implementation
-    var items = Int[]()
-    mutating func push(item: Int) {
+    var items = [Int]()
+    mutating func push(_ item: Int) {
         items.append(item)
     }
     mutating func pop() -> Int {
         return items.removeLast()
     }
     // conformance to the Container protocol
-    typealias ItemType = Int
-    mutating func append(item: Int) {
+    typealias Item = Int
+    mutating func append(_ item: Int) {
         self.push(item)
     }
     var count: Int {
-    return items.count
+        return items.count
     }
     subscript(i: Int) -> Int {
         return items[i]
@@ -386,23 +384,23 @@ struct IntStack: Container {
 你也可以生成遵循`Container`協定的泛型`Stack`型別：
 
 ```swift
-struct Stack<T>: Container {
-    // original Stack<T> implementation
-    var items = T[]()
-    mutating func push(item: T) {
+struct Stack<Element>: Container {
+    // original Stack<Element> implementation
+    var items = [Element]()
+    mutating func push(_ item: Element) {
         items.append(item)
     }
-    mutating func pop() -> T {
+    mutating func pop() -> Element {
         return items.removeLast()
     }
     // conformance to the Container protocol
-    mutating func append(item: T) {
+    mutating func append(_ item: Element) {
         self.push(item)
     }
     var count: Int {
-    return items.count
+        return items.count
     }
-    subscript(i: Int) -> T {
+    subscript(i: Int) -> Element {
         return items[i]
     }
 }
@@ -435,27 +433,26 @@ extension Array: Container {}
 這兩個容器可以被檢查出是否是相同型別的容器（雖然它們可以是），但它們確實擁有相同型別的元素。這個需求通過一個型別約束和`where`語句結合來表示：
 
 ```swift
-func allItemsMatch<
-    C1: Container, C2: Container
-    where C1.ItemType == C2.ItemType, C1.ItemType: Equatable>
-    (someContainer: C1, anotherContainer: C2) -> Bool {
+func allItemsMatch<C1: Container, C2: Container>
+    (_ someContainer: C1, _ anotherContainer: C2) -> Bool
+    where C1.Item == C2.Item, C1.Item: Equatable {
 
-        // check that both containers contain the same number of items
+        // Check that both containers contain the same number of items.
         if someContainer.count != anotherContainer.count {
             return false
         }
 
-        // check each pair of items to see if they are equivalent
-        for i in 0..someContainer.count {
+        // Check each pair of items to see if they're equivalent.
+        for i in 0..<someContainer.count {
             if someContainer[i] != anotherContainer[i] {
                 return false
             }
         }
 
-        // all items match, so return true
+        // All items match, so return true.
         return true
-
 }
+
 ```
 
 
@@ -498,21 +495,13 @@ stackOfStrings.push("tres")
 var arrayOfStrings = ["uno", "dos", "tres"]
 
 if allItemsMatch(stackOfStrings, arrayOfStrings) {
-    println("All items match.")
+    print("All items match.")
 } else {
-    println("Not all items match.")
+    print("Not all items match.")
 }
-// 輸出 "All items match."
+// Prints "All items match.
 ```
 
  上面的範例創建一個`Stack`單例來儲存`String`，然後壓了三個字串進棧。這個範例也創建了一個`Array`單例，並初始化包含三個同棧裡一樣的原始字串。即便棧和陣列否是不同的型別，但它們都遵循`Container`協定，而且它們都包含同樣的型別值。你因此可以呼叫`allItemsMatch`函式，用這兩個容器作為它的參數。在上面的範例中，`allItemsMatch`函式正確的顯示了所有的這兩個容器的`items`匹配。
 
-  [1]: ../chapter2/06_Functions.html
-  [2]: https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Art/stackPushPop_2x.png
-  [3]: https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Art/stackPushedFourStrings_2x.png
-  [4]: https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Art/stackPoppedOneString_2x.png
-  [5]: ../chapter2/04_Collection_Types.html
-  [6]: ../chapter2/21_Protocols.html
-  [7]: ../chapter2/21_Protocols.html
-  [8]: #type_constraints
-
+  
