@@ -16,7 +16,7 @@ struct Item{
 
 class VendingMachine{
     var inventory = [
-        "Candy Bar":Item(price: 12, count: 7),
+        "Candy Bar":Item(price: 12, count: 0),
         "Chips":Item(price: 10, count: 4),
         "Pretzels":Item(price: 7, count: 11)
     ]
@@ -47,3 +47,18 @@ class VendingMachine{
         
     }
 }
+
+var vendingMachine = VendingMachine()
+vendingMachine.coinsDeposited = 12
+do{
+    try vendingMachine.vend(itemNamed: "Candy Bar")
+    print("成功購買")
+}catch VendingMachineError.invalidSelection{
+    print("沒有這個商品")
+}catch VendingMachineError.outOfStock{
+    print("賣完了")
+}catch VendingMachineError.insufficientFunds(let coinsNeeded){
+    print("不足\(coinsNeeded)")
+}
+
+
