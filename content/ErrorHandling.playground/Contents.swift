@@ -16,7 +16,7 @@ struct Item{
 
 class VendingMachine{
     var inventory = [
-        "Candy Bar":Item(price: 12, count: 0),
+        "Candy Bar":Item(price: 12, count: 3),
         "Chips":Item(price: 10, count: 4),
         "Pretzels":Item(price: 7, count: 11)
     ]
@@ -60,5 +60,14 @@ do{
 }catch VendingMachineError.insufficientFunds(let coinsNeeded){
     print("不足\(coinsNeeded)")
 }
+
+vendingMachine.coinsDeposited = 12
+if ( try? vendingMachine.vend(itemNamed: "Candy Bar")) == nil {
+    print("購買失敗")
+}else{
+    print("購買成功")
+}
+
+try! vendingMachine.vend(itemNamed: "Candy Bar")
 
 
