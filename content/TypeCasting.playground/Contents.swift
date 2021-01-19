@@ -29,5 +29,24 @@ let library = [
     Song(name: "Never Gonna Give You Up", artist: "Rick Astley")
     ]
 
-var item = library[0]
+var movieCount = 0
+var songCount = 0
+
+for item in library{
+    if item is Movie{
+        movieCount += 1
+    }else if item is Song{
+        songCount += 1
+    }
+}
+
+print("Movie=\(movieCount), Song=\(songCount)")
+
+for item in library{
+    if let movie = item as? Movie{
+        print("Movie:\(movie.name), dir.\(movie.director)")
+    }else if let song = item as? Song{
+        print("Song:\(song.name), by\(song.artist)")
+    }
+}
 
