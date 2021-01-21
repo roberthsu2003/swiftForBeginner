@@ -83,3 +83,20 @@ var someInt = 3
 someInt.square()
 someInt
 
+//subscript
+
+extension Int{
+    subscript(digitIndex:Int) -> Int{
+       var decimalBase = 1
+        for _ in 0..<digitIndex{
+            decimalBase *= 10
+        }
+        return (self / decimalBase) % 10
+    }
+}
+
+74568934[0]
+74568934[1]
+74568934[2]
+74568934[3]
+
