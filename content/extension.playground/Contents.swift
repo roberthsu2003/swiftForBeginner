@@ -58,3 +58,28 @@ extension Rect{
     }
 }
 
+//Method
+
+extension Int{
+    func repetitions(task:() -> Void){
+        for _ in 0..<self{
+            task()
+        }
+    }
+}
+
+3.repetitions(task: {
+    () -> Void in
+    print("Hello!")
+})
+
+extension Int{
+    mutating func square(){
+        self = self * self
+    }
+}
+
+var someInt = 3
+someInt.square()
+someInt
+
