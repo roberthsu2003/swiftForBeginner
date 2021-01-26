@@ -12,3 +12,14 @@ struct SomeStructure:SomeProtocol{
 class SomeClass:SomeProtocol{
     
 }
+
+protocol FullyNamed{
+    var fullName:String{get}
+}
+
+struct Person:FullyNamed{
+    var fullName:String
+}
+
+let john = Person(fullName: "John Appleseed")
+
