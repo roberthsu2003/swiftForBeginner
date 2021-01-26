@@ -74,3 +74,24 @@ enum OnOffSwitch:Togglabl{
 var lightSwich = OnOffSwitch.off
 lightSwich.toggle()
 
+import Foundation
+
+@objc protocol CounterDataSource{
+    //optional requirement
+    @objc optional func increment(forCount count:Int) -> Int
+    @objc optional var fixedIncrement:Int{get}
+}
+
+class Counter:CounterDataSource{
+    
+}
+
+//protocol的繼承
+protocol ParentProtocol{
+    
+}
+//protocol的繼承
+protocol subProtocol:ParentProtocol{
+    
+}
+
