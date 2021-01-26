@@ -40,3 +40,37 @@ class Starship:FullyNamed{
 var ncc1701 = Starship(name: "Enterprise", prefix: "USS")
 ncc1701.fullName
 
+protocol RandomNumberGenerator{
+    //method requirement
+    //requrie
+    func random() -> Double
+}
+
+class LinearCongruentialGenerator:RandomNumberGenerator{
+    
+    func random() -> Double{
+        return 3.656478
+    }
+    
+}
+
+protocol Togglabl{
+    //method requirement
+    mutating func toggle()
+}
+
+enum OnOffSwitch:Togglabl{
+    case off, on
+    mutating func toggle() {
+        switch self{
+            case .off:
+                self = .on
+            case .on:
+                self = .off
+        }
+    }
+}
+
+var lightSwich = OnOffSwitch.off
+lightSwich.toggle()
+
