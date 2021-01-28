@@ -42,5 +42,35 @@ var anotherDouble = 107.0
 swapTwoValues(&someDouble, &anotherDouble)
 print("someDouble=\(someDouble), anotherDouble=\(anotherDouble)")
 
+//傳統 Type
+struct IntStack{
+    var items = [Int]()
+    mutating func push(_ item:Int){
+        items.append(item)
+    }
+    
+    mutating func pop() -> Int{
+        return items.removeLast()
+    }
+}
+
+struct Stack<Element>{
+    var items = [Element]()
+    mutating func push(_ item:Element){
+        items.append(item)
+    }
+    
+    mutating func pop() -> Element{
+        return items.removeLast()
+    }
+}
+
+var stackOfStrings = Stack<String>()
+stackOfStrings.push("uno")
+stackOfStrings.push("dos")
+stackOfStrings.push("tres")
+
+let fromTheTop = stackOfStrings.pop()
+print("fromTheTop=\(fromTheTop)")
 
 
