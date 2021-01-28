@@ -73,4 +73,29 @@ stackOfStrings.push("tres")
 let fromTheTop = stackOfStrings.pop()
 print("fromTheTop=\(fromTheTop)")
 
+func findIndex(ofString valueToFind:String, in array:[String]) -> Int?{
+    for (index, value) in array.enumerated(){
+        if value == valueToFind{
+            return index
+        }
+    }
+    return nil
+}
+
+let strings = ["cat", "dog", "llama", "parakeet", "terrapin"]
+
+if let foundIndex = findIndex(ofString: "dog", in: strings){
+    print("foundIndex=\(foundIndex)")
+}
+
+func findIndex<T:Equatable>(ofString valueToFind:T, in array:[T]) -> Int?{
+    for (index, value) in array.enumerated(){
+        if value == valueToFind{
+            return index
+        }
+    }
+    return nil
+}
+
+
 
