@@ -15,3 +15,9 @@ var x = 0.0, y = 0.0, z = 0.0
 
 //一次定義多個常數
 let x1 = 0.0, y1 = 0.0, z1 = 0.0
+
+//明確宣告資料型別
+var welcomeMessage:String
+//給值
+welcomeMessage = "Hello"
+print(welcomeMessage)
