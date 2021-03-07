@@ -56,3 +56,15 @@ let http200Status = (statusCode:200,description:"ok")
 //透過key取出值
 print("狀態碼:\(http200Status.statusCode)")
 print("狀態訊息:\(http200Status.description)")
+
+var one = 56876
+var two = 78654
+var total = one + two
+
+var three:Int? = 7890
+three = nil
+
+var four:Int! = 6543
+four = nil
+
+
