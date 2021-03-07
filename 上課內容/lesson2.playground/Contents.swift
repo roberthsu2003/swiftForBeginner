@@ -87,3 +87,20 @@ print(1>2)
 print(1 >= 1)
 print(3 != 5)
 print(5 == 5)
+/*
+let contentHeight = 40
+let hasHeader = true
+let rowHeight:Int
+
+if hasHeader{
+    rowHeight = contentHeight + 50
+}else{
+    rowHeight = contentHeight + 20
+}
+ */
+let contentHeight = 40
+let hasHeader = false
+let rowHeight:Int
+
+rowHeight = contentHeight + (hasHeader ? 50 : 20)
+print(rowHeight)
