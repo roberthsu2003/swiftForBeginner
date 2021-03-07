@@ -38,3 +38,21 @@ let age = 35
 let weight = 76.5
 print("我的姓名\(name),幾歲:\(age),體重:\(weight)")
 
+//建立Tuple
+let httpMessage = (404, "Not Found")
+
+//拆解tuple,取出裏面的值
+let (statusCode, statusMessage) = httpMessage
+print("狀態碼:\(statusCode)")
+print("狀態訊息:\(statusMessage)")
+
+//使用index方法
+print("狀態碼:\(httpMessage.0)")
+print("狀態訊息:\(httpMessage.1)")
+
+//建立有key的tuple
+let http200Status = (statusCode:200,description:"ok")
+
+//透過key取出值
+print("狀態碼:\(http200Status.statusCode)")
+print("狀態訊息:\(http200Status.description)")
