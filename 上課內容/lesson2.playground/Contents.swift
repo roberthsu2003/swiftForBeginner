@@ -16,4 +16,15 @@ age2 = nil
 var age3:Int! = 50
 age3 = nil
 
+let possibleNumber = "123"
+let convertedNumber = Int(possibleNumber)
+
+if convertedNumber == nil{
+    //true 程式區塊
+    print("轉換字串成為Int失敗")
+}else{
+    //false 程式區塊
+    print("轉換成功:\(convertedNumber!)")
+}
+
 
