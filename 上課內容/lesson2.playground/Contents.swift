@@ -112,3 +112,12 @@ var userDefinedColorName:String? = nil   //宣告optional Type沒給值,預設�
 
 var colorNameToUse = userDefinedColorName ?? defaultColrName
 print(colorNameToUse)
+
+//範圍運算子
+for index in 1...5{
+    print(index)
+}
+
+for index in 1..<5{
+    print(index)
+}
