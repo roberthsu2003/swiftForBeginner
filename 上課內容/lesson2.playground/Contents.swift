@@ -55,3 +55,20 @@ let num2:Int! = 15
 
 print("num1的值是\(num1!.words)")
 print("num2的值是\(num2.words)")
+
+//指定運算子
+let b = 10
+var a = 5
+a = b
+print(a)
+
+let (x,y) = (1, 2)
+
+//數學運算子
+print(1 + 2)
+print(5 - 3)
+print(2 * 3)
+print(10/3.0)
+
+print("Hello" + "!")
+print(9 % 4)
