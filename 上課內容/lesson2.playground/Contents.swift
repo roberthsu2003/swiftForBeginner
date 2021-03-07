@@ -121,3 +121,28 @@ for index in 1...5{
 for index in 1..<5{
     print(index)
 }
+
+//String
+//建立空字串
+var emptyString = ""
+var anotherEmptyString = String()
+
+if emptyString.isEmpty {
+    print("空字串")
+}
+
+print("anotherEmptyString內的字串數是:\(anotherEmptyString.count)")
+
+//let 不可以修改的字串
+//var 可以修改的字串
+
+var variableString = "Horse"
+variableString += " and carriage"
+print(variableString)
+
+let mString = """
+    根據旅遊業者透露，目前規劃的台帛「旅遊泡泡」採團進團出，雙方每週各飛8班，台灣是華航每週6班，長榮每週2班，帛琉太平洋航空則向台灣虎航溼租飛機，每週飛8班。濕租是指航空公司向其他公司租借飛機，連同機組人員一起租。
+
+旅遊業者指出，帛琉受限機場，只能起降100多人座的單走道飛機，旅客量並不大，但總是好的開始，希望未來能有更多的旅遊泡泡。"""
+
+print(mString)
