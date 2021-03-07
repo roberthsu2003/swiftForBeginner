@@ -143,6 +143,18 @@ print(variableString)
 let mString = """
     根據旅遊業者透露，目前規劃的台帛「旅遊泡泡」採團進團出，雙方每週各飛8班，台灣是華航每週6班，長榮每週2班，帛琉太平洋航空則向台灣虎航溼租飛機，每週飛8班。濕租是指航空公司向其他公司租借飛機，連同機組人員一起租。
 
-旅遊業者指出，帛琉受限機場，只能起降100多人座的單走道飛機，旅客量並不大，但總是好的開始，希望未來能有更多的旅遊泡泡。"""
+旅遊業者指出，帛琉受限機場，只能起降100多人座的單走道飛機，旅客量並不大，但總是好的開始，希望未來能有更多的旅遊泡泡。
+"""
 
 print(mString)
+//建立陣列
+var someInts = [Int]() //建立放Int空陣列
+print("someInts內的元素數量為\(someInts.count)")
+someInts.append(3)
+someInts.append(5)
+someInts.append(7)
+print("someInts內的元素數量為\(someInts.count)")
+print(someInts[0])
+print(someInts[1])
+print(someInts[2])
+
