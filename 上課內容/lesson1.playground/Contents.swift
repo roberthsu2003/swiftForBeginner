@@ -9,3 +9,9 @@ var currentLoginAttempt = 0
 
 print(maximumNumberOfLoginAttempts)
 print(currentLoginAttempt)
+
+//一次定義多個變數
+var x = 0.0, y = 0.0, z = 0.0
+
+//一次定義多個常數
+let x1 = 0.0, y1 = 0.0, z1 = 0.0
