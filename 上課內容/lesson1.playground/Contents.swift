@@ -1,1 +1,2 @@
-print("Hello! swift")
+var str = "Hello! swift"
+print(str)
