@@ -104,3 +104,11 @@ let rowHeight:Int
 
 rowHeight = contentHeight + (hasHeader ? 50 : 20)
 print(rowHeight)
+
+
+//nil運算子
+let defaultColrName = "red"
+var userDefinedColorName:String? = nil   //宣告optional Type沒給值,預設是放nil
+
+var colorNameToUse = userDefinedColorName ?? defaultColrName
+print(colorNameToUse)
