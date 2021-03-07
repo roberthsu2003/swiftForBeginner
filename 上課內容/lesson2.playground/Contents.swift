@@ -49,3 +49,9 @@ if let convertedNumber = Int(possibleNumber){
 }else{
     print("轉換\(possibleNumber)成為整數失敗")
 }
+
+let num1:Int? = 15
+let num2:Int! = 15
+
+print("num1的值是\(num1!.words)")
+print("num2的值是\(num2.words)")
