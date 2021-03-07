@@ -72,3 +72,18 @@ print(10/3.0)
 
 print("Hello" + "!")
 print(9 % 4)
+
+
+var z = 1
+z = z + 1
+
+//複合指定運算子
+var s = 1
+s += 1
+print(s)
+
+//比較運算子
+print(1>2)
+print(1 >= 1)
+print(3 != 5)
+print(5 == 5)
