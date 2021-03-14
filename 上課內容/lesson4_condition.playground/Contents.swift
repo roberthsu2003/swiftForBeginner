@@ -22,3 +22,13 @@ if temperatureInFahrenheit <= 32{
 }else{
     print("有點冷")
 }
+
+let anotherCharacter:Character = "A"
+switch anotherCharacter {
+case "a","A":
+    print("是a或A")
+case "b","B":
+    print("是b或B")
+default:
+    print("不是a,A也不是b,B")
+}
