@@ -49,3 +49,22 @@ case 100..<1000:
 default:
     print("1000以上")
 }
+
+//利用tupe和範圍運算同時比對2個值
+//座標比對
+
+let somePoint = (0, 0)
+switch somePoint{
+case (0,0):
+    print("在中心點")
+case (_,0):
+    print("在x軸上")
+case (0,_):
+    print("在y軸上")
+case (-2...2, -2...2):
+    print("在範圍內")
+default:
+    print("在其他區域")
+}
+
+
