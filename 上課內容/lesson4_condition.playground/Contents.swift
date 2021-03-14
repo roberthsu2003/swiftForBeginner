@@ -67,4 +67,18 @@ default:
     print("在其他區域")
 }
 
+//value binding
+
+let anotherPoint = (2, 2)
+switch anotherPoint{
+case(0,0):
+    print("在中心點")
+case(let x,0):
+    print("在x軸上,x座標是\(x)")
+case(0, let y):
+    print("在y軸上,y座標是\(y)")
+case(let x, let y):
+    print("x,y在範圍內,x是\(x),y是\(y)")
+}
+
 
