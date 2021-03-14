@@ -197,3 +197,9 @@ func someFunction6(){
     
 }
 someFunction6()
+
+if #available(iOS 10,macOS 10.12, *){
+    print("執行ios10以上的程式")
+}else{
+    print("執行ios10以下的程式(比較舊的)")
+}
