@@ -102,6 +102,9 @@ func someFunction(){
 }
 someFunction()
 
+
+
+//guard  else,配合optional binding
 var optionValue:Int? = 3
 
 func someFunction1(){
