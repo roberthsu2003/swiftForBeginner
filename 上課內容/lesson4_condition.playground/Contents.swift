@@ -81,4 +81,16 @@ case(let x, let y):
     print("x,y在範圍內,x是\(x),y是\(y)")
 }
 
+//value binding and where
+let yetAnotherPoint = (1, -1)
+switch yetAnotherPoint {
+case let(x,y) where x == y:
+    print("x,y是相同值")
+case let(x,y) where x == -y:
+    print("x == -y")
+case let (x,y):
+    print("x=\(x), y=\(y)")
+
+}
+
 
