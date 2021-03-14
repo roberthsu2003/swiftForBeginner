@@ -15,6 +15,8 @@ for index in 1...5 {
     print("\(index) times 5 is \(index*5)")
 }
 
+
+
 let base = 3
 let power = 10
 var answer = 1
@@ -37,3 +39,25 @@ for tickMark in stride(from: 0, to: minutes, by: minuteInterval){
 for tickMark in stride(from: 0, through: minutes, by: minuteInterval){
     print(tickMark)
 }
+
+var deposit = 0
+let price = 61357
+var month = 0
+
+while deposit < price{
+    month += 1
+    deposit += Int.random(in: 3000...5000)
+}
+
+print("存款了\(month)個月，目前已經存\(deposit),可以購買機車了")
+
+deposit = 0
+month = 0
+while true{
+    month += 1
+    deposit += Int.random(in: 3000...5000)
+    if deposit >= price{
+        break
+    }
+}
+print("存款了\(month)個月，目前已經存\(deposit),可以購買機車了")
