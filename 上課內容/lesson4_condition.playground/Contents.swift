@@ -117,3 +117,53 @@ func someFunction1(){
 }
 
 someFunction1()
+
+
+func someFunction3(){
+    var x1:Int? = 3
+    var x2:Int? = 4
+    var x3:Int? = 5
+    if let x1 = x1{
+        if let x2 = x2{
+            if let x3 = x3{
+                print("x1,x2,x3都不是nil,x1=\(x1), x2=\(x2),x3=\(x3)")
+                
+            }else{
+                print("有1個nil")
+                return
+            }
+        }else{
+            print("有1個nil")
+            return
+        }
+    }else{
+        print("有一個nil")
+        return
+    }
+}
+someFunction3()
+
+func someFunction4(){
+    var x1:Int? = 3
+    var x2:Int? = 4
+    var x3:Int? = 5
+    guard let y1 = x1 else{
+        print("有一個是nil")
+        return
+    }
+    
+    guard let y2 = x2 else{
+        print("有一個是nil")
+        return
+    }
+    
+    guard let y3 = x3 else{
+        print("有一個是nil")
+        return
+    }
+    
+    print("x1,x2,x3都不是nil,x1=\(y1), x2=\(y2),x3=\(y3)")
+    
+    
+}
+someFunction4()
