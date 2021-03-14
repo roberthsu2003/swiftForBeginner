@@ -61,3 +61,22 @@ while true{
     }
 }
 print("存款了\(month)個月，目前已經存\(deposit),可以購買機車了")
+
+deposit = 0
+month = 0
+repeat{
+    month += 1
+    deposit += Int.random(in: 3000...5000)
+}while deposit < price
+print("repeat-while存款了\(month)個月，目前已經存\(deposit),可以購買機車了")
+
+deposit = 0
+month = 0
+repeat{
+    month += 1
+    deposit += Int.random(in: 3000...5000)
+    if deposit >= price{
+        break
+    }
+}while true
+print("repeat break存款了\(month)個月，目前已經存\(deposit),可以購買機車了")
