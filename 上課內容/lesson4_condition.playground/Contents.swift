@@ -92,5 +92,25 @@ case let (x,y):
     print("x=\(x), y=\(y)")
 
 }
+var x=0
+func someFunction(){
+    guard x>0 else {
+        print("x不等於0")
+        return
+    }
+    print("x>0,繼續執行")
+}
+someFunction()
 
+var optionValue:Int? = 3
 
+func someFunction1(){
+    guard let value = optionValue else{
+        print("optionalValue是nil")
+        return
+    }
+    print("value是\(value)")
+    
+}
+
+someFunction1()
