@@ -35,5 +35,39 @@ if shoppingList.isEmpty{
     print("不是空的")
 }
 shoppingList.append("Flour")
-shoppingList
+print(shoppingList)
+
+//利用陣列的加法運算，來增加元素
+shoppingList += ["Baking Powder"]
+shoppingList += ["chocolate Spred", "Cheese", "Butter"]
+print(shoppingList)
+
+//取出1個元素
+var firstItem = shoppingList[0]
+
+shoppingList[0] = "Six eggs"
+
+print(shoppingList)
+print(firstItem)
+
+//使用範圍運算子取出多個元素
+print(shoppingList[0...2])
+print(shoppingList[0..<2])
+
+//使用insert()方法
+shoppingList.insert("Maple Syrup", at: 0)
+print(shoppingList)
+
+shoppingList.remove(at: 0)
+print(shoppingList)
+
+for item in shoppingList{
+    print(item)
+}
+//tuple拆解法
+for (index,item) in shoppingList.enumerated(){
+    //字串插補
+    print("Item \(index): \(item)")
+}
+
 
