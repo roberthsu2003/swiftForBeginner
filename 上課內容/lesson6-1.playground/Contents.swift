@@ -35,3 +35,23 @@ twoS.name
 twoS.chinese
 twoS.english
 twoS.math
+
+
+struct Resolution{
+    var width = 0
+    var height = 0
+}
+
+class VideoMode{
+    var resolution = Resolution()
+    var iterlanced = false
+    var frameRate = 0.0
+    var name:String?
+}
+
+let someVideoMode = VideoMode()
+someVideoMode.iterlanced
+someVideoMode.frameRate
+someVideoMode.name
+someVideoMode.resolution.width
+someVideoMode.resolution.height
