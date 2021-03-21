@@ -43,4 +43,13 @@ func greet(person:String, alreadyGreeted:Bool) -> String{
 
 print(greet(person: "Tim", alreadyGreeted: false))
 
+//沒有傳出值的function
+func greet(person1:String){
+    print("Hello,\(person1)")
+}
+
+greet(person1: "susan")
+
+
+
 
