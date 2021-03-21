@@ -16,3 +16,31 @@ func operator1(a:Int,b:Int) -> (Int,Int){
 let (add,mul) = operator1(a:10,b:5)
 print(add)
 print(mul)
+
+//沒有參數的function
+func sayHelloWorld() -> String{
+    return "Hello, world"
+}
+
+//呼叫沒有參數的function
+print(sayHelloWorld())
+
+func greetAgain(person:String) -> String{
+    return "Hello again," + person + "!"
+}
+
+print(greetAgain(person: "robert"))
+
+
+//多個參數
+func greet(person:String, alreadyGreeted:Bool) -> String{
+    if alreadyGreeted{
+        return greetAgain(person: person)
+    }else{
+        return greet(person: person)
+    }
+}
+
+print(greet(person: "Tim", alreadyGreeted: false))
+
+
