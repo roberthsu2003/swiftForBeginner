@@ -117,3 +117,27 @@ func someFunction(_ firstParameterName:Int, secondParameterName:Int){
 }
 
 someFunction(5, secondParameterName: 10)
+
+//有預設值的參數
+//有預設值的function
+//呼叫方式會變多
+func someFunction(parameterWithoutDefault:Int,parameterWithDefault:Int = 12){
+    
+}
+
+someFunction(parameterWithoutDefault: 5, parameterWithDefault: 10)
+someFunction(parameterWithoutDefault: 5)
+
+//沒有限定參數的數量(...)
+//傳進來的參數是陣列
+func arithmeticMean(_ numbers:Double...) -> Double{
+    var total:Double = 0
+    for number in numbers{
+        total += number
+    }
+    
+    return total / Double(numbers.count)
+}
+
+print(arithmeticMean(5, 6, 7, 8, 9, 10, 11, 12, 13))
+print(arithmeticMean(5, 6))
