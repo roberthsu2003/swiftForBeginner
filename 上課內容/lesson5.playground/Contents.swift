@@ -95,3 +95,25 @@ if let bounds = minMax(array: [Int]()){
     print("出錯了，optional type 是nil")
 }
 
+
+//相同的參數名稱和引數名稱
+func someFunction(firstParameterName:Int, secondParameterName:Int){
+    
+}
+
+someFunction(firstParameterName: 1, secondParameterName: 2)
+
+//指定引數名稱
+func someFunction(argumentLabel parameterName:Int){
+    let a = parameterName
+}
+
+someFunction(argumentLabel: 5)
+
+//省略引數名稱
+
+func someFunction(_ firstParameterName:Int, secondParameterName:Int){
+    
+}
+
+someFunction(5, secondParameterName: 10)
